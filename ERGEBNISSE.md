@@ -112,7 +112,7 @@ Rundung auf zwei Nachkommastellen in der Ausgabe.
 | NT-2135 | 2        | 0,97    | 0,50  | 0,93      | 0,940  |
 | NT-2135 | 6        | 0,97    | 0,17  | 0,97      | 0,964  |
 
-Über den gesamten Stapel von 100 Tickets gilt:
+Über alle 100 Tickets gilt:
 
 - Die Konfidenz bleibt höchstens so hoch wie der Prozentsatz der Wahl.
 - Bei 55 Tickets stimmen beide Werte überein. Diese Tickets tragen 99 oder

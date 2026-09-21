@@ -2,13 +2,13 @@
 
 Diese Demo ordnet 100 Kundenservice-Tickets vier Warteschlangen zu. Die
 Zuordnung trifft Jev, das System-One-Modell von typesafe.ai. Jev liest den
-Ticketext und beantwortet vier typisierte Fragen. Jede Antwort trägt eine
-kalibrierte Wahrscheinlichkeit. Ein Aufruf je Ticket genügt.
+Ticketext und beantwortet vier Fragen mit festem Antworttyp. Jede Antwort
+trägt eine Wahrscheinlichkeit. Ein Aufruf je Ticket genügt.
 
 Jedes Ticket trägt zusätzlich die Warteschlange, die ein Disponent wählt.
 Daran misst der Lauf die Trefferquote. Jev trifft 89 von 97 Zuordnungen. Das
 sind 92 Prozent. Sieben der acht Fehler bleiben unter der Konfidenzschwelle
-von 0,80. Das Modell meldet sie damit selbst.
+von 0,80. Das Modell meldet diese sieben Fehler damit selbst.
 
 ## Jev beantwortet vier Fragen je Ticket
 
@@ -20,44 +20,47 @@ von 0,80. Das Modell meldet sie damit selbst.
 | `escalation` | `noul`   | Wahrscheinlichkeit, dass die Teamleitung eingreift       |
 
 `urgency` bewertet die Sachlage. `mood` bewertet allein die Sprache. Beide
-Werte laufen auseinander. Die Kennzahl `tone_above_substance` zieht `urgency`
-von `mood` ab. Ein Wert über null steht für einen scharfen Ton bei geringer
-Sachlage. Ein Wert unter null steht für einen sachlichen Ton bei hoher Dringlichkeit.
+Werte laufen auseinander. Die Kennzahl `tone_above_substance` ist `mood` minus
+`urgency`. Ein Wert über null steht für einen scharfen Ton bei geringer
+Dringlichkeit. Ein Wert unter null steht für einen sachlichen Ton bei hoher
+Dringlichkeit.
 
-## Die Konfidenz misst etwas anderes als die Wahrscheinlichkeit
+## Die Konfidenz zählt allein den Vorsprung vor dem Raten
 
 Eine `choice`-Antwort liefert zwei Größen. Beide beantworten verschiedene
 Fragen.
 
-`probabilities` verteilt die Wahrscheinlichkeit auf alle Optionen. Die Summe
-beträgt 1,0. Der Wert je Option gibt an, wie stark das Modell diese Option
-stützt.
+`probabilities` verteilt 100 Prozent auf alle Optionen. Der Wert je Option
+gibt an, wie stark das Modell diese Option stützt.
 
-`confidence` gilt allein für die gewählte Option. Der Wert misst den Abstand
-zum Zufall. Bei vier Optionen entspricht die Wahrscheinlichkeit 0,25 dem
-reinen Raten. Diese Lage ergibt die Konfidenz 0. Die Wahrscheinlichkeit 1,00
-ergibt die Konfidenz 1.
+`confidence` gilt allein für die gewählte Option. Der Wert zählt den Vorsprung
+vor dem reinen Raten.
 
-In allen geprüften Antworten gilt diese Umrechnung:
+Ein Beispiel mit vier Warteschlangen: Wer rät, trifft mit 25 Prozent. Eine
+Antwort mit 50 Prozent trägt davon 25 Prozentpunkte Vorsprung. Der
+größtmögliche Vorsprung beträgt 75 Prozentpunkte, nämlich von 25 auf
+100 Prozent. 25 geteilt durch 75 ergibt die Konfidenz 0,33.
+
+Als Formel:
 
 ```
 confidence = (p - 1/n) / (1 - 1/n)       n = Anzahl der Optionen
-                                         p = Wahrscheinlichkeit der Wahl
+                                         p = Prozentsatz der gewählten Option
 ```
 
-| Optionen | p(Wahl) | Konfidenz |
-|----------|---------|-----------|
-| 4        | 0,25    | 0,00      |
-| 4        | 0,50    | 0,33      |
-| 4        | 0,75    | 0,67      |
-| 2        | 0,50    | 0,00      |
-| 2        | 0,75    | 0,50      |
+| Optionen | Raten | p(Wahl) | Konfidenz |
+|----------|-------|---------|-----------|
+| 4        | 0,25  | 0,25    | 0,00      |
+| 4        | 0,25  | 0,50    | 0,33      |
+| 4        | 0,25  | 0,75    | 0,67      |
+| 2        | 0,50  | 0,50    | 0,00      |
+| 2        | 0,50  | 0,75    | 0,50      |
 
-Daraus folgt die Regel für die Praxis: Setze Schwellen auf `confidence`. Die
-rohe Wahrscheinlichkeit hängt von der Anzahl der Optionen ab. Bei zwei
-Optionen bedeutet 0,50 reines Raten. Bei zehn Optionen bedeutet derselbe Wert
-eine deutliche Präferenz. Die Konfidenz gleicht diesen Unterschied aus.
-`RoutingPolicy` nutzt deshalb `confidence`.
+Daraus folgt die Regel für die Praxis: Setze Schwellen auf `confidence`. Der
+Prozentsatz allein hängt von der Anzahl der Optionen ab. Bei zwei Optionen
+steht 50 Prozent für reines Raten, die Konfidenz beträgt 0. Bei zehn Optionen
+steht derselbe Prozentsatz für eine deutliche Wahl, die Konfidenz beträgt
+0,44. `RoutingPolicy` nutzt deshalb `confidence`.
 
 Den Umfang der Prüfung nennt [ERGEBNISSE.md](ERGEBNISSE.md).
 
@@ -83,8 +86,8 @@ Weitere Aufrufe:
 .venv/bin/python -m routing.cli --json > out/run.json  # Ergebnis als JSON
 ```
 
-Wenn die API bei einem Ticket ausfällt, läuft der Stapel weiter. Das Ticket
-erscheint in der Fehlerliste. Der Rückgabewert ist dann 1.
+Wenn die API bei einem Ticket ausfällt, laufen die übrigen Tickets weiter. Das
+Ticket erscheint in der Fehlerliste. Der Rückgabewert ist dann 1.
 
 ## Ein Lauf über alle 100 Tickets
 
