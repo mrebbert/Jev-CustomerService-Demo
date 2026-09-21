@@ -101,8 +101,8 @@ erscheint in der Fehlerliste. Der Rückgabewert ist dann 1.
 
 Der Lauf dauert 4,2 Sekunden. Er kostet 0,0041 USD bei 97.851 Eingabe-Token.
 Die Tickets verteilen sich auf Technical 31, Billing 30, Sales 20 und
-Contracts 19. Davon laufen 65 in der Regelbearbeitung. 15 gehen an die
-Sichtprüfung, 13 in die Eilbearbeitung, 7 in die Eskalation.
+Contracts 19. Davon laufen 65 in der Regelbearbeitung. 14 gehen an die
+Sichtprüfung, 13 in die Eilbearbeitung, 8 in die Eskalation.
 
 Die Spalte `Hit` vergleicht die Wahl mit der Erwartung des Disponenten. Bei
 einer Abweichung nennt sie die erwartete Warteschlange.

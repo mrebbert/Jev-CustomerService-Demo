@@ -16,14 +16,14 @@ Die Ausgabe benennt vier Bearbeitungsarten. Jedes Ticket erhält genau eine.
 | Review desk       | Ein Mitarbeiter prüft die Zuordnung vor der Weitergabe. |
 | Escalation        | Die Teamleitung übernimmt das Ticket.                   |
 
-Die Escalation hat Vorrang vor der Review desk. Die Review desk hat Vorrang
-vor der Rush handling.
+Bei mehreren zutreffenden Merkmalen gilt diese Reihenfolge: Escalation vor
+Review desk, Review desk vor Rush handling.
 
 ## Jev trifft 92 Prozent der Zuordnungen
 
 Jedes Ticket trägt im Feld `expected` die Warteschlange, die ein Disponent
-wählt. Der Lauf hält dieses Feld vom Modell fern. Es dient allein der
-Bewertung. Drei Tickets mit unklarem Fachthema bleiben außerhalb der Wertung:
+wählt. Der Lauf übergibt dem Modell allein Betreff und Text. Das Feld
+`expected` dient allein der Bewertung. Drei Tickets mit unklarem Fachthema bleiben außerhalb der Wertung:
 NT-2074, NT-2121 und NT-2124.
 
 | Kennzahl                 | Wert        |
@@ -34,8 +34,10 @@ NT-2074, NT-2121 und NT-2124.
 | Median-Konfidenz Treffer | 1,00        |
 | Median-Konfidenz Fehler  | 0,62        |
 
-Die beiden Mediane zeigen den Zusammenhang: Bei richtigen Zuordnungen meldet
-Jev hohe Konfidenz. Bei falschen Zuordnungen meldet Jev niedrige Konfidenz.
+Der Median ist der mittlere Wert einer Reihe. Mehr als die Hälfte der Treffer
+trägt die Konfidenz 1,00. Mehr als die Hälfte der Fehler bleibt unter 0,62.
+Bei richtigen Zuordnungen meldet Jev also hohe Konfidenz, bei falschen
+niedrige.
 
 ## Die Konfidenz trennt Treffer und Fehler
 
@@ -52,8 +54,8 @@ Bei Schwelle 0,80 bleibt ein Fehler unerkannt. NT-2112 meldet einen falschen
 Namen auf der Rechnung. Jev wählt mit 86 Prozent Konfidenz Billing. Der
 Disponent erwartet Contracts, weil die Korrektur die Stammdaten betrifft.
 
-Ab Schwelle 0,90 arbeitet die Automatik fehlerfrei. Der Preis beträgt sechs
-zusätzliche Prüfungen. Die Review desk steigt von 13 auf 19 Tickets.
+Ab Schwelle 0,90 arbeitet die Automatik fehlerfrei. Dafür steigt die Zahl der
+Prüfungen um sechs, von 13 auf 19 Tickets.
 
 ## Die acht Fehler betreffen Tickets mit zwei zuständigen Warteschlangen
 
@@ -70,25 +72,30 @@ zusätzliche Prüfungen. Die Review desk steigt von 13 auf 19 Tickets.
 
 Jedes dieser Tickets betrifft zwei Warteschlangen zugleich. Die Erwartung des
 Disponenten bleibt in allen acht Fällen strittig. Die niedrige Konfidenz
-beschreibt diesen Zustand zutreffend. Der Zuschnitt der Warteschlangen lässt
-diese Anliegen offen.
+beschreibt diesen Zustand zutreffend. Die Abgrenzung der vier Warteschlangen
+deckt diese Anliegen doppelt ab.
 
-## Die Konfidenz ist die auf den Zufall normierte Wahrscheinlichkeit
+## Die Konfidenz zählt allein den Vorsprung vor dem Raten
 
 Eine `choice`-Antwort liefert zwei Größen mit verschiedener Bedeutung.
 
-`probabilities` verteilt die Wahrscheinlichkeit auf alle Optionen. Die Summe
-beträgt 1,0. Der Wert je Option gibt an, wie stark das Modell diese Option
-stützt.
+`probabilities` verteilt 100 Prozent auf alle Optionen. Der Wert je Option
+gibt an, wie stark das Modell diese Option stützt.
 
-`confidence` gilt allein für die gewählte Option. Der Wert misst den Abstand
-zum Zufall.
+`confidence` gilt allein für die gewählte Option. Der Wert zählt den
+Vorsprung vor dem reinen Raten.
 
-Die Messung ergibt eine feste Umrechnung zwischen beiden Größen:
+Ein Beispiel mit vier Warteschlangen: Wer rät, trifft mit 25 Prozent. NT-2135
+erhält 50 Prozent auf Sales. Davon entfallen 25 Prozentpunkte auf das Raten.
+Es bleiben 25 Prozentpunkte Vorsprung. Der größtmögliche Vorsprung beträgt
+75 Prozentpunkte, nämlich von 25 auf 100 Prozent. 25 geteilt durch 75 ergibt
+0,33. Genau diesen Wert meldet Jev als Konfidenz.
+
+Als Formel:
 
 ```
 confidence = (p - 1/n) / (1 - 1/n)       n = Anzahl der Optionen
-                                         p = Wahrscheinlichkeit der Wahl
+                                         p = Prozentsatz der gewählten Option
 ```
 
 Umfang der Prüfung: 100 Antworten mit vier Optionen aus vier Läufen, dazu je
@@ -96,28 +103,29 @@ eine Antwort mit zwei, drei und sechs Optionen. Die mittlere Abweichung
 beträgt 0,0026. Die größte Abweichung beträgt 0,0100. Sie entspricht der
 Rundung auf zwei Nachkommastellen in der Ausgabe.
 
-| Ticket  | Optionen | p(Wahl) | Konfidenz | Formel |
-|---------|----------|---------|-----------|--------|
-| NT-2081 | 4        | 0,32    | 0,10      | 0,093  |
-| NT-2135 | 4        | 0,50    | 0,33      | 0,333  |
-| NT-2111 | 4        | 0,52    | 0,37      | 0,360  |
-| NT-2093 | 4        | 0,61    | 0,49      | 0,480  |
-| NT-2135 | 2        | 0,97    | 0,93      | 0,940  |
-| NT-2135 | 6        | 0,97    | 0,97      | 0,964  |
+| Ticket  | Optionen | p(Wahl) | Raten | Konfidenz | Formel |
+|---------|----------|---------|-------|-----------|--------|
+| NT-2081 | 4        | 0,32    | 0,25  | 0,10      | 0,093  |
+| NT-2135 | 4        | 0,50    | 0,25  | 0,33      | 0,333  |
+| NT-2111 | 4        | 0,52    | 0,25  | 0,37      | 0,360  |
+| NT-2093 | 4        | 0,61    | 0,25  | 0,49      | 0,480  |
+| NT-2135 | 2        | 0,97    | 0,50  | 0,93      | 0,940  |
+| NT-2135 | 6        | 0,97    | 0,17  | 0,97      | 0,964  |
 
-Daraus folgen drei Aussagen über den gesamten Stapel:
+Über den gesamten Stapel von 100 Tickets gilt:
 
-- Die Konfidenz bleibt höchstens so hoch wie die Wahrscheinlichkeit der Wahl.
-- Bei 55 von 100 Tickets stimmen beide Werte überein. Diese Tickets tragen die
-  Wahrscheinlichkeit 0,99 oder 1,00. Bei diesen Werten liefert die Formel
-  dasselbe Ergebnis.
+- Die Konfidenz bleibt höchstens so hoch wie der Prozentsatz der Wahl.
+- Bei 55 Tickets stimmen beide Werte überein. Diese Tickets tragen 99 oder
+  100 Prozent auf der gewählten Warteschlange. In diesem Bereich liefert die
+  Formel denselben Wert.
 - Bei 45 Tickets liegt die Konfidenz darunter.
-- Die gewählte Option ist in allen 100 Fällen die wahrscheinlichste.
+- Die gewählte Option trägt in allen 100 Fällen den höchsten Prozentsatz.
 
-Für Schwellen eignet sich deshalb `confidence`. Die rohe Wahrscheinlichkeit
-hängt von der Anzahl der Optionen ab. Bei zwei Optionen bedeutet 0,50 reines
-Raten. Bei zehn Optionen bedeutet derselbe Wert eine deutliche Präferenz. Die
-Konfidenz gleicht diesen Unterschied aus. `RoutingPolicy` nutzt diesen Wert.
+Für Schwellen eignet sich deshalb `confidence`. Der Prozentsatz allein hängt
+von der Anzahl der Optionen ab. Bei zwei Optionen steht 50 Prozent für reines
+Raten, die Konfidenz beträgt 0. Bei zehn Optionen steht derselbe Prozentsatz
+für eine deutliche Wahl, die Konfidenz beträgt 0,44. `RoutingPolicy` nutzt
+deshalb `confidence`.
 
 ## Ein Lauf dauert 4,2 Sekunden und kostet 0,0041 USD
 
@@ -142,12 +150,15 @@ die Eingabe-Token. Es zählen der Ticketext und die Fragen. Ein Posteingang von
 | sales         | 20      |
 | contracts     | 19      |
 
+Die folgende Aufstellung umfasst alle 100 Tickets. Die Tabelle im Abschnitt
+zur Trefferquote zählt dagegen nur die 97 bewerteten Tickets.
+
 | Bearbeitungsart   | Tickets |
 |-------------------|---------|
 | Standard handling | 65      |
-| Review desk       | 15      |
+| Review desk       | 14      |
 | Rush handling     | 13      |
-| Escalation        | 7       |
+| Escalation        | 8       |
 
 ## Die Wahl bleibt bei 99 von 100 Tickets gleich
 
@@ -161,11 +172,11 @@ Stability over 3 runs
 ```
 
 99 Tickets erhalten in jedem Lauf dieselbe Warteschlange. NT-2081 wechselt. Es
-trägt die niedrigste Konfidenz im gesamten Stapel. Die Werte von `urgency`
+trägt die niedrigste Konfidenz aller 100 Tickets. Die Werte von `urgency`
 weichen zwischen zwei Läufen um höchstens 0,13 ab.
 
-Setze Schwellen mit Abstand zu diesem Spielraum. Nenne bei Zahlen in einem
-Bericht den Lauf, aus dem sie stammen.
+Rechne bei jeder Schwelle mit dieser Schwankung von 0,13. Nenne bei Zahlen in
+einem Bericht den Lauf, aus dem sie stammen.
 
 ## Der Ton weicht von der Sachlage ab
 
@@ -193,18 +204,19 @@ Eine Sortierung nach `mood` stellt NT-2071 vor NT-2101. Eine Sortierung nach
 
 ## Die Eskalation ist von der Zuordnung unabhängig
 
-Sieben Tickets überschreiten 60 Prozent Eskalationswahrscheinlichkeit. Ihre
-Konfidenz bei der Warteschlange reicht von 14 bis 100 Prozent.
+Acht Tickets überschreiten 60 Prozent Eskalationswahrscheinlichkeit. Ihre
+Konfidenz bei der Warteschlange reicht von 18 bis 100 Prozent.
 
 | Ticket  | Eskalation | Warteschlange | Konfidenz |
 |---------|------------|---------------|-----------|
-| NT-2047 | 93 %       | billing       | 100 %     |
-| NT-2081 | 90 %       | contracts     | 14 %      |
-| NT-2126 | 87 %       | billing       | 88 %      |
-| NT-2118 | 85 %       | billing       | 100 %     |
-| NT-2060 | 76 %       | contracts     | 96 %      |
-| NT-2077 | 70 %       | billing       | 86 %      |
-| NT-2138 | 61 %       | technical     | 93 %      |
+| NT-2047 | 94 %       | billing       | 100 %     |
+| NT-2081 | 90 %       | contracts     | 18 %      |
+| NT-2126 | 87 %       | billing       | 86 %      |
+| NT-2118 | 84 %       | billing       | 100 %     |
+| NT-2060 | 77 %       | contracts     | 97 %      |
+| NT-2077 | 68 %       | billing       | 67 %      |
+| NT-2138 | 64 %       | technical     | 86 %      |
+| NT-2085 | 63 %       | contracts     | 100 %     |
 
 NT-2081 zeigt den Nutzen getrennter Fragen. Die Warteschlange bleibt offen. Die
 Eskalation steht fest.
@@ -268,6 +280,7 @@ enthalten Lob. Alle drei erhalten Factual 0,0. Für die Erkennung von Lob eignet
 sich eine eigene `noul`-Frage.
 
 Lies aufgezeichnete Antworten als JSON-Text ein. Die Antwortmodelle des SDK
-prüfen mit `strict=True`. Die Stufenschlüssel einer Score-Antwort gelten dabei
-als Zahlen. `model_validate_json` wandelt die Zeichenketten des Formats in
-diese Zahlen um. Der Weg über `json.loads` und `model_validate` scheitert.
+prüfen mit `strict=True`. Sie erwarten die Stufennummern einer Score-Antwort
+als Zahlen. JSON kennt jedoch allein Zeichenketten als Schlüssel.
+`model_validate_json` wandelt diese Zeichenketten in Zahlen um. Der Weg über
+`json.loads` und `model_validate` scheitert daran.
