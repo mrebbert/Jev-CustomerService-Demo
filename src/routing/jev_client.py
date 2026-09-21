@@ -1,8 +1,8 @@
-"""Der Zugang zur Jev-API und die Übersetzung in das Domänenmodell.
+"""Access to the Jev API and the translation into the domain model.
 
-Jev ist ein System-One-Modell: Es bekommt einen Zustand und beantwortet
-typisierte Fragen mit kalibrierten Wahrscheinlichkeiten. Dieses Modul hält die
-Begriffe der API von der Domäne fern. Nur hier stehen `noul`, `choice`, `score`.
+Jev is a System One model: it takes a state and answers typed questions with
+calibrated probabilities. This module keeps the API vocabulary away from the
+domain. The words `noul`, `choice` and `score` appear here and nowhere else.
 """
 
 from __future__ import annotations
@@ -32,29 +32,30 @@ from routing.domain import (
     UrgencyLevel,
 )
 
-STANDARDMODELL: Final = "jev-latest"
+DEFAULT_MODEL: Final = "jev-latest"
 
-FRAGE_QUEUE: Final = "queue"
-FRAGE_DRINGLICHKEIT: Final = "dringlichkeit"
-FRAGE_STIMMUNG: Final = "stimmung"
-FRAGE_ESKALATION: Final = "eskalation"
+QUESTION_QUEUE: Final = "queue"
+QUESTION_URGENCY: Final = "urgency"
+QUESTION_MOOD: Final = "mood"
+QUESTION_ESCALATION: Final = "escalation"
 
 
-def baue_fragen() -> dict[str, Choice | Score | Noul]:
-    """Erzeugt die drei Fragen aus dem Domänenmodell.
+def build_questions() -> dict[str, Choice | Score | Noul]:
+    """Build the four questions from the domain model.
 
-    Die Kriterien stammen aus `Queue` und `UrgencyLevel`. Damit beschreibt die
-    Domäne, wonach Jev entscheidet, und beide Seiten bleiben gleichauf.
+    The criteria come from `Queue`, `UrgencyLevel` and `MoodLevel`. The domain
+    therefore states what Jev decides on, and both sides stay in step. The
+    wording stays German because the tickets are German.
     """
     return {
-        FRAGE_QUEUE: Choice(
+        QUESTION_QUEUE: Choice(
             instructions=(
                 "Welches Team des Kundenservice bearbeitet dieses Ticket? "
                 "Entscheide nach dem Anliegen, nicht nach dem Tonfall."
             ),
-            criteria={queue.value: queue.beschreibung for queue in Queue},
+            criteria={queue.value: queue.description for queue in Queue},
         ),
-        FRAGE_DRINGLICHKEIT: Score(
+        QUESTION_URGENCY: Score(
             instructions=(
                 "Wie eilig braucht der Kunde eine Antwort? Wiege Geldverlust, "
                 "Ausfall und Fristen stärker als die Lautstärke der Beschwerde."
@@ -66,7 +67,7 @@ def baue_fragen() -> dict[str, Choice | Score | Noul]:
                 "Sofort: Der Betrieb des Kunden steht still oder eine Frist endet heute.",
             ],
         ),
-        FRAGE_STIMMUNG: Score(
+        QUESTION_MOOD: Score(
             instructions=(
                 "In welchem Ton schreibt der Kunde? Bewerte allein die Sprache, "
                 "nicht die Schwere des Anliegens."
@@ -78,7 +79,7 @@ def baue_fragen() -> dict[str, Choice | Score | Noul]:
                 "Aufgebracht: Zorn, Drohung, Angriff auf Personen, Großbuchstaben.",
             ],
         ),
-        FRAGE_ESKALATION: Noul(
+        QUESTION_ESCALATION: Noul(
             instructions=(
                 "Braucht dieses Ticket die Teamleitung, weil ein Konflikt droht?"
             ),
@@ -97,82 +98,77 @@ def baue_fragen() -> dict[str, Choice | Score | Noul]:
     }
 
 
-def zu_entscheidung(ticket: Ticket, antwort: SystemOneResponse) -> RoutingDecision:
-    """Übersetzt eine Jev-Antwort in eine Routing-Entscheidung."""
-    queue_antwort = antwort.answers[FRAGE_QUEUE]
-    dringlichkeit_antwort = antwort.answers[FRAGE_DRINGLICHKEIT]
-    stimmung_antwort = antwort.answers[FRAGE_STIMMUNG]
-    eskalation_antwort = antwort.answers[FRAGE_ESKALATION]
+def to_decision(ticket: Ticket, response: SystemOneResponse) -> RoutingDecision:
+    """Translate a Jev answer into a routing decision."""
+    queue_answer = response.answers[QUESTION_QUEUE]
+    urgency_answer = response.answers[QUESTION_URGENCY]
+    mood_answer = response.answers[QUESTION_MOOD]
+    escalation_answer = response.answers[QUESTION_ESCALATION]
 
-    if not isinstance(queue_antwort, ChoiceAnswer):
-        raise TypeError(f"Jev lieferte für {FRAGE_QUEUE} den Typ {queue_antwort.type}")
-    if not isinstance(dringlichkeit_antwort, ScoreAnswer):
+    if not isinstance(queue_answer, ChoiceAnswer):
+        raise TypeError(f"Jev returned type {queue_answer.type} for {QUESTION_QUEUE}")
+    if not isinstance(urgency_answer, ScoreAnswer):
+        raise TypeError(f"Jev returned type {urgency_answer.type} for {QUESTION_URGENCY}")
+    if not isinstance(mood_answer, ScoreAnswer):
+        raise TypeError(f"Jev returned type {mood_answer.type} for {QUESTION_MOOD}")
+    if not isinstance(escalation_answer, NoulAnswer):
         raise TypeError(
-            f"Jev lieferte für {FRAGE_DRINGLICHKEIT} den Typ {dringlichkeit_antwort.type}"
-        )
-    if not isinstance(stimmung_antwort, ScoreAnswer):
-        raise TypeError(
-            f"Jev lieferte für {FRAGE_STIMMUNG} den Typ {stimmung_antwort.type}"
-        )
-    if not isinstance(eskalation_antwort, NoulAnswer):
-        raise TypeError(
-            f"Jev lieferte für {FRAGE_ESKALATION} den Typ {eskalation_antwort.type}"
+            f"Jev returned type {escalation_answer.type} for {QUESTION_ESCALATION}"
         )
 
     return RoutingDecision(
         ticket=ticket,
-        queue=Queue(queue_antwort.choice),
-        queue_konfidenz=queue_antwort.confidence,
-        queue_verteilung={
-            Queue(name): anteil
-            for name, anteil in queue_antwort.probabilities.items()
+        queue=Queue(queue_answer.choice),
+        queue_confidence=queue_answer.confidence,
+        queue_distribution={
+            Queue(name): share for name, share in queue_answer.probabilities.items()
         },
-        dringlichkeit=Urgency(
-            wert=dringlichkeit_antwort.score,
-            konfidenz=dringlichkeit_antwort.confidence,
+        urgency=Urgency(
+            value=urgency_answer.score, confidence=urgency_answer.confidence
         ),
-        stimmung=Mood(
-            wert=stimmung_antwort.score,
-            konfidenz=stimmung_antwort.confidence,
-        ),
-        eskalationswahrscheinlichkeit=eskalation_antwort.noul,
+        mood=Mood(value=mood_answer.score, confidence=mood_answer.confidence),
+        escalation_probability=escalation_answer.noul,
     )
 
 
 class JevClassifier:
-    """Fragt Jev nach der Zuordnung eines Tickets.
+    """Asks Jev how to route a ticket.
 
-    Ein Aufruf beantwortet alle drei Fragen zugleich. Das spart Zeit und hält
-    die Kosten bei einer Bewertung des Ticketextes.
+    One call answers all four questions at once. That saves time and keeps the
+    cost at a single reading of the ticket text.
     """
 
     def __init__(
         self,
         *,
         api_key: str | None = None,
-        model: str = STANDARDMODELL,
+        model: str = DEFAULT_MODEL,
         client: TypeSafeClient | None = None,
     ) -> None:
-        self._eigener_client = client is None
+        self._owns_client = client is None
         self._client = client or TypeSafeClient(
             api_key=api_key or os.environ.get("TYPESAFE_API_KEY"),
             model=model,
         )
-        self._fragen = baue_fragen()
-        self._zaehlersperre = threading.Lock()
-        self.letztes_modell: str | None = None
-        self.token_eingang = 0
+        self._questions = build_questions()
+        self._counter_lock = threading.Lock()
+        self.last_model: str | None = None
+        self.input_tokens = 0
+        self.calls = 0
 
-    def entscheide(self, ticket: Ticket) -> RoutingDecision:
-        """Bewertet ein Ticket und liefert die Entscheidung."""
-        antwort = self._client.system_one(state=ticket.volltext, questions=self._fragen)
-        with self._zaehlersperre:
-            self.letztes_modell = antwort.model
-            self.token_eingang += antwort.usage.input_tokens or 0
-        return zu_entscheidung(ticket, antwort)
+    def classify(self, ticket: Ticket) -> RoutingDecision:
+        """Rate one ticket and return the decision."""
+        response = self._client.system_one(
+            state=ticket.full_text, questions=self._questions
+        )
+        with self._counter_lock:
+            self.last_model = response.model
+            self.input_tokens += response.usage.input_tokens or 0
+            self.calls += 1
+        return to_decision(ticket, response)
 
     def close(self) -> None:
-        if self._eigener_client:
+        if self._owns_client:
             self._client.close()
 
     def __enter__(self) -> JevClassifier:

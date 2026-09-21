@@ -1,0 +1,58 @@
+{
+  "model": "jev-1.13.0",
+  "usage": {
+    "input_tokens": 958,
+    "output_tokens": 92
+  },
+  "answers": {
+    "queue": {
+      "type": "choice",
+      "choice": "billing",
+      "confidence": 1.0,
+      "probabilities": {
+        "contracts": 0.0,
+        "billing": 1.0,
+        "technical": 0.0,
+        "sales": 0.0
+      }
+    },
+    "urgency": {
+      "type": "score",
+      "score": 1.24,
+      "confidence": 0.75,
+      "legend": {
+        "0": "Routine: Auskunft oder Wunsch ohne Zeitdruck, Antwort binnen einer Woche genügt.",
+        "1": "Bald: Der Kunde wartet spürbar, Antwort binnen zwei Werktagen.",
+        "2": "Dringend: Geld fehlt, Leistung fällt aus oder eine Frist läuft, Antwort noch heute.",
+        "3": "Sofort: Der Betrieb des Kunden steht still oder eine Frist endet heute."
+      },
+      "probabilities": {
+        "0": 0.01,
+        "1": 0.75,
+        "2": 0.24,
+        "3": 0.0
+      }
+    },
+    "mood": {
+      "type": "score",
+      "score": 1.92,
+      "confidence": 0.92,
+      "legend": {
+        "0": "Sachlich: nüchterne Schilderung, höfliche Anrede, keine Wertung.",
+        "1": "Angespannt: spürbare Ungeduld, Nachdruck, Hinweis auf Wartezeit.",
+        "2": "Verärgert: offene Kritik, Vorwürfe, Ausrufezeichen, Enttäuschung.",
+        "3": "Aufgebracht: Zorn, Drohung, Angriff auf Personen, Großbuchstaben."
+      },
+      "probabilities": {
+        "0": 0.0,
+        "1": 0.08,
+        "2": 0.92,
+        "3": 0.0
+      }
+    },
+    "escalation": {
+      "type": "noul",
+      "noul": 0.39
+    }
+  }
+}

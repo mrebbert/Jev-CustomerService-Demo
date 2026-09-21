@@ -1,107 +1,111 @@
-"""Prüft das Domänenmodell und die Richtlinie."""
+"""Checks the domain model and the policy."""
 
 from __future__ import annotations
 
 import pytest
 
-from conftest import entscheidung_mit
-from routing.domain import Queue, RoutingPolicy, Urgency, UrgencyLevel
+from conftest import decision_with
+from routing.domain import Mood, MoodLevel, Queue, RoutingPolicy, Urgency, UrgencyLevel
 
 
-def test_jede_warteschlange_hat_eine_beschreibung() -> None:
+def test_every_queue_carries_a_description() -> None:
     for queue in Queue:
-        assert queue.beschreibung.strip()
+        assert queue.description.strip()
 
 
 @pytest.mark.parametrize(
-    ("wert", "erwartet"),
+    ("value", "expected"),
     [
         (0.0, UrgencyLevel.ROUTINE),
         (0.4, UrgencyLevel.ROUTINE),
-        (1.6, UrgencyLevel.DRINGEND),
-        (2.01, UrgencyLevel.DRINGEND),
-        (3.0, UrgencyLevel.SOFORT),
+        (1.6, UrgencyLevel.URGENT),
+        (2.01, UrgencyLevel.URGENT),
+        (3.0, UrgencyLevel.IMMEDIATE),
     ],
 )
-def test_dringlichkeit_rundet_auf_die_naechste_stufe(
-    wert: float, erwartet: UrgencyLevel
+def test_urgency_rounds_to_the_nearest_level(
+    value: float, expected: UrgencyLevel
 ) -> None:
-    assert Urgency(wert=wert, konfidenz=0.9).stufe is erwartet
+    assert Urgency(value=value, confidence=0.9).level is expected
 
 
-def test_stufe_bleibt_im_gueltigen_bereich() -> None:
-    assert UrgencyLevel.aus_stufe(-3) is UrgencyLevel.ROUTINE
-    assert UrgencyLevel.aus_stufe(99) is UrgencyLevel.SOFORT
+def test_levels_stay_inside_the_valid_range() -> None:
+    assert UrgencyLevel.from_rank(-3) is UrgencyLevel.ROUTINE
+    assert UrgencyLevel.from_rank(99) is UrgencyLevel.IMMEDIATE
+    assert MoodLevel.from_rank(-1) is MoodLevel.FACTUAL
+    assert MoodLevel.from_rank(42) is MoodLevel.OUTRAGED
 
 
-def test_zweitbeste_queue_nennt_die_staerkste_alternative(ticket) -> None:
-    entscheidung = entscheidung_mit(ticket, queue=Queue.ABRECHNUNG, konfidenz=0.70)
-    zweitbeste = entscheidung.zweitbeste_queue
-    assert zweitbeste is not None
-    assert zweitbeste[0] is not Queue.ABRECHNUNG
+def test_mood_rounds_like_urgency() -> None:
+    assert Mood(value=0.4, confidence=0.8).level is MoodLevel.FACTUAL
+    assert Mood(value=2.6, confidence=0.8).level is MoodLevel.OUTRAGED
 
 
-def test_sichere_zuordnung_laeuft_automatisch(ticket) -> None:
-    policy = RoutingPolicy(mindestkonfidenz=0.80)
-    sicher = entscheidung_mit(ticket, konfidenz=0.95)
-    unsicher = entscheidung_mit(ticket, konfidenz=0.55)
-    assert policy.laeuft_automatisch(sicher)
-    assert not policy.laeuft_automatisch(unsicher)
-    assert policy.naechster_schritt(unsicher) == "Sichtprüfung in der Leitstelle"
+def test_runner_up_names_the_strongest_alternative(ticket) -> None:
+    decision = decision_with(ticket, queue=Queue.BILLING, confidence=0.70)
+    runner_up = decision.runner_up
+    assert runner_up is not None
+    assert runner_up[0] is not Queue.BILLING
 
 
-def test_eskalation_geht_der_dringlichkeit_vor(ticket) -> None:
+def test_a_sure_assignment_runs_automatically(ticket) -> None:
+    policy = RoutingPolicy(min_confidence=0.80)
+    sure = decision_with(ticket, confidence=0.95)
+    unsure = decision_with(ticket, confidence=0.55)
+    assert policy.runs_automatically(sure)
+    assert not policy.runs_automatically(unsure)
+    assert policy.next_step(unsure) == "Review desk"
+
+
+def test_escalation_comes_before_urgency(ticket) -> None:
     policy = RoutingPolicy()
-    entscheidung = entscheidung_mit(ticket, dringlichkeit=3.0, eskalation=0.88)
-    assert policy.eskaliert(entscheidung)
-    assert policy.ist_eilig(entscheidung)
-    assert policy.naechster_schritt(entscheidung) == "Eskalation an die Teamleitung"
+    decision = decision_with(ticket, urgency=3.0, escalation=0.88)
+    assert policy.escalates(decision)
+    assert policy.is_rush(decision)
+    assert policy.next_step(decision) == "Escalation to the team lead"
 
 
-def test_eilige_tickets_gehen_in_die_eilbearbeitung(ticket) -> None:
+def test_urgent_tickets_go_into_rush_handling(ticket) -> None:
     policy = RoutingPolicy()
-    entscheidung = entscheidung_mit(ticket, queue=Queue.TECHNIK, dringlichkeit=2.4)
-    assert policy.naechster_schritt(entscheidung) == "Eilbearbeitung in technik"
+    decision = decision_with(ticket, queue=Queue.TECHNICAL, urgency=2.4)
+    assert policy.next_step(decision) == "Rush handling in technical"
 
 
-def test_ruhige_tickets_laufen_im_regelbetrieb(ticket) -> None:
+def test_calm_tickets_run_as_usual(ticket) -> None:
     policy = RoutingPolicy()
-    entscheidung = entscheidung_mit(ticket, dringlichkeit=0.3)
-    assert policy.naechster_schritt(entscheidung) == "Regelbearbeitung in abrechnung"
+    decision = decision_with(ticket, urgency=0.3)
+    assert policy.next_step(decision) == "Standard handling in billing"
 
 
-def test_volltext_traegt_betreff_und_text(ticket) -> None:
-    assert ticket.betreff in ticket.volltext
-    assert ticket.text in ticket.volltext
+def test_full_text_carries_subject_and_body(ticket) -> None:
+    assert ticket.subject in ticket.full_text
+    assert ticket.body in ticket.full_text
 
 
-def test_tonlage_rundet_wie_die_dringlichkeit() -> None:
-    from routing.domain import Mood, MoodLevel
-
-    assert Mood(wert=0.4, konfidenz=0.8).stufe is MoodLevel.SACHLICH
-    assert Mood(wert=2.6, konfidenz=0.8).stufe is MoodLevel.AUFGEBRACHT
-    assert MoodLevel.aus_stufe(42) is MoodLevel.AUFGEBRACHT
+def test_a_loud_tone_on_a_small_matter_stands_out(ticket) -> None:
+    loud_and_small = decision_with(ticket, urgency=0.2, mood=3.0)
+    assert loud_and_small.tone_above_substance == pytest.approx(2.8)
 
 
-def test_lauter_ton_bei_kleiner_sache_faellt_auf(ticket) -> None:
-    lautes_kleines = entscheidung_mit(ticket, dringlichkeit=0.2, stimmung=3.0)
-    assert lautes_kleines.ton_ueber_sache == pytest.approx(2.8)
+def test_a_calm_tone_on_a_large_matter_stands_out(ticket) -> None:
+    quiet_emergency = decision_with(ticket, urgency=3.0, mood=0.5)
+    assert quiet_emergency.tone_above_substance == pytest.approx(-2.5)
 
 
-def test_ruhiger_ton_bei_grosser_sache_faellt_auf(ticket) -> None:
-    stille_notlage = entscheidung_mit(ticket, dringlichkeit=3.0, stimmung=0.5)
-    assert stille_notlage.ton_ueber_sache == pytest.approx(-2.5)
-
-
-def test_ton_und_sache_im_gleichklang_ergeben_null(ticket) -> None:
-    ausgeglichen = entscheidung_mit(ticket, dringlichkeit=2.0, stimmung=2.0)
-    assert ausgeglichen.ton_ueber_sache == pytest.approx(0.0)
-
-
-def test_die_tonlage_aendert_den_naechsten_schritt_nicht(ticket) -> None:
-    from routing.domain import RoutingPolicy
-
+def test_tone_does_not_change_the_next_step(ticket) -> None:
     policy = RoutingPolicy()
-    leise = entscheidung_mit(ticket, dringlichkeit=0.2, stimmung=0.0)
-    laut = entscheidung_mit(ticket, dringlichkeit=0.2, stimmung=3.0)
-    assert policy.naechster_schritt(leise) == policy.naechster_schritt(laut)
+    quiet = decision_with(ticket, urgency=0.2, mood=0.0)
+    loud = decision_with(ticket, urgency=0.2, mood=3.0)
+    assert policy.next_step(quiet) == policy.next_step(loud)
+
+
+def test_the_expectation_scores_the_choice(ticket) -> None:
+    assert decision_with(ticket, queue=Queue.BILLING).matches_expectation is True
+    assert decision_with(ticket, queue=Queue.SALES).matches_expectation is False
+
+
+def test_a_ticket_without_expectation_stays_unscored(ticket) -> None:
+    from dataclasses import replace
+
+    unscored = replace(ticket, expected_queue=None)
+    assert decision_with(unscored).matches_expectation is None

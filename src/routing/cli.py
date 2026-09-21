@@ -1,4 +1,4 @@
-"""Der Einstieg für die Demo: Tickets laden, routen, Ergebnis zeigen."""
+"""The entry point of the demo: load tickets, route them, show the outcome."""
 
 from __future__ import annotations
 
@@ -14,251 +14,302 @@ from rich.console import Console
 from rich.table import Table
 
 from routing.domain import MoodLevel, Queue, RoutingPolicy, Ticket
-from routing.jev_client import STANDARDMODELL, JevClassifier
-from routing.router import RoutedTicket, TicketRouter
-from routing.tickets import STANDARDABLAGE, lade_tickets
+from routing.jev_client import DEFAULT_MODEL, JevClassifier
+from routing.router import RoutedTicket, RoutingRun, StabilityReport, TicketRouter
+from routing.tickets import DEFAULT_SOURCE, load_tickets
 
-PROJEKTWURZEL = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PRICE_PER_INPUT_TOKEN = 0.042 / 1_000_000
 
-FARBE_JE_QUEUE = {
-    Queue.ABRECHNUNG: "cyan",
-    Queue.TECHNIK: "green",
-    Queue.VERTRIEB: "magenta",
-    Queue.VERTRAGSWESEN: "yellow",
+QUEUE_COLOR = {
+    Queue.BILLING: "cyan",
+    Queue.TECHNICAL: "green",
+    Queue.SALES: "magenta",
+    Queue.CONTRACTS: "yellow",
+}
+
+MOOD_COLOR = {
+    MoodLevel.FACTUAL: "green",
+    MoodLevel.TENSE: "yellow",
+    MoodLevel.ANNOYED: "dark_orange",
+    MoodLevel.OUTRAGED: "red",
 }
 
 
-FARBE_JE_STIMMUNG = {
-    MoodLevel.SACHLICH: "green",
-    MoodLevel.ANGESPANNT: "yellow",
-    MoodLevel.VERAERGERT: "dark_orange",
-    MoodLevel.AUFGEBRACHT: "red",
-}
+def _plural(count: int) -> str:
+    return "ticket" if count == 1 else "tickets"
 
 
-def kurzer_schritt(ergebnis: RoutedTicket) -> str:
-    """Die Spalte nennt nur die Bearbeitungsart, die Warteschlange steht daneben."""
-    if ergebnis.eskaliert:
-        return "Eskalation"
-    if not ergebnis.automatisch:
-        return "Sichtprüfung"
-    if ergebnis.eilig:
-        return "Eilbearbeitung"
-    return "Regelbearbeitung"
+def short_step(routed: RoutedTicket) -> str:
+    """The column names the kind of handling; the queue sits next to it."""
+    if routed.escalated:
+        return "Escalation"
+    if not routed.automatic:
+        return "Review desk"
+    if routed.rush:
+        return "Rush handling"
+    return "Standard handling"
 
 
-def baue_parser() -> argparse.ArgumentParser:
+def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="route-tickets",
-        description="Ordnet Kundenservice-Tickets mit dem Modell Jev einem Team zu.",
+        description="Routes customer service tickets to a team using the Jev model.",
     )
     parser.add_argument(
-        "--datei", type=Path, default=STANDARDABLAGE, help="YAML-Ablage der Tickets"
+        "--file", type=Path, default=DEFAULT_SOURCE, help="YAML store of the tickets"
     )
     parser.add_argument(
-        "--anzahl", type=int, default=0, help="nur die ersten N Tickets bewerten"
+        "--limit", type=int, default=0, help="rate only the first N tickets"
     )
     parser.add_argument(
-        "--ticket", action="append", default=[], help="einzelne Kennung, mehrfach erlaubt"
+        "--ticket", action="append", default=[], help="a single id, repeatable"
     )
     parser.add_argument(
-        "--mindestkonfidenz",
+        "--min-confidence",
         type=float,
         default=0.80,
-        help="ab dieser Konfidenz läuft die Zuordnung ohne Sichtprüfung",
+        help="from this confidence on the assignment skips the review desk",
     )
     parser.add_argument(
-        "--eskalationsschwelle",
+        "--escalation-threshold",
         type=float,
         default=0.60,
-        help="ab dieser Wahrscheinlichkeit geht das Ticket an die Teamleitung",
+        help="from this probability on the ticket goes to the team lead",
     )
-    parser.add_argument("--modell", default=STANDARDMODELL, help="Jev-Modellkennung")
     parser.add_argument(
-        "--json", action="store_true", help="Ergebnis als JSON statt als Tabelle"
+        "--repeat",
+        type=int,
+        default=1,
+        help="rate every ticket N times and report where the choice drifts",
+    )
+    parser.add_argument("--model", default=DEFAULT_MODEL, help="Jev model id")
+    parser.add_argument(
+        "--json", action="store_true", help="print the result as JSON instead of a table"
     )
     return parser
 
 
-def waehle_tickets(args: argparse.Namespace) -> list[Ticket]:
-    tickets = lade_tickets(args.datei)
+def select_tickets(args: argparse.Namespace) -> list[Ticket]:
+    tickets = load_tickets(args.file)
     if args.ticket:
-        gesucht = {kennung.upper() for kennung in args.ticket}
-        tickets = [t for t in tickets if t.kennung.upper() in gesucht]
-        fehlend = gesucht - {t.kennung.upper() for t in tickets}
-        if fehlend:
-            raise SystemExit(f"Unbekannte Kennung: {', '.join(sorted(fehlend))}")
-    if args.anzahl > 0:
-        tickets = tickets[: args.anzahl]
+        wanted = {ticket_id.upper() for ticket_id in args.ticket}
+        tickets = [t for t in tickets if t.id.upper() in wanted]
+        missing = wanted - {t.id.upper() for t in tickets}
+        if missing:
+            raise SystemExit(f"Unknown id: {', '.join(sorted(missing))}")
+    if args.limit > 0:
+        tickets = tickets[: args.limit]
     return tickets
 
 
-def zeige_tabelle(console: Console, ergebnisse: list[RoutedTicket]) -> None:
-    tabelle = Table(title="Zuordnung der Tickets", header_style="bold")
-    tabelle.add_column("Kennung", no_wrap=True, min_width=7)
-    tabelle.add_column("Betreff", max_width=38, min_width=14, no_wrap=True, overflow="ellipsis")
-    tabelle.add_column("Warteschlange", no_wrap=True, min_width=13)
-    tabelle.add_column("Konf.", justify="right", min_width=5, no_wrap=True)
-    tabelle.add_column("Dringlichkeit", no_wrap=True, min_width=13)
-    tabelle.add_column("Stimmung", no_wrap=True, min_width=19)
-    tabelle.add_column("Eskal.", justify="right", min_width=6, no_wrap=True)
-    tabelle.add_column("Schritt", no_wrap=True, min_width=15)
+def show_table(console: Console, run: RoutingRun) -> None:
+    table = Table(title="Ticket assignment", header_style="bold")
+    table.add_column("Id", no_wrap=True, min_width=7)
+    table.add_column("Subject", max_width=38, min_width=14, no_wrap=True, overflow="ellipsis")
+    table.add_column("Queue", no_wrap=True, min_width=10)
+    table.add_column("Conf.", justify="right", min_width=5, no_wrap=True)
+    table.add_column("Urgency", no_wrap=True, min_width=14)
+    table.add_column("Mood", no_wrap=True, min_width=19)
+    table.add_column("Esc.", justify="right", min_width=5, no_wrap=True)
+    table.add_column("Step", no_wrap=True, min_width=17)
+    table.add_column("Hit", justify="center", min_width=3, no_wrap=True)
 
-    for ergebnis in ergebnisse:
-        entscheidung = ergebnis.entscheidung
-        farbe = FARBE_JE_QUEUE[entscheidung.queue]
-        konfidenz = f"{entscheidung.queue_konfidenz:.0%}"
-        if not ergebnis.automatisch:
-            konfidenz = f"[bold red]{konfidenz}[/]"
-        eskalation = f"{entscheidung.eskalationswahrscheinlichkeit:.0%}"
-        if ergebnis.eskaliert:
-            eskalation = f"[bold red]{eskalation}[/]"
-        dringlichkeit = (
-            f"{entscheidung.dringlichkeit.stufe} {entscheidung.dringlichkeit.wert:.1f}"
+    for routed in run.routed:
+        decision = routed.decision
+        confidence = f"{decision.queue_confidence:.0%}"
+        if not routed.automatic:
+            confidence = f"[bold red]{confidence}[/]"
+        escalation = f"{decision.escalation_probability:.0%}"
+        if routed.escalated:
+            escalation = f"[bold red]{escalation}[/]"
+        urgency = f"{decision.urgency.level} {decision.urgency.value:.1f}"
+        if routed.rush:
+            urgency = f"[bold]{urgency}[/]"
+        mood = decision.mood
+        mood_text = (
+            f"[{MOOD_COLOR[mood.level]}]{mood.level} {mood.value:.1f}[/] "
+            f"({mood.confidence:.0%})"
         )
-        if ergebnis.eilig:
-            dringlichkeit = f"[bold]{dringlichkeit}[/]"
-        stimmung = entscheidung.stimmung
-        stimmungstext = (
-            f"[{FARBE_JE_STIMMUNG[stimmung.stufe]}]{stimmung.stufe} "
-            f"{stimmung.wert:.1f}[/] ({stimmung.konfidenz:.0%})"
+        match decision.matches_expectation:
+            case True:
+                hit = "[green]yes[/]"
+            case False:
+                hit = f"[bold red]{decision.ticket.expected_queue}[/]"
+            case _:
+                hit = "[dim]·[/]"
+
+        table.add_row(
+            decision.ticket.id,
+            decision.ticket.subject,
+            f"[{QUEUE_COLOR[decision.queue]}]{decision.queue}[/]",
+            confidence,
+            urgency,
+            mood_text,
+            escalation,
+            short_step(routed),
+            hit,
         )
-
-        tabelle.add_row(
-            entscheidung.ticket.kennung,
-            entscheidung.ticket.betreff,
-            f"[{farbe}]{entscheidung.queue}[/]",
-            konfidenz,
-            dringlichkeit,
-            stimmungstext,
-            eskalation,
-            kurzer_schritt(ergebnis),
-        )
-    console.print(tabelle)
+    console.print(table)
 
 
-def zeige_zusammenfassung(
-    console: Console, ergebnisse: list[RoutedTicket], classifier: JevClassifier
+def show_summary(
+    console: Console,
+    run: RoutingRun,
+    classifier: JevClassifier,
+    stability: StabilityReport | None = None,
 ) -> None:
-    verteilung = Counter(e.entscheidung.queue for e in ergebnisse)
-    # Jedes Ticket nimmt genau einen Weg, darum zählt die Zusammenfassung den
-    # tatsächlichen Schritt und nicht die überlappenden Merkmale.
-    schritte = Counter(kurzer_schritt(e) for e in ergebnisse)
+    queues = Counter(r.decision.queue for r in run.routed)
+    moods = Counter(r.decision.mood.level for r in run.routed)
+    steps = Counter(short_step(r) for r in run.routed)
+    total = len(run.routed)
 
-    tonlagen = Counter(e.entscheidung.stimmung.stufe for e in ergebnisse)
-    schaerfer_als_die_sache = [
-        e for e in ergebnisse if e.entscheidung.ton_ueber_sache >= 1.5
-    ]
-    ruhiger_als_die_sache = [
-        e for e in ergebnisse if e.entscheidung.ton_ueber_sache <= -1.5
-    ]
-
-    zeilen = [
-        "[bold]Auslastung der Warteschlangen[/]",
+    lines = [
+        "[bold]Queue load[/]",
         *(
-            f"  {queue.value:<14} {anzahl:>2} Tickets"
-            for queue, anzahl in sorted(verteilung.items(), key=lambda p: -p[1])
+            f"  {queue.value:<12} {count:>3} {_plural(count)}"
+            for queue, count in sorted(queues.items(), key=lambda p: -p[1])
         ),
         "",
-        "[bold]Tonlage der Tickets[/]",
+        "[bold]Tone[/]",
         *(
-            f"  {stufe.value:<14} {anzahl:>2} Tickets"
-            for stufe, anzahl in sorted(tonlagen.items(), key=lambda p: p[0].stufe)
+            f"  {level.value:<12} {count:>3} {_plural(count)}"
+            for level, count in sorted(moods.items(), key=lambda p: p[0].rank)
         ),
         "",
-        f"Ton über Sache:    {len(schaerfer_als_die_sache)}"
-        + (
-            "  (" + ", ".join(e.ticket.kennung for e in schaerfer_als_die_sache) + ")"
-            if schaerfer_als_die_sache
-            else ""
-        ),
-        f"Sache über Ton:    {len(ruhiger_als_die_sache)}"
-        + (
-            "  (" + ", ".join(e.ticket.kennung for e in ruhiger_als_die_sache) + ")"
-            if ruhiger_als_die_sache
-            else ""
-        ),
-        "",
-        "[bold]Nächster Schritt[/]",
+        "[bold]Next step[/]",
         *(
-            f"  {name:<18} {anzahl:>3} von {len(ergebnisse)}"
-            for name, anzahl in sorted(schritte.items(), key=lambda p: -p[1])
+            f"  {name:<18} {count:>3} of {total}"
+            for name, count in sorted(steps.items(), key=lambda p: -p[1])
         ),
-        "",
-        f"Modell:            {classifier.letztes_modell}",
-        f"Eingabe-Token:     {classifier.token_eingang}",
-        f"Kosten:            {classifier.token_eingang * 0.042 / 1_000_000:.4f} USD",
     ]
-    console.print("\n".join(zeilen))
+
+    hits = run.hit_rate
+    if hits:
+        correct, scored = hits
+        lines += [
+            "",
+            "[bold]Against the human assignment[/]",
+            f"  hits               {correct:>3} of {scored}  ({correct / scored:.0%})",
+        ]
+        misses = run.misses
+        if misses:
+            lines.append(f"  misses             {len(misses):>3}")
+            for miss in sorted(misses, key=lambda m: m.decision.queue_confidence):
+                lines.append(
+                    f"    {miss.ticket.id}  {miss.decision.queue} instead of "
+                    f"{miss.ticket.expected_queue}, confidence "
+                    f"{miss.decision.queue_confidence:.0%}"
+                )
+        unscored = total - scored
+        if unscored:
+            lines.append(f"  without expectation {unscored:>2}")
+
+    if stability and stability.runs > 1:
+        drifting = stability.drifting
+        lines += [
+            "",
+            f"[bold]Stability over {stability.runs} runs[/]",
+            f"  same queue every time {stability.stable_count:>3} of {len(stability.queues_seen)}",
+        ]
+        for ticket_id, seen in sorted(drifting.items()):
+            spread = ", ".join(f"{q}×{n}" for q, n in seen.most_common())
+            lines.append(f"    {ticket_id}  {spread}")
+
+    if run.failures:
+        lines += [
+            "",
+            f"[bold red]Failed: {len(run.failures)}[/]",
+            *(f"  {f.id}  {f.reason}" for f in run.failures),
+        ]
+
+    cost = classifier.input_tokens * PRICE_PER_INPUT_TOKEN
+    lines += [
+        "",
+        f"Model:             {classifier.last_model}",
+        f"Calls:             {classifier.calls}",
+        f"Input tokens:      {classifier.input_tokens}",
+        f"Cost:              {cost:.4f} USD",
+    ]
+    console.print("\n".join(lines))
 
 
-def als_json(ergebnisse: list[RoutedTicket]) -> str:
-    daten = [
+def as_json(run: RoutingRun) -> str:
+    data = [
         {
-            "kennung": e.ticket.kennung,
-            "betreff": e.ticket.betreff,
-            "warteschlange": e.entscheidung.queue.value,
-            "konfidenz": round(e.entscheidung.queue_konfidenz, 4),
-            "verteilung": {
-                queue.value: round(anteil, 4)
-                for queue, anteil in e.entscheidung.queue_verteilung.items()
+            "id": r.ticket.id,
+            "subject": r.ticket.subject,
+            "queue": r.decision.queue.value,
+            "confidence": round(r.decision.queue_confidence, 4),
+            "distribution": {
+                queue.value: round(share, 4)
+                for queue, share in r.decision.queue_distribution.items()
             },
-            "dringlichkeit": {
-                "stufe": e.entscheidung.dringlichkeit.stufe.value,
-                "wert": round(e.entscheidung.dringlichkeit.wert, 2),
-                "konfidenz": round(e.entscheidung.dringlichkeit.konfidenz, 4),
+            "urgency": {
+                "level": r.decision.urgency.level.value,
+                "value": round(r.decision.urgency.value, 2),
+                "confidence": round(r.decision.urgency.confidence, 4),
             },
-            "stimmung": {
-                "stufe": e.entscheidung.stimmung.stufe.value,
-                "wert": round(e.entscheidung.stimmung.wert, 2),
-                "konfidenz": round(e.entscheidung.stimmung.konfidenz, 4),
+            "mood": {
+                "level": r.decision.mood.level.value,
+                "value": round(r.decision.mood.value, 2),
+                "confidence": round(r.decision.mood.confidence, 4),
             },
-            "ton_ueber_sache": round(e.entscheidung.ton_ueber_sache, 2),
-            "eskalationswahrscheinlichkeit": round(
-                e.entscheidung.eskalationswahrscheinlichkeit, 4
+            "tone_above_substance": round(r.decision.tone_above_substance, 2),
+            "escalation_probability": round(r.decision.escalation_probability, 4),
+            "next_step": r.next_step,
+            "expected_queue": (
+                r.ticket.expected_queue.value if r.ticket.expected_queue else None
             ),
-            "naechster_schritt": e.naechster_schritt,
+            "hit": r.decision.matches_expectation,
         }
-        for e in ergebnisse
+        for r in run.routed
     ]
-    return json.dumps(daten, ensure_ascii=False, indent=2)
+    if run.failures:
+        data.append({"failures": [{"id": f.id, "reason": f.reason} for f in run.failures]})
+    return json.dumps(data, ensure_ascii=False, indent=2)
 
 
 def main(argv: list[str] | None = None) -> int:
-    args = baue_parser().parse_args(argv)
-    load_dotenv(PROJEKTWURZEL / ".env")
+    args = build_parser().parse_args(argv)
+    load_dotenv(PROJECT_ROOT / ".env")
     console = Console()
 
     if not os.environ.get("TYPESAFE_API_KEY"):
         console.print(
-            "[bold red]TYPESAFE_API_KEY fehlt.[/] "
-            "Lege ihn in .env ab, die Vorlage steht in .env.example."
+            "[bold red]TYPESAFE_API_KEY is missing.[/] "
+            "Put it into .env, the template sits in .env.example."
         )
         return 2
 
-    tickets = waehle_tickets(args)
+    tickets = select_tickets(args)
     if not tickets:
-        console.print("Keine Tickets zum Bewerten gefunden.")
+        console.print("No tickets to rate.")
         return 1
 
     policy = RoutingPolicy(
-        mindestkonfidenz=args.mindestkonfidenz,
-        eskalationsschwelle=args.eskalationsschwelle,
+        min_confidence=args.min_confidence,
+        escalation_threshold=args.escalation_threshold,
     )
 
-    with JevClassifier(model=args.modell) as classifier:
+    with JevClassifier(model=args.model) as classifier:
         router = TicketRouter(classifier, policy)
-        with console.status(f"Jev bewertet {len(tickets)} Tickets ..."):
-            ergebnisse = router.route_alle(tickets)
+        passes = max(1, args.repeat)
+        label = f"Jev rates {len(tickets)} tickets"
+        with console.status(f"{label} ({passes}×) ..." if passes > 1 else f"{label} ..."):
+            if passes > 1:
+                run, stability = router.route_repeatedly(tickets, passes)
+            else:
+                run, stability = router.route_all(tickets), None
 
         if args.json:
-            print(als_json(ergebnisse))
-            return 0
+            print(as_json(run))
+            return 1 if run.failures else 0
 
-        zeige_tabelle(console, ergebnisse)
+        show_table(console, run)
         console.print()
-        zeige_zusammenfassung(console, ergebnisse, classifier)
-    return 0
+        show_summary(console, run, classifier, stability)
+    return 1 if run.failures else 0
 
 
 if __name__ == "__main__":

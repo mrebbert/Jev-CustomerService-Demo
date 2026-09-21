@@ -1,14 +1,17 @@
 # Demo-Tickets für die Nordlicht Telekom, einen frei erfundenen Anbieter für
 # Internet, Mobilfunk und Festnetz. Alle Namen, Nummern und Beträge sind erfunden.
-# Die Sammlung deckt die vier Warteschlangen ab und enthält Grenzfälle, an denen
-# die Konfidenz von Jev sichtbar sinkt.
+#
+# Das Feld expected trägt die Warteschlange, die ein erfahrener Disponent wählt.
+# Es erreicht das Modell nie und dient allein der Trefferquote. Drei Tickets
+# ohne Fachthema (NT-2074, NT-2121, NT-2124) tragen keine Erwartung.
 
 tickets:
-  - kennung: NT-2041
-    betreff: Lastschrift zweimal abgebucht
-    eingang: "2026-09-18T08:12:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2041
+    expected: billing
+    subject: Lastschrift zweimal abgebucht
+    received_at: "2026-09-18T08:12:00"
+    channel: E-Mail
+    body: |
       Guten Tag,
       auf meinem Kontoauszug steht der Betrag von 49,90 Euro für den September
       gleich zweimal, einmal am 02.09. und einmal am 04.09. Mein Konto ist
@@ -16,273 +19,302 @@ tickets:
       Bitte erstatten Sie die doppelte Abbuchung und die Gebühr.
       Kundennummer 88213447.
 
-  - kennung: NT-2042
-    betreff: Internet seit gestern Abend tot
-    eingang: "2026-09-18T08:31:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2042
+    expected: technical
+    subject: Internet seit gestern Abend tot
+    received_at: "2026-09-18T08:31:00"
+    channel: Kontaktformular
+    body: |
       Seit gestern etwa 21 Uhr habe ich keine Verbindung mehr. Die Router-Lampe
       für DSL blinkt dauerhaft rot. Neustart, anderes Kabel, anderer Anschluss in
       der Wohnung, alles schon probiert. Ich arbeite von zu Hause und komme an
       keine Firmendateien. Bitte dringend prüfen, ob bei Ihnen etwas anliegt.
 
-  - kennung: NT-2043
-    betreff: Frage zum Tarifwechsel auf 250 Mbit
-    eingang: "2026-09-18T09:05:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2043
+    expected: sales
+    subject: Frage zum Tarifwechsel auf 250 Mbit
+    received_at: "2026-09-18T09:05:00"
+    channel: E-Mail
+    body: |
       Hallo,
       ich habe aktuell den Tarif mit 100 Mbit und überlege, auf 250 Mbit zu
       wechseln. Was kostet das im Monat und verlängert sich dadurch meine
       Laufzeit? Falls es ein Angebot für Bestandskunden gibt, nehme ich das gern.
 
-  - kennung: NT-2044
-    betreff: Kündigung zum Vertragsende
-    eingang: "2026-09-18T09:47:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2044
+    expected: contracts
+    subject: Kündigung zum Vertragsende
+    received_at: "2026-09-18T09:47:00"
+    channel: E-Mail
+    body: |
       Sehr geehrte Damen und Herren,
       hiermit kündige ich meinen Vertrag mit der Kundennummer 90114562 fristgerecht
       zum nächstmöglichen Termin. Ich ziehe ins Ausland. Bitte bestätigen Sie mir
       die Kündigung schriftlich und nennen Sie das genaue Vertragsende.
 
-  - kennung: NT-2045
-    betreff: Mahnung trotz bezahlter Rechnung
-    eingang: "2026-09-18T10:22:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2045
+    expected: billing
+    subject: Mahnung trotz bezahlter Rechnung
+    received_at: "2026-09-18T10:22:00"
+    channel: E-Mail
+    body: |
       Ich habe heute eine Mahnung über 62,40 Euro plus 5 Euro Mahngebühr erhalten.
       Die Rechnung habe ich am 28.08. überwiesen, der Beleg meiner Bank liegt mir
       vor. Ich bitte Sie, die Mahnung zurückzunehmen und die Gebühr zu streichen.
       Den Zahlungsbeleg hänge ich an.
 
-  - kennung: NT-2046
-    betreff: Störung im ganzen Ort?
-    eingang: "2026-09-18T10:58:00"
-    kanal: Chat
-    text: |
+  - id: NT-2046
+    expected: technical
+    subject: Störung im ganzen Ort?
+    received_at: "2026-09-18T10:58:00"
+    channel: Chat
+    body: |
       Hier in Sandhorst hat seit heute früh niemand Internet, auch die Nachbarn
       nicht. Der Bäcker kann keine Karten mehr annehmen. Gibt es bei Ihnen eine
       bekannte Störung und wann ist sie behoben? Wir hängen komplett fest.
 
-  - kennung: NT-2047
-    betreff: Anwalt eingeschaltet wegen Nichtbearbeitung
-    eingang: "2026-09-18T11:30:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2047
+    expected: billing
+    subject: Anwalt eingeschaltet wegen Nichtbearbeitung
+    received_at: "2026-09-18T11:30:00"
+    channel: E-Mail
+    body: |
       Zum vierten Mal schreibe ich Ihnen wegen der falschen Abrechnung meiner
       Auslandsgespräche über 214 Euro. Keine meiner Nachrichten wurde beantwortet.
       Ich setze Ihnen eine letzte Frist von zehn Tagen, danach übergebe ich die
       Sache meinem Anwalt und wende mich an die Bundesnetzagentur.
 
-  - kennung: NT-2048
-    betreff: Umzug nach Leer zum 1. November
-    eingang: "2026-09-18T12:15:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2048
+    expected: contracts
+    subject: Umzug nach Leer zum 1. November
+    received_at: "2026-09-18T12:15:00"
+    channel: Kontaktformular
+    body: |
       Guten Tag, ich ziehe zum 01.11. nach Leer in die Mühlenstraße 14. Kann ich
       meinen Vertrag mitnehmen und ist dort dieselbe Geschwindigkeit verfügbar?
       Falls nicht, welche Möglichkeiten habe ich?
 
-  - kennung: NT-2049
-    betreff: Zweite SIM für das Tablet
-    eingang: "2026-09-18T13:02:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2049
+    expected: sales
+    subject: Zweite SIM für das Tablet
+    received_at: "2026-09-18T13:02:00"
+    channel: E-Mail
+    body: |
       Ich möchte zu meinem Mobilfunkvertrag eine zusätzliche SIM-Karte für mein
       Tablet. Was kostet die Multi-SIM monatlich und wie schnell bekomme ich sie?
 
-  - kennung: NT-2050
-    betreff: Rechnung nicht nachvollziehbar
-    eingang: "2026-09-18T14:20:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2050
+    expected: billing
+    subject: Rechnung nicht nachvollziehbar
+    received_at: "2026-09-18T14:20:00"
+    channel: E-Mail
+    body: |
       Meine Septemberrechnung liegt bei 118,70 Euro statt der üblichen 54,90 Euro.
       In der Aufstellung finde ich eine Position "Sonderdienste 63,80 Euro", die
       ich nicht zuordnen kann. Ich habe keine Sonderrufnummern gewählt. Bitte
       erklären Sie mir die Position im Einzelnen.
 
-  - kennung: NT-2051
-    betreff: Router macht seltsame Geräusche und wird heiß
-    eingang: "2026-09-18T15:41:00"
-    kanal: Telefonnotiz
-    text: |
+  - id: NT-2051
+    expected: technical
+    subject: Router macht seltsame Geräusche und wird heiß
+    received_at: "2026-09-18T15:41:00"
+    channel: Telefonnotiz
+    body: |
       Kundin meldet, dass ihr Router seit einigen Tagen sehr warm wird und leise
       pfeift. Verbindung läuft noch, bricht aber abends mehrfach ab. Kundin hat
       Sorge wegen Brandgefahr und möchte ein Austauschgerät.
 
-  - kennung: NT-2052
-    betreff: Widerruf des gestern geschlossenen Vertrags
-    eingang: "2026-09-19T07:55:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2052
+    expected: contracts
+    subject: Widerruf des gestern geschlossenen Vertrags
+    received_at: "2026-09-19T07:55:00"
+    channel: E-Mail
+    body: |
       Ich habe gestern am Telefon einen Vertrag über den Tarif Nordlicht Aktiv
       abgeschlossen und möchte diesen innerhalb der Widerrufsfrist widerrufen.
       Bitte bestätigen Sie den Eingang meines Widerrufs schriftlich.
 
-  - kennung: NT-2053
-    betreff: Geschäftsanschluss ausgefallen, Praxis steht still
-    eingang: "2026-09-19T08:03:00"
-    kanal: Telefonnotiz
-    text: |
+  - id: NT-2053
+    expected: technical
+    subject: Geschäftsanschluss ausgefallen, Praxis steht still
+    received_at: "2026-09-19T08:03:00"
+    channel: Telefonnotiz
+    body: |
       Zahnarztpraxis meldet totalen Ausfall von Telefon und Internet seit 7:30 Uhr.
       Die Praxis kann keine Termine annehmen und keine Abrechnung übertragen.
       Acht Mitarbeiter ohne Arbeitsgrundlage. Bittet um Rückruf innerhalb einer
       Stunde und um einen Technikertermin noch heute.
 
-  - kennung: NT-2054
-    betreff: Preiserhöhung angekündigt, Sonderkündigung?
-    eingang: "2026-09-19T09:10:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2054
+    expected: contracts
+    subject: Preiserhöhung angekündigt, Sonderkündigung?
+    received_at: "2026-09-19T09:10:00"
+    channel: E-Mail
+    body: |
       Sie haben mir eine Preiserhöhung um 4 Euro ab Dezember angekündigt. Ich
       möchte wissen, ob mir daraus ein Sonderkündigungsrecht zusteht und bis wann
       ich es ausüben müsste. Falls Sie mir stattdessen den alten Preis halten,
       bleibe ich gern Kunde.
 
-  - kennung: NT-2055
-    betreff: Gutschrift aus Juli immer noch offen
-    eingang: "2026-09-19T09:44:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2055
+    expected: billing
+    subject: Gutschrift aus Juli immer noch offen
+    received_at: "2026-09-19T09:44:00"
+    channel: Kontaktformular
+    body: |
       Im Juli wurde mir eine Gutschrift über 35 Euro zugesagt, weil der Anschluss
       zwei Wochen nicht verfügbar war. Auf den Rechnungen für August und September
       finde ich die Gutschrift nicht. Wann wird sie verrechnet?
 
-  - kennung: NT-2056
-    betreff: WLAN im Obergeschoss zu schwach
-    eingang: "2026-09-19T10:30:00"
-    kanal: Chat
-    text: |
+  - id: NT-2056
+    expected: technical
+    subject: WLAN im Obergeschoss zu schwach
+    received_at: "2026-09-19T10:30:00"
+    channel: Chat
+    body: |
       Unten läuft alles schnell, oben im Schlafzimmer habe ich kaum noch Empfang.
       Liegt das am Router oder brauche ich einen Verstärker? Falls Sie so ein
       Gerät anbieten, was kostet es?
 
-  - kennung: NT-2057
-    betreff: Glasfaser für unsere Straße
-    eingang: "2026-09-19T11:12:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2057
+    expected: sales
+    subject: Glasfaser für unsere Straße
+    received_at: "2026-09-19T11:12:00"
+    channel: E-Mail
+    body: |
       Wir haben gehört, dass in unserer Straße Glasfaser verlegt wird. Ab wann
       kann ich buchen, welche Geschwindigkeiten gibt es und was kostet der
       Hausanschluss? Ich würde sofort wechseln.
 
-  - kennung: NT-2058
-    betreff: Vertrag nach Todesfall auflösen
-    eingang: "2026-09-19T12:40:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2058
+    expected: contracts
+    subject: Vertrag nach Todesfall auflösen
+    received_at: "2026-09-19T12:40:00"
+    channel: E-Mail
+    body: |
       Mein Vater ist am 30.08. verstorben. Ich möchte seinen Vertrag mit der
       Kundennummer 71220398 beenden. Die Sterbeurkunde liegt bei. Bitte teilen Sie
       mir mit, welche Unterlagen Sie noch brauchen und ab wann keine Beiträge mehr
       abgebucht werden.
 
-  - kennung: NT-2059
-    betreff: Drosselung trotz unbegrenztem Tarif
-    eingang: "2026-09-19T13:25:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2059
+    expected: technical
+    subject: Drosselung trotz unbegrenztem Tarif
+    received_at: "2026-09-19T13:25:00"
+    channel: Kontaktformular
+    body: |
       Mein Mobilfunktarif ist als unbegrenzt beworben, seit dem 15.09. ist die
       Geschwindigkeit aber auf Schneckentempo gedrosselt. Entweder liegt ein
       technischer Fehler vor oder Ihre Werbung stimmt nicht. Bitte klären Sie das.
 
-  - kennung: NT-2060
-    betreff: Kündigung, weil nichts funktioniert
-    eingang: "2026-09-19T14:50:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2060
+    expected: contracts
+    subject: Kündigung, weil nichts funktioniert
+    received_at: "2026-09-19T14:50:00"
+    channel: E-Mail
+    body: |
       Mir reicht es. Seit dem Anschluss im Juni bricht die Leitung täglich ab,
       drei Technikerbesuche haben nichts gebracht. Ich kündige fristlos und
       verlange die Rückzahlung der Beiträge für Juli bis September.
 
-  - kennung: NT-2061
-    betreff: Rufnummernmitnahme klappt nicht
-    eingang: "2026-09-19T15:33:00"
-    kanal: Telefonnotiz
-    text: |
+  - id: NT-2061
+    expected: technical
+    subject: Rufnummernmitnahme klappt nicht
+    received_at: "2026-09-19T15:33:00"
+    channel: Telefonnotiz
+    body: |
       Kunde wechselt von einem anderen Anbieter zu uns. Der Portierungstermin war
       der 16.09., seine alte Nummer ist seitdem nicht erreichbar, die neue SIM
       zeigt kein Netz. Kunde ist selbstständig und verliert Aufträge.
 
-  - kennung: NT-2062
-    betreff: Bankverbindung ändern
-    eingang: "2026-09-20T08:18:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2062
+    expected: billing
+    subject: Bankverbindung ändern
+    received_at: "2026-09-20T08:18:00"
+    channel: Kontaktformular
+    body: |
       Ich habe die Bank gewechselt. Ab Oktober buchen Sie bitte von meinem neuen
       Konto ab. Die IBAN lautet DE00 1234 5678 9012 3456 78. Kundennummer 88670125.
 
-  - kennung: NT-2063
-    betreff: Angebot für Familienpaket
-    eingang: "2026-09-20T09:02:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2063
+    expected: sales
+    subject: Angebot für Familienpaket
+    received_at: "2026-09-20T09:02:00"
+    channel: E-Mail
+    body: |
       Wir sind vier Personen im Haushalt und haben vier einzelne Mobilfunkverträge
       bei verschiedenen Anbietern. Lohnt sich ein Familienpaket bei Ihnen? Bitte
       schicken Sie mir ein Angebot mit den Kosten pro Monat.
 
-  - kennung: NT-2064
-    betreff: Störungsmeldung Festnetz, kein Freizeichen
-    eingang: "2026-09-20T09:55:00"
-    kanal: Telefonnotiz
-    text: |
+  - id: NT-2064
+    expected: technical
+    subject: Störungsmeldung Festnetz, kein Freizeichen
+    received_at: "2026-09-20T09:55:00"
+    channel: Telefonnotiz
+    body: |
       Seit zwei Tagen kein Freizeichen am Festnetz, Internet läuft normal. Kunde
       ist 84 Jahre alt, wohnt allein und braucht das Telefon für den Hausnotruf.
       Bittet um schnelle Hilfe.
 
-  - kennung: NT-2065
-    betreff: Auskunft über meine gespeicherten Daten
-    eingang: "2026-09-20T11:14:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2065
+    expected: contracts
+    subject: Auskunft über meine gespeicherten Daten
+    received_at: "2026-09-20T11:14:00"
+    channel: E-Mail
+    body: |
       Nach Artikel 15 der Datenschutz-Grundverordnung verlange ich Auskunft über
       alle personenbezogenen Daten, die Sie zu mir gespeichert haben, sowie über
       Empfänger und Speicherdauer. Bitte antworten Sie innerhalb der gesetzlichen
       Frist von einem Monat.
 
-  - kennung: NT-2066
-    betreff: Doppelte Vertragsanlage nach Beratung
-    eingang: "2026-09-20T12:31:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2066
+    expected: contracts
+    subject: Doppelte Vertragsanlage nach Beratung
+    received_at: "2026-09-20T12:31:00"
+    channel: Kontaktformular
+    body: |
       Nach einem Beratungsgespräch im Laden habe ich jetzt zwei Verträge auf
       meinen Namen, einen vom 05.09. und einen vom 08.09. Gewollt war nur einer.
       Beide werden abgebucht, zusammen 96 Euro im Monat. Bitte lösen Sie den
       zweiten auf und erstatten Sie die Abbuchung.
 
-  - kennung: NT-2067
-    betreff: Roaming-Kosten nach Norwegenurlaub
-    eingang: "2026-09-20T13:47:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2067
+    expected: billing
+    subject: Roaming-Kosten nach Norwegenurlaub
+    received_at: "2026-09-20T13:47:00"
+    channel: E-Mail
+    body: |
       Nach zwei Wochen Norwegen finde ich auf der Rechnung 187 Euro Roaming. Ich
       dachte, im europäischen Ausland gilt der Inlandspreis. Bitte prüfen Sie die
       Positionen und erklären Sie mir, wie der Betrag zustande kommt.
 
-  - kennung: NT-2068
-    betreff: Neuer Anschluss für Ferienwohnung
-    eingang: "2026-09-20T15:09:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2068
+    expected: sales
+    subject: Neuer Anschluss für Ferienwohnung
+    received_at: "2026-09-20T15:09:00"
+    channel: E-Mail
+    body: |
       Wir vermieten ab Januar eine Ferienwohnung in Greetsiel und brauchen dort
       einen Internetanschluss mit WLAN für Gäste. Welche Tarife bieten Sie für
       diesen Zweck und wie lange dauert die Bereitstellung?
 
-  - kennung: NT-2069
-    betreff: Beschwerde über Techniker
-    eingang: "2026-09-21T08:25:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2069
+    expected: technical
+    subject: Beschwerde über Techniker
+    received_at: "2026-09-21T08:25:00"
+    channel: E-Mail
+    body: |
       Ihr Techniker war gestern hier, hat die Wohnungstür offen stehen lassen,
       Dreck im Flur hinterlassen und nach zehn Minuten gesagt, das Problem liege
       nicht bei ihm. Die Leitung fällt weiterhin aus. So geht man nicht mit Kunden
       um. Ich erwarte eine Stellungnahme der Leitung und einen neuen Termin.
 
-  - kennung: NT-2070
-    betreff: Wechselangebot der Konkurrenz
-    eingang: "2026-09-21T09:38:00"
-    kanal: Chat
-    text: |
+  - id: NT-2070
+    expected: sales
+    subject: Wechselangebot der Konkurrenz
+    received_at: "2026-09-21T09:38:00"
+    channel: Chat
+    body: |
       Ein anderer Anbieter bietet mir dieselbe Leistung für 12 Euro weniger im
       Monat. Ich bin seit neun Jahren bei Ihnen. Können Sie mitgehen? Sonst
       wechsle ich zum Vertragsende.
@@ -290,20 +322,22 @@ tickets:
   # Ab hier Tickets, an denen Ton und Sachlage auseinanderlaufen: laute
   # Kleinigkeiten, nüchtern gemeldete Notlagen, Lob, Ironie und Resignation.
 
-  - kennung: NT-2071
-    betreff: UNGLAUBLICH!!! Rechnung einen Tag zu spät
-    eingang: "2026-09-21T10:05:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2071
+    expected: billing
+    subject: UNGLAUBLICH!!! Rechnung einen Tag zu spät
+    received_at: "2026-09-21T10:05:00"
+    channel: E-Mail
+    body: |
       Das ist doch eine FRECHHEIT! Meine Rechnung sollte am 15. kommen und kam
       erst am 16.! Wie soll ich denn so planen?? Jedes Mal dasselbe Theater mit
       Ihnen. Ich erwarte eine Entschuldigung und zwar schriftlich!!!
 
-  - kennung: NT-2072
-    betreff: Hinweis zum Ausfall der Notrufweiterleitung
-    eingang: "2026-09-21T10:26:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2072
+    expected: technical
+    subject: Hinweis zum Ausfall der Notrufweiterleitung
+    received_at: "2026-09-21T10:26:00"
+    channel: E-Mail
+    body: |
       Sehr geehrte Damen und Herren,
       als Betreiber eines Pflegeheims teile ich Ihnen mit, dass die
       Notrufweiterleitung unserer Anlage seit heute 6 Uhr nicht funktioniert.
@@ -311,175 +345,192 @@ tickets:
       Ich bitte um Prüfung und um Rückmeldung zum weiteren Vorgehen.
       Mit freundlichen Grüßen
 
-  - kennung: NT-2073
-    betreff: Danke für die schnelle Hilfe
-    eingang: "2026-09-21T11:02:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2073
+    expected: technical
+    subject: Danke für die schnelle Hilfe
+    received_at: "2026-09-21T11:02:00"
+    channel: Kontaktformular
+    body: |
       Ich wollte mich einmal bedanken. Ihr Techniker war gestern da, hat den
       Fehler in zwanzig Minuten gefunden und mir noch erklärt, wie ich das WLAN
       besser stelle. So macht Kundenservice Freude. Bitte geben Sie das Lob weiter.
 
-  - kennung: NT-2074
-    betreff: Ich gebe auf
-    eingang: "2026-09-21T11:48:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2074
+    subject: Ich gebe auf
+    received_at: "2026-09-21T11:48:00"
+    channel: E-Mail
+    body: |
       Es ist der siebte Anruf in vier Wochen. Jedes Mal sagt mir jemand anderes
       etwas anderes. Ich habe keine Kraft mehr, dem hinterherzulaufen. Wenn sich
       diesmal niemand meldet, lasse ich es einfach und zahle weiter für etwas,
       das nicht funktioniert. Meine Kundennummer ist 90223318.
 
-  - kennung: NT-2075
-    betreff: Großartig, schon wieder kein Netz
-    eingang: "2026-09-21T12:15:00"
-    kanal: Chat
-    text: |
+  - id: NT-2075
+    expected: technical
+    subject: Großartig, schon wieder kein Netz
+    received_at: "2026-09-21T12:15:00"
+    channel: Chat
+    body: |
       Na super, wieder mal kein Empfang im Homeoffice. Dritte Woche in Folge
       pünktlich zum Montagmorgen. Klasse Timing, wirklich. Können Sie mir sagen,
       ob das Absicht ist oder ob Sie den Mast einfach abgeschaltet haben?
 
-  - kennung: NT-2076
-    betreff: Bitte um Ratenzahlung
-    eingang: "2026-09-21T13:30:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2076
+    expected: billing
+    subject: Bitte um Ratenzahlung
+    received_at: "2026-09-21T13:30:00"
+    channel: E-Mail
+    body: |
       Guten Tag,
       ich habe meine Arbeit verloren und kann die offene Rechnung über 240 Euro
       im Moment nicht auf einmal zahlen. Wäre eine Ratenzahlung über vier Monate
       möglich? Ich möchte die Sache in Ordnung bringen und nicht in die Mahnung
       laufen.
 
-  - kennung: NT-2077
-    betreff: SIE HABEN MEINEN ANSCHLUSS GESPERRT
-    eingang: "2026-09-21T14:02:00"
-    kanal: Telefonnotiz
-    text: |
+  - id: NT-2077
+    expected: billing
+    subject: SIE HABEN MEINEN ANSCHLUSS GESPERRT
+    received_at: "2026-09-21T14:02:00"
+    channel: Telefonnotiz
+    body: |
       Kunde ruft sehr laut an. Anschluss wurde wegen offener Forderung gesperrt,
       er sagt, er habe bezahlt. Beschimpft den Mitarbeiter mehrfach, droht damit,
       vor der Filiale zu stehen. Sperre besteht seit heute 9 Uhr, Kunde betreibt
       einen Onlineshop und kann keine Bestellungen bearbeiten.
 
-  - kennung: NT-2078
-    betreff: Frage zur Rechnungsstellung bei Zweitwohnsitz
-    eingang: "2026-09-21T14:40:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2078
+    expected: billing
+    subject: Frage zur Rechnungsstellung bei Zweitwohnsitz
+    received_at: "2026-09-21T14:40:00"
+    channel: E-Mail
+    body: |
       Ich habe eine Wohnung in Emden und eine in Oldenburg. Können beide
       Anschlüsse auf einer Rechnung zusammengefasst werden? Falls ja, was muss
       ich dafür veranlassen?
 
-  - kennung: NT-2079
-    betreff: Störungsmeldung nach Sturm
-    eingang: "2026-09-21T15:10:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2079
+    expected: technical
+    subject: Störungsmeldung nach Sturm
+    received_at: "2026-09-21T15:10:00"
+    channel: Kontaktformular
+    body: |
       Nach dem Sturm gestern Nacht liegt das Kabel zum Haus auf dem Rasen. Der
       Anschluss läuft noch, aber das Kabel ist lose und hängt über den Weg. Ich
       melde das, bevor jemand darüber stolpert. Bitte sagen Sie, wer das repariert.
 
-  - kennung: NT-2080
-    betreff: Vertrag läuft weiter, obwohl gekündigt
-    eingang: "2026-09-21T15:55:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2080
+    expected: contracts
+    subject: Vertrag läuft weiter, obwohl gekündigt
+    received_at: "2026-09-21T15:55:00"
+    channel: E-Mail
+    body: |
       Ich habe im Juni schriftlich gekündigt und eine Bestätigung erhalten.
       Trotzdem buchen Sie im September weiter ab. Die Bestätigung hänge ich noch
       einmal an. Bitte stellen Sie die Abbuchungen ein und erstatten Sie die drei
       Monate.
 
-  - kennung: NT-2081
-    betreff: Letzte Warnung vor der Verbraucherzentrale
-    eingang: "2026-09-22T07:40:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2081
+    expected: billing
+    subject: Letzte Warnung vor der Verbraucherzentrale
+    received_at: "2026-09-22T07:40:00"
+    channel: E-Mail
+    body: |
       Sie haben mir dreimal zugesichert, die falsche Position zu streichen, und
       dreimal ist nichts geschehen. Ich habe alles dokumentiert, Datum und
       Uhrzeit jedes Gesprächs. Entweder Sie klären das bis Freitag oder ich gehe
       zur Verbraucherzentrale und schildere den Fall öffentlich.
 
-  - kennung: NT-2082
-    betreff: Interesse an Geschäftskundentarif
-    eingang: "2026-09-22T08:15:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2082
+    expected: sales
+    subject: Interesse an Geschäftskundentarif
+    received_at: "2026-09-22T08:15:00"
+    channel: E-Mail
+    body: |
       Wir sind ein Handwerksbetrieb mit zwölf Mitarbeitern und suchen einen
       Anbieter für Mobilfunk und Festnetz. Können Sie uns ein Angebot machen und
       nennen, welche Servicezeiten für Geschäftskunden gelten?
 
-  - kennung: NT-2083
-    betreff: Anschluss seit Umzug tot, Kind im Fernunterricht
-    eingang: "2026-09-22T08:44:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2083
+    expected: technical
+    subject: Anschluss seit Umzug tot, Kind im Fernunterricht
+    received_at: "2026-09-22T08:44:00"
+    channel: Kontaktformular
+    body: |
       Seit dem Umzug am 15.09. haben wir keinen Anschluss. Mein Sohn hat
       Fernunterricht und verpasst jeden Tag den Onlineunterricht. Ich habe
       bereits zweimal angerufen, man versprach einen Rückruf, der nie kam.
       Bitte helfen Sie uns, wir wissen nicht mehr weiter.
 
-  - kennung: NT-2084
-    betreff: Korrektur meiner Anschrift
-    eingang: "2026-09-22T09:20:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2084
+    expected: contracts
+    subject: Korrektur meiner Anschrift
+    received_at: "2026-09-22T09:20:00"
+    channel: Kontaktformular
+    body: |
       In Ihren Unterlagen steht Mühlenweg 7, richtig ist Mühlenweg 17. Bitte
       korrigieren Sie das, damit die Post ankommt. Kundennummer 88940217.
 
-  - kennung: NT-2085
-    betreff: Werbeanrufe trotz Widerspruch
-    eingang: "2026-09-22T10:05:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2085
+    expected: contracts
+    subject: Werbeanrufe trotz Widerspruch
+    received_at: "2026-09-22T10:05:00"
+    channel: E-Mail
+    body: |
       Ich habe der Nutzung meiner Daten zu Werbezwecken im Mai ausdrücklich
       widersprochen. Seitdem rufen Sie mich zweimal pro Woche an. Das ist nicht
       nur lästig, sondern nach meiner Kenntnis rechtswidrig. Ich fordere Sie auf,
       das sofort einzustellen und mir das schriftlich zu bestätigen.
 
-  - kennung: NT-2086
-    betreff: Endlich klappt alles
-    eingang: "2026-09-22T10:38:00"
-    kanal: Chat
-    text: |
+  - id: NT-2086
+    expected: technical
+    subject: Endlich klappt alles
+    received_at: "2026-09-22T10:38:00"
+    channel: Chat
+    body: |
       Nach dem Wechsel auf den neuen Router läuft die Leitung seit zwei Wochen
       stabil. Ich hatte mich im August beschwert und möchte jetzt sagen, dass es
       jetzt passt. Eine Frage habe ich noch: Kann ich den alten Router behalten
       oder soll ich ihn zurückschicken?
 
-  - kennung: NT-2087
-    betreff: Rechnung für verstorbene Mutter
-    eingang: "2026-09-22T11:12:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2087
+    expected: billing
+    subject: Rechnung für verstorbene Mutter
+    received_at: "2026-09-22T11:12:00"
+    channel: E-Mail
+    body: |
       Meine Mutter ist im Juli verstorben, ich hatte den Vertrag im August
       gekündigt und die Sterbeurkunde geschickt. Gestern kam eine Mahnung an ihren
       Namen. Für die Familie ist das schwer zu ertragen. Bitte prüfen Sie den
       Vorgang und stoppen Sie die Mahnungen.
 
-  - kennung: NT-2088
-    betreff: Geschwindigkeit dauerhaft unter der Zusage
-    eingang: "2026-09-22T12:00:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2088
+    expected: technical
+    subject: Geschwindigkeit dauerhaft unter der Zusage
+    received_at: "2026-09-22T12:00:00"
+    channel: E-Mail
+    body: |
       Laut Vertrag sind 100 Mbit zugesagt, gemessen habe ich über vier Wochen
       im Mittel 38 Mbit. Die Messprotokoll nach dem Verfahren der Bundesnetzagentur
       liegt bei, 30 Messungen an 10 Tagen. Ich bitte um Nachbesserung oder um
       Anpassung des Entgelts.
 
-  - kennung: NT-2089
-    betreff: Wer denkt sich so ein Menü aus?
-    eingang: "2026-09-22T13:25:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2089
+    expected: sales
+    subject: Wer denkt sich so ein Menü aus?
+    received_at: "2026-09-22T13:25:00"
+    channel: Kontaktformular
+    body: |
       Ihre Telefonhotline ist eine Zumutung. Sieben Menüpunkte, dann Musik, dann
       wird aufgelegt. Ich wollte nur wissen, ob mein Tarif eine Auslandsoption
       enthält. Dafür brauche ich jetzt ein Kontaktformular. Sagen Sie mir bitte
       einfach die Antwort.
 
-  - kennung: NT-2090
-    betreff: Anschluss für Neubau, Termin gesucht
-    eingang: "2026-09-22T14:10:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2090
+    expected: sales
+    subject: Anschluss für Neubau, Termin gesucht
+    received_at: "2026-09-22T14:10:00"
+    channel: E-Mail
+    body: |
       Wir bauen ein Haus in Aurich, Einzug ist für März geplant. Wann sollte ich
       den Anschluss bestellen, damit er rechtzeitig liegt, und welche Unterlagen
       brauchen Sie vom Bauherrn?
@@ -487,458 +538,506 @@ tickets:
   # Zweite Erweiterung: breiterer Themenschnitt, mehr Vertrieb und mehr
   # Mischanliegen, an denen die Konfidenz der Zuordnung sichtbar sinkt.
 
-  - kennung: NT-2091
-    betreff: Prepaid-Guthaben verschwunden
-    eingang: "2026-09-22T15:20:00"
-    kanal: Chat
-    text: |
+  - id: NT-2091
+    expected: billing
+    subject: Prepaid-Guthaben verschwunden
+    received_at: "2026-09-22T15:20:00"
+    channel: Chat
+    body: |
       Ich hatte gestern 25 Euro aufgeladen, heute zeigt die App 0,00 Euro an.
       Telefoniert habe ich nicht. Wo ist das Geld hin? Ich brauche die Karte
       für die Arbeit.
 
-  - kennung: NT-2092
-    betreff: Angebot zum Wechsel von Kabel auf Glasfaser
-    eingang: "2026-09-22T15:48:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2092
+    expected: sales
+    subject: Angebot zum Wechsel von Kabel auf Glasfaser
+    received_at: "2026-09-22T15:48:00"
+    channel: E-Mail
+    body: |
       Sie haben mir einen Brief zum Glasfaserausbau geschickt. Bevor ich
       unterschreibe: Bleibt meine Rufnummer, wie lange dauert die Umschaltung
       und was passiert, wenn der Ausbau sich verzögert?
 
-  - kennung: NT-2093
-    betreff: Techniker dreimal nicht erschienen
-    eingang: "2026-09-22T16:30:00"
-    kanal: Telefonnotiz
-    text: |
+  - id: NT-2093
+    expected: technical
+    subject: Techniker dreimal nicht erschienen
+    received_at: "2026-09-22T16:30:00"
+    channel: Telefonnotiz
+    body: |
       Kundin hat dreimal einen halben Tag Urlaub genommen, dreimal kam niemand.
       Beim dritten Mal wurde ihr gesagt, der Termin sei storniert worden, ohne
       sie zu informieren. Sie verlangt Ersatz für den Verdienstausfall und einen
       festen Termin mit Zusage.
 
-  - kennung: NT-2094
-    betreff: Zusatzoption gebucht, die ich nicht wollte
-    eingang: "2026-09-22T17:05:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2094
+    expected: billing
+    subject: Zusatzoption gebucht, die ich nicht wollte
+    received_at: "2026-09-22T17:05:00"
+    channel: Kontaktformular
+    body: |
       Auf der Rechnung steht eine Option Musikstreaming für 9,99 Euro. Ich habe
       die nie gebucht. Bitte kündigen Sie die Option und erstatten Sie die drei
       Monate, die bereits abgebucht wurden.
 
-  - kennung: NT-2095
-    betreff: Frage zur Mindestlaufzeit bei Studentenrabatt
-    eingang: "2026-09-23T07:35:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2095
+    expected: sales
+    subject: Frage zur Mindestlaufzeit bei Studentenrabatt
+    received_at: "2026-09-23T07:35:00"
+    channel: E-Mail
+    body: |
       Ich studiere ab Oktober in Göttingen. Gilt der Studentenrabatt für die
       ganze Laufzeit und muss ich die Immatrikulation jedes Jahr nachweisen?
 
-  - kennung: NT-2096
-    betreff: Mobilfunk bricht im Zug regelmäßig ab
-    eingang: "2026-09-23T08:02:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2096
+    expected: technical
+    subject: Mobilfunk bricht im Zug regelmäßig ab
+    received_at: "2026-09-23T08:02:00"
+    channel: Kontaktformular
+    body: |
       Auf meiner täglichen Strecke zwischen Emden und Oldenburg bricht die
       Verbindung an denselben drei Stellen ab. Ich arbeite im Zug. Gibt es dort
       bekannte Lücken und ist ein Ausbau geplant?
 
-  - kennung: NT-2097
-    betreff: Seit sechs Wochen keine Antwort
-    eingang: "2026-09-23T08:40:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2097
+    expected: billing
+    subject: Seit sechs Wochen keine Antwort
+    received_at: "2026-09-23T08:40:00"
+    channel: E-Mail
+    body: |
       Am 12. August habe ich Ihnen geschrieben, am 26. August erneut, am 9.
       September ein drittes Mal. Keine Antwort, nicht einmal eine Eingangsbestätigung.
       Ist bei Ihnen jemand erreichbar? Mein Anliegen ist eine falsche Abrechnung
       über 78 Euro.
 
-  - kennung: NT-2098
-    betreff: Gerät zurückgeschickt, Belastung läuft weiter
-    eingang: "2026-09-23T09:15:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2098
+    expected: billing
+    subject: Gerät zurückgeschickt, Belastung läuft weiter
+    received_at: "2026-09-23T09:15:00"
+    channel: E-Mail
+    body: |
       Den Router habe ich am 01.09. per Paketdienst zurückgeschickt, Sendungsnummer
       liegt bei. Sie berechnen weiter 5 Euro Gerätemiete. Bitte prüfen Sie den
       Eingang und stellen Sie die Belastung ein.
 
-  - kennung: NT-2099
-    betreff: Interesse an Zweitanschluss für die Werkstatt
-    eingang: "2026-09-23T09:50:00"
-    kanal: Telefonnotiz
-    text: |
+  - id: NT-2099
+    expected: sales
+    subject: Interesse an Zweitanschluss für die Werkstatt
+    received_at: "2026-09-23T09:50:00"
+    channel: Telefonnotiz
+    body: |
       Kunde betreibt eine Kfz-Werkstatt und möchte einen zweiten Anschluss für
       das Büro im Obergeschoss. Fragt nach Kosten, Bereitstellungszeit und ob
       beide Anschlüsse auf einer Rechnung laufen können.
 
-  - kennung: NT-2100
-    betreff: Kann mein Sohn den Vertrag übernehmen?
-    eingang: "2026-09-23T10:25:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2100
+    expected: contracts
+    subject: Kann mein Sohn den Vertrag übernehmen?
+    received_at: "2026-09-23T10:25:00"
+    channel: E-Mail
+    body: |
       Ich ziehe ins Seniorenheim und möchte den Anschluss in der Wohnung
       behalten, weil mein Sohn dort einzieht. Kann er den Vertrag übernehmen und
       welche Unterlagen brauchen Sie dafür?
 
-  - kennung: NT-2101
-    betreff: Netzausfall im Gewerbegebiet seit heute früh
-    eingang: "2026-09-23T11:00:00"
-    kanal: Telefonnotiz
-    text: |
+  - id: NT-2101
+    expected: technical
+    subject: Netzausfall im Gewerbegebiet seit heute früh
+    received_at: "2026-09-23T11:00:00"
+    channel: Telefonnotiz
+    body: |
       Mehrere Betriebe im Gewerbegebiet Süd melden Ausfall seit 5:30 Uhr.
       Betroffen sind Kartenzahlung, Warenwirtschaft und Telefon. Ein Spediteur
       kann keine Frachtpapiere übermitteln. Sammelmeldung, Rückruf erbeten.
 
-  - kennung: NT-2102
-    betreff: Wie kündige ich richtig?
-    eingang: "2026-09-23T11:42:00"
-    kanal: Chat
-    text: |
+  - id: NT-2102
+    expected: contracts
+    subject: Wie kündige ich richtig?
+    received_at: "2026-09-23T11:42:00"
+    channel: Chat
+    body: |
       Ich möchte kündigen, weiß aber nicht, ob per Brief oder über das Portal
       und welche Frist gilt. Können Sie mir das kurz erklären? Mein Vertrag läuft
       seit 2023.
 
-  - kennung: NT-2103
-    betreff: ZAHLEN SIE ENDLICH MEINE GUTSCHRIFT AUS
-    eingang: "2026-09-23T12:18:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2103
+    expected: billing
+    subject: ZAHLEN SIE ENDLICH MEINE GUTSCHRIFT AUS
+    received_at: "2026-09-23T12:18:00"
+    channel: E-Mail
+    body: |
       Seit Mai warte ich auf 120 Euro! FÜNF Monate! Jeder Mitarbeiter erzählt mir
       etwas anderes, zuletzt hieß es, die Buchhaltung prüft. Was gibt es da zu
       prüfen? Das ist mein Geld. Ich will diese Woche eine Überweisung sehen.
 
-  - kennung: NT-2104
-    betreff: Vertragsverlängerung ohne meine Zustimmung
-    eingang: "2026-09-23T13:05:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2104
+    expected: contracts
+    subject: Vertragsverlängerung ohne meine Zustimmung
+    received_at: "2026-09-23T13:05:00"
+    channel: E-Mail
+    body: |
       In meiner Vertragsübersicht steht plötzlich ein Ende im Jahr 2028. Ich habe
       keiner Verlängerung zugestimmt und auch kein Gespräch dazu geführt. Bitte
       nennen Sie mir, auf welcher Grundlage die Verlängerung erfasst wurde.
 
-  - kennung: NT-2105
-    betreff: Empfehlung für älteren Nutzer gesucht
-    eingang: "2026-09-23T13:44:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2105
+    expected: sales
+    subject: Empfehlung für älteren Nutzer gesucht
+    received_at: "2026-09-23T13:44:00"
+    channel: Kontaktformular
+    body: |
       Meine Mutter ist 79 und braucht ein einfaches Handy mit Vertrag, wenig
       Datenvolumen, große Tasten, keine Vertragsfallen. Was empfehlen Sie und
       was kostet das im Monat?
 
-  - kennung: NT-2106
-    betreff: Störung behoben, aber Entschädigung offen
-    eingang: "2026-09-23T14:20:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2106
+    expected: billing
+    subject: Störung behoben, aber Entschädigung offen
+    received_at: "2026-09-23T14:20:00"
+    channel: E-Mail
+    body: |
       Der Anschluss läuft seit gestern wieder, vielen Dank. Elf Tage lang ging
       nichts. Nach meiner Kenntnis steht mir dafür eine Entschädigung zu. Wie
       beantrage ich die und in welcher Höhe?
 
-  - kennung: NT-2107
-    betreff: Zwei Rechnungen für denselben Monat
-    eingang: "2026-09-23T15:02:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2107
+    expected: billing
+    subject: Zwei Rechnungen für denselben Monat
+    received_at: "2026-09-23T15:02:00"
+    channel: Kontaktformular
+    body: |
       Für September habe ich zwei Rechnungen erhalten, Nummer 4471902 über 54,90
       Euro und Nummer 4472118 über 54,90 Euro. Welche gilt? Abgebucht wurde
       bisher nur eine.
 
-  - kennung: NT-2108
-    betreff: Nach dem Gespräch gestern
-    eingang: "2026-09-23T15:40:00"
-    kanal: Telefonnotiz
-    text: |
+  - id: NT-2108
+    expected: sales
+    subject: Nach dem Gespräch gestern
+    received_at: "2026-09-23T15:40:00"
+    channel: Telefonnotiz
+    body: |
       Kunde bezieht sich auf ein Gespräch von gestern, in dem ihm ein Wechsel auf
       einen günstigeren Tarif zugesagt wurde. Er möchte die Zusage schriftlich
       und fragt, ab wann der neue Preis gilt. Name des Kollegen weiß er nicht mehr.
 
-  - kennung: NT-2109
-    betreff: Internet langsam nur abends
-    eingang: "2026-09-23T16:15:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2109
+    expected: technical
+    subject: Internet langsam nur abends
+    received_at: "2026-09-23T16:15:00"
+    channel: Kontaktformular
+    body: |
       Tagsüber messe ich 95 Mbit, ab etwa 19 Uhr fällt es auf 12 bis 20 Mbit.
       Liegt das an der Auslastung im Ort oder an meinem Anschluss? Ich hänge
       Messungen aus zwei Wochen an.
 
-  - kennung: NT-2110
-    betreff: Umzug ins Ausland, was passiert mit dem Vertrag?
-    eingang: "2026-09-23T17:00:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2110
+    expected: contracts
+    subject: Umzug ins Ausland, was passiert mit dem Vertrag?
+    received_at: "2026-09-23T17:00:00"
+    channel: E-Mail
+    body: |
       Ich gehe für zwei Jahre nach Rotterdam. Kann ich den Vertrag ruhen lassen,
       muss ich kündigen oder gibt es eine andere Möglichkeit? Die Laufzeit geht
       noch bis August 2027.
 
-  - kennung: NT-2111
-    betreff: Roamingsperre für mein Kind einrichten
-    eingang: "2026-09-24T07:50:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2111
+    expected: technical
+    subject: Roamingsperre für mein Kind einrichten
+    received_at: "2026-09-24T07:50:00"
+    channel: Kontaktformular
+    body: |
       Meine Tochter fährt auf Klassenfahrt in die Schweiz. Ich möchte eine
       Sperre für Auslandsnutzung und teure Dienste einrichten, damit keine
       Kosten entstehen. Wie mache ich das?
 
-  - kennung: NT-2112
-    betreff: Falscher Name auf der Rechnung
-    eingang: "2026-09-24T08:25:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2112
+    expected: contracts
+    subject: Falscher Name auf der Rechnung
+    received_at: "2026-09-24T08:25:00"
+    channel: E-Mail
+    body: |
       Auf meinen Rechnungen steht der Name meines Vormieters. Der Anschluss läuft
       seit Februar auf mich, der Vertrag ist auch auf meinen Namen. Bitte
       korrigieren Sie das, ich brauche die Rechnung fürs Finanzamt.
 
-  - kennung: NT-2113
-    betreff: Ihre App funktioniert nicht
-    eingang: "2026-09-24T09:10:00"
-    kanal: Chat
-    text: |
+  - id: NT-2113
+    expected: technical
+    subject: Ihre App funktioniert nicht
+    received_at: "2026-09-24T09:10:00"
+    channel: Chat
+    body: |
       Seit dem Update kann ich mich in der App nicht mehr anmelden. Passwort
       zurücksetzen bringt nichts, die Mail kommt nicht an. Im Browser klappt es.
       Was soll ich tun?
 
-  - kennung: NT-2114
-    betreff: Kein Anschluss, aber Rechnung
-    eingang: "2026-09-24T09:55:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2114
+    expected: technical
+    subject: Kein Anschluss, aber Rechnung
+    received_at: "2026-09-24T09:55:00"
+    channel: E-Mail
+    body: |
       Der Anschluss sollte am 01.09. bereitgestellt werden. Bis heute liegt
       nichts, kein Techniker, kein Termin. Eine Rechnung über den vollen
       Monatsbeitrag kam dagegen pünktlich. Ich zahle nicht für Nichts. Bitte
       klären Sie beides.
 
-  - kennung: NT-2115
-    betreff: Auskunft zu Vertragsdetails für die Steuererklärung
-    eingang: "2026-09-24T10:30:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2115
+    expected: billing
+    subject: Auskunft zu Vertragsdetails für die Steuererklärung
+    received_at: "2026-09-24T10:30:00"
+    channel: Kontaktformular
+    body: |
       Für die Steuererklärung brauche ich eine Aufstellung der gezahlten Beiträge
       für 2025, getrennt nach Anschluss und Mobilfunk. Können Sie mir die
       zuschicken?
 
-  - kennung: NT-2116
-    betreff: Angebot Business-Paket für Steuerkanzlei
-    eingang: "2026-09-24T11:05:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2116
+    expected: sales
+    subject: Angebot Business-Paket für Steuerkanzlei
+    received_at: "2026-09-24T11:05:00"
+    channel: E-Mail
+    body: |
       Wir sind eine Steuerkanzlei mit sieben Arbeitsplätzen und arbeiten mit
       sensiblen Mandantendaten. Uns interessiert ein Geschäftsanschluss mit
       fester IP-Adresse und einer zugesicherten Entstörzeit. Bitte schicken Sie
       uns ein Angebot mit Vertragsbedingungen.
 
-  - kennung: NT-2117
-    betreff: Wie viel Datenvolumen habe ich noch?
-    eingang: "2026-09-24T11:40:00"
-    kanal: Chat
-    text: |
+  - id: NT-2117
+    expected: technical
+    subject: Wie viel Datenvolumen habe ich noch?
+    received_at: "2026-09-24T11:40:00"
+    channel: Chat
+    body: |
       Wo sehe ich, wie viel Datenvolumen in diesem Monat noch übrig ist? In der
       App finde ich die Anzeige nicht.
 
-  - kennung: NT-2118
-    betreff: Inkasso trotz Klärung
-    eingang: "2026-09-24T12:20:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2118
+    expected: billing
+    subject: Inkasso trotz Klärung
+    received_at: "2026-09-24T12:20:00"
+    channel: E-Mail
+    body: |
       Ihr Mitarbeiter hat mir im August bestätigt, dass die Forderung über 89
       Euro storniert wird. Heute schreibt mich ein Inkassobüro an, mit Gebühren
       von 45 Euro obendrauf. Ich habe die Bestätigung schriftlich. Nehmen Sie den
       Vorgang zurück und tragen Sie die Kosten, sonst wende ich mich an einen
       Anwalt.
 
-  - kennung: NT-2119
-    betreff: Wechsel des Tarifs zum Monatsende
-    eingang: "2026-09-24T13:00:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2119
+    expected: sales
+    subject: Wechsel des Tarifs zum Monatsende
+    received_at: "2026-09-24T13:00:00"
+    channel: Kontaktformular
+    body: |
       Ich möchte vom Tarif Aktiv auf Kompakt wechseln, weil ich das Volumen nicht
       brauche. Geht das zum Monatsende und bleibt die Laufzeit unverändert?
 
-  - kennung: NT-2120
-    betreff: Kabel bei Bauarbeiten beschädigt
-    eingang: "2026-09-24T13:35:00"
-    kanal: Telefonnotiz
-    text: |
+  - id: NT-2120
+    expected: technical
+    subject: Kabel bei Bauarbeiten beschädigt
+    received_at: "2026-09-24T13:35:00"
+    channel: Telefonnotiz
+    body: |
       Bauunternehmen meldet, dass beim Aushub in der Feldstraße ein Kabel
       getroffen wurde. Mehrere Haushalte ohne Anschluss. Firma bittet um
       Rückruf zur Schadensaufnahme und fragt nach dem Vorgehen bei der
       Haftung.
 
-  - kennung: NT-2121
-    betreff: Vielen Dank an die Kollegin am Telefon
-    eingang: "2026-09-24T14:10:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2121
+    subject: Vielen Dank an die Kollegin am Telefon
+    received_at: "2026-09-24T14:10:00"
+    channel: Kontaktformular
+    body: |
       Ich hatte heute eine sehr freundliche Kollegin am Telefon, die meine Frage
       zur Rechnung in fünf Minuten geklärt hat. Leider habe ich den Namen nicht
       notiert, es war gegen 10:30 Uhr. Bitte richten Sie ein Lob aus.
 
-  - kennung: NT-2122
-    betreff: Vertrag gekündigt, Gerät nicht abgeholt
-    eingang: "2026-09-24T14:50:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2122
+    expected: technical
+    subject: Vertrag gekündigt, Gerät nicht abgeholt
+    received_at: "2026-09-24T14:50:00"
+    channel: E-Mail
+    body: |
       Mein Vertrag endete am 31.08. Sie haben angekündigt, den Router abzuholen.
       Seitdem steht das Gerät bei mir im Flur. Ich brauche den Platz. Wie werde
       ich es los, ohne dass Sie mir eine Gebühr berechnen?
 
-  - kennung: NT-2123
-    betreff: Unerwartete Kosten für Auslandsgespräche
-    eingang: "2026-09-24T15:25:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2123
+    expected: billing
+    subject: Unerwartete Kosten für Auslandsgespräche
+    received_at: "2026-09-24T15:25:00"
+    channel: E-Mail
+    body: |
       Auf der Rechnung stehen 64 Euro für Gespräche nach Polen. Meine Tochter
       hat mit den Großeltern telefoniert, wir dachten, das sei im Tarif
       enthalten. Gibt es eine Option, die solche Gespräche abdeckt, und lässt
       sich für diesen Monat etwas machen?
 
-  - kennung: NT-2124
-    betreff: Lange Wartezeit, aber Problem gelöst
-    eingang: "2026-09-24T16:00:00"
-    kanal: Chat
-    text: |
+  - id: NT-2124
+    subject: Lange Wartezeit, aber Problem gelöst
+    received_at: "2026-09-24T16:00:00"
+    channel: Chat
+    body: |
       Ich musste 40 Minuten in der Warteschleife hängen, was wirklich zu lang
       ist. Der Kollege danach hat das Problem dann sofort gelöst. Beides wollte
       ich Ihnen sagen. An der Wartezeit sollten Sie arbeiten.
 
-  - kennung: NT-2125
-    betreff: Passwort für das Kundenportal vergessen
-    eingang: "2026-09-24T16:35:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2125
+    expected: technical
+    subject: Passwort für das Kundenportal vergessen
+    received_at: "2026-09-24T16:35:00"
+    channel: Kontaktformular
+    body: |
       Ich komme nicht mehr ins Kundenportal. Die Funktion Passwort vergessen
       schickt mir keine Mail, auch nicht im Spam-Ordner. Meine Adresse lautet
       wie in Ihren Unterlagen hinterlegt.
 
-  - kennung: NT-2126
-    betreff: DAS IST BETRUG
-    eingang: "2026-09-25T07:20:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2126
+    expected: billing
+    subject: DAS IST BETRUG
+    received_at: "2026-09-25T07:20:00"
+    channel: E-Mail
+    body: |
       Sie haben mir am Telefon 29,99 zugesagt und berechnen 39,99! Das nenne ich
       Betrug am Kunden. Ich habe mir Datum und Uhrzeit notiert. Entweder Sie
       halten sich an Ihre Zusage oder wir sehen uns vor Gericht.
 
-  - kennung: NT-2127
-    betreff: Verfügbarkeit an neuer Adresse prüfen
-    eingang: "2026-09-25T08:00:00"
-    kanal: Chat
-    text: |
+  - id: NT-2127
+    expected: contracts
+    subject: Verfügbarkeit an neuer Adresse prüfen
+    received_at: "2026-09-25T08:00:00"
+    channel: Chat
+    body: |
       Wir ziehen im Dezember nach Norden, Osterstraße 42. Können Sie prüfen, ob
       dort Glasfaser verfügbar ist und welche Geschwindigkeit möglich wäre?
 
-  - kennung: NT-2128
-    betreff: Rufnummer soll geheim bleiben
-    eingang: "2026-09-25T08:35:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2128
+    expected: technical
+    subject: Rufnummer soll geheim bleiben
+    received_at: "2026-09-25T08:35:00"
+    channel: E-Mail
+    body: |
       Ich möchte, dass meine Rufnummer nicht in öffentlichen Verzeichnissen
       erscheint und bei ausgehenden Anrufen unterdrückt wird. Bitte richten Sie
       beides ein und bestätigen Sie mir das.
 
-  - kennung: NT-2129
-    betreff: Anschluss gesperrt, obwohl Ratenzahlung vereinbart
-    eingang: "2026-09-25T09:10:00"
-    kanal: Telefonnotiz
-    text: |
+  - id: NT-2129
+    expected: billing
+    subject: Anschluss gesperrt, obwohl Ratenzahlung vereinbart
+    received_at: "2026-09-25T09:10:00"
+    channel: Telefonnotiz
+    body: |
       Kundin hat im August eine Ratenzahlung über vier Monate vereinbart und die
       ersten beiden Raten gezahlt. Heute ist der Anschluss gesperrt. Sie ist
       alleinerziehend, das Kind hat Fernunterricht. Kundin ist den Tränen nahe
       und bittet um sofortige Freischaltung.
 
-  - kennung: NT-2130
-    betreff: Frage zu Ihrem Werbeschreiben
-    eingang: "2026-09-25T09:45:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2130
+    expected: sales
+    subject: Frage zu Ihrem Werbeschreiben
+    received_at: "2026-09-25T09:45:00"
+    channel: E-Mail
+    body: |
       In Ihrem Brief steht ein Preis von 24,99 Euro für die ersten zwölf Monate.
       Was kostet der Tarif danach und welche Kündigungsfrist gilt? Ohne diese
       Angaben unterschreibe ich nichts.
 
-  - kennung: NT-2131
-    betreff: Internet nach Gewitter tot
-    eingang: "2026-09-25T10:20:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2131
+    expected: technical
+    subject: Internet nach Gewitter tot
+    received_at: "2026-09-25T10:20:00"
+    channel: Kontaktformular
+    body: |
       Nach dem Gewitter gestern Abend ist der Router dunkel, keine Lampe
       leuchtet. Steckdose funktioniert, ich habe es mit einer anderen probiert.
       Vermutlich ist das Gerät defekt. Wie bekomme ich Ersatz?
 
-  - kennung: NT-2132
-    betreff: Beschwerde über Werbeanruf am Sonntag
-    eingang: "2026-09-25T10:55:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2132
+    expected: contracts
+    subject: Beschwerde über Werbeanruf am Sonntag
+    received_at: "2026-09-25T10:55:00"
+    channel: E-Mail
+    body: |
       Gestern, Sonntagvormittag um 9 Uhr, rief mich jemand in Ihrem Auftrag an
       und wollte mir einen neuen Tarif verkaufen. Am Sonntag. Ich habe kleine
       Kinder, die geschlafen haben. Stellen Sie das ab und sagen Sie mir, wer
       meine Nummer weitergegeben hat.
 
-  - kennung: NT-2133
-    betreff: Zwei Verträge zusammenlegen
-    eingang: "2026-09-25T11:30:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2133
+    expected: sales
+    subject: Zwei Verträge zusammenlegen
+    received_at: "2026-09-25T11:30:00"
+    channel: Kontaktformular
+    body: |
       Meine Partnerin und ich haben je einen Mobilfunkvertrag bei Ihnen. Können
       wir die zu einem Partnertarif zusammenlegen und was spart das? Beide
       Laufzeiten enden im Frühjahr.
 
-  - kennung: NT-2134
-    betreff: Erstattung nach Doppelzahlung
-    eingang: "2026-09-25T12:05:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2134
+    expected: billing
+    subject: Erstattung nach Doppelzahlung
+    received_at: "2026-09-25T12:05:00"
+    channel: E-Mail
+    body: |
       Ich hatte die Rechnung überwiesen und nicht bemerkt, dass die Lastschrift
       noch aktiv war. Der Betrag von 47,80 Euro wurde zweimal gezahlt. Bitte
       erstatten Sie die Überweisung auf mein Konto zurück.
 
-  - kennung: NT-2135
-    betreff: Netzabdeckung vor Vertragsabschluss prüfen
-    eingang: "2026-09-25T12:40:00"
-    kanal: Chat
-    text: |
+  - id: NT-2135
+    expected: sales
+    subject: Netzabdeckung vor Vertragsabschluss prüfen
+    received_at: "2026-09-25T12:40:00"
+    channel: Chat
+    body: |
       Bevor ich wechsle: Wie ist die Mobilfunkabdeckung in Dornum und auf der
       Insel Baltrum? Ich bin oft dort und brauche verlässlichen Empfang.
 
-  - kennung: NT-2136
-    betreff: Kündigungsbestätigung fehlt seit acht Wochen
-    eingang: "2026-09-25T13:15:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2136
+    expected: contracts
+    subject: Kündigungsbestätigung fehlt seit acht Wochen
+    received_at: "2026-09-25T13:15:00"
+    channel: E-Mail
+    body: |
       Am 28. Juli habe ich per Einschreiben gekündigt, der Rückschein liegt mir
       vor. Eine Bestätigung habe ich nie erhalten, Abbuchungen laufen weiter.
       Ich bitte um die Bestätigung mit dem Vertragsende und um Rückzahlung der
       Beträge ab dem Kündigungstermin.
 
-  - kennung: NT-2137
-    betreff: Zusatzkarte für Smartwatch
-    eingang: "2026-09-25T13:50:00"
-    kanal: Kontaktformular
-    text: |
+  - id: NT-2137
+    expected: sales
+    subject: Zusatzkarte für Smartwatch
+    received_at: "2026-09-25T13:50:00"
+    channel: Kontaktformular
+    body: |
       Ich habe eine neue Smartwatch mit eSIM. Kann ich meine Rufnummer auf beiden
       Geräten nutzen und was kostet das zusätzlich?
 
-  - kennung: NT-2138
-    betreff: Seit dem Wechsel nur Ärger
-    eingang: "2026-09-25T14:25:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2138
+    expected: technical
+    subject: Seit dem Wechsel nur Ärger
+    received_at: "2026-09-25T14:25:00"
+    channel: E-Mail
+    body: |
       Ich bin im Juli zu Ihnen gewechselt, weil mir schnelleres Internet
       versprochen wurde. Seitdem: zwei Wochen ohne Anschluss, dann halbe
       Geschwindigkeit, dann ein Techniker, der nichts fand. Ich bereue den
       Wechsel und möchte wissen, welche Lösung Sie mir anbieten, bevor ich den
       Vertrag rückabwickle.
 
-  - kennung: NT-2139
-    betreff: Rechnung bitte künftig per Post
-    eingang: "2026-09-25T15:00:00"
-    kanal: Telefonnotiz
-    text: |
+  - id: NT-2139
+    expected: billing
+    subject: Rechnung bitte künftig per Post
+    received_at: "2026-09-25T15:00:00"
+    channel: Telefonnotiz
+    body: |
       Kunde, 81 Jahre, möchte die Rechnung wieder in Papierform erhalten, weil er
       keine E-Mail nutzt. Fragt, ob dafür Kosten entstehen.
 
-  - kennung: NT-2140
-    betreff: Anschluss für Vereinsheim
-    eingang: "2026-09-25T15:35:00"
-    kanal: E-Mail
-    text: |
+  - id: NT-2140
+    expected: sales
+    subject: Anschluss für Vereinsheim
+    received_at: "2026-09-25T15:35:00"
+    channel: E-Mail
+    body: |
       Unser Sportverein braucht im Vereinsheim einen Internetanschluss für die
       Kasse und ein WLAN für Mitglieder. Wir sind gemeinnützig. Gibt es dafür
       passende Tarife und welche Unterlagen brauchen Sie vom Verein?

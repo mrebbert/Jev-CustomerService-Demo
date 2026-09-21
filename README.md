@@ -5,23 +5,23 @@ Warteschlangen. Die Entscheidung trifft Jev, das System-One-Modell von
 typesafe.ai: Es liest den Ticketext und beantwortet vier typisierte Fragen mit
 kalibrierten Wahrscheinlichkeiten. Ein Aufruf je Ticket genügt.
 
+Jedes Ticket trägt zusätzlich die Warteschlange, die ein erfahrener Disponent
+wählt. Daran misst der Lauf, ob Jev richtig liegt: **89 von 97 Tickets
+stimmen, das sind 92 Prozent.** Sieben der acht Fehler meldet das Modell selbst,
+weil ihre Konfidenz unter der Schwelle bleibt.
+
 ## Jev beantwortet vier Fragen zugleich
 
-| Frage            | Primitiv | Ergebnis                                                        |
-|------------------|----------|-----------------------------------------------------------------|
-| `queue`          | `choice` | eine der vier Warteschlangen, dazu die Verteilung über alle vier |
-| `dringlichkeit`  | `score`  | Stufe zwischen Routine und Sofort, dazu die Konfidenz            |
-| `stimmung`       | `score`  | Ton zwischen Sachlich und Aufgebracht, dazu die Konfidenz        |
-| `eskalation`     | `noul`   | Wahrscheinlichkeit, dass die Teamleitung eingreifen muss         |
+| Frage       | Primitiv | Ergebnis                                                        |
+|-------------|----------|-----------------------------------------------------------------|
+| `queue`     | `choice` | eine der vier Warteschlangen, dazu die Verteilung über alle vier |
+| `urgency`   | `score`  | Stufe zwischen Routine und Immediate, dazu die Konfidenz         |
+| `mood`      | `score`  | Ton zwischen Factual und Outraged, dazu die Konfidenz            |
+| `escalation`| `noul`   | Wahrscheinlichkeit, dass die Teamleitung eingreifen muss         |
 
 Dringlichkeit und Stimmung messen verschiedene Dinge. Die eine Frage wiegt die
-Sachlage, die andere allein die Sprache. Die Kennzahl `ton_ueber_sache` zieht
-beide voneinander ab und zeigt, wo sie auseinanderlaufen.
-
-Die Wahrscheinlichkeiten tragen die Fachlogik: Ab 80 Prozent Konfidenz läuft die
-Zuordnung durch, darunter sieht ein Mensch nach. Ab 60 Prozent
-Eskalationswahrscheinlichkeit geht das Ticket an die Teamleitung. Beide Schwellen
-lassen sich beim Aufruf verschieben.
+Sachlage, die andere allein die Sprache. Die Kennzahl `tone_above_substance`
+zieht beide voneinander ab und zeigt, wo sie auseinanderlaufen.
 
 ## Der Schnitt folgt dem Bounded Context Ticket-Routing
 
@@ -29,16 +29,16 @@ lassen sich beim Aufruf verschieben.
 src/routing/
   domain.py       Ticket, Queue, Urgency, Mood, RoutingDecision, RoutingPolicy
   jev_client.py   Anti-Corruption Layer: die einzige Stelle mit Jev-Begriffen
-  router.py       Anwendungsfall, Port TicketClassifier, nebenläufige Bewertung
-  tickets.py      lädt die Demo-Tickets
+  router.py       Anwendungsfall, Port TicketClassifier, RoutingRun, Stabilität
+  tickets.py      lädt die Demo-Tickets und prüft sie
   cli.py          Einstieg und Ausgabe
-data/tickets.yaml 100 deutsche Demo-Tickets, frei erfunden
-tests/            Tests gegen eine aufgezeichnete Jev-Antwort, ohne Netz
+data/tickets.yaml 100 deutsche Demo-Tickets mit erwarteter Warteschlange
+tests/            56 Tests gegen eine aufgezeichnete Jev-Antwort, ohne Netz
 ```
 
-Die Kriterien, nach denen Jev entscheidet, stammen aus dem Domänenmodell:
-`Queue.beschreibung` liefert die Abgrenzung der Teams, `UrgencyLevel` und
-`MoodLevel` liefern die Stufen.
+Der Code ist durchgängig englisch, die Ticketdaten sind deutsch. Die Kriterien,
+nach denen Jev entscheidet, stammen aus dem Domänenmodell: `Queue.description`
+liefert die Abgrenzung der Teams, `UrgencyLevel` und `MoodLevel` die Stufen.
 Damit beschreibt die Fachsprache das Modell, nicht umgekehrt.
 
 ## So startest du die Demo
@@ -53,36 +53,39 @@ cp .env.example .env        # TYPESAFE_API_KEY eintragen
 Weitere Aufrufe:
 
 ```bash
-.venv/bin/python -m routing.cli --anzahl 5            # nur die ersten fünf
-.venv/bin/python -m routing.cli --ticket NT-2047      # ein einzelnes Ticket
-.venv/bin/python -m routing.cli --mindestkonfidenz 0.95   # strenger prüfen
-.venv/bin/python -m routing.cli --json > out/lauf.json    # Ergebnis weiterverarbeiten
+.venv/bin/python -m routing.cli --limit 5              # nur die ersten fünf
+.venv/bin/python -m routing.cli --ticket NT-2047       # ein einzelnes Ticket
+.venv/bin/python -m routing.cli --min-confidence 0.95  # strenger prüfen
+.venv/bin/python -m routing.cli --repeat 3             # Streuung sichtbar machen
+.venv/bin/python -m routing.cli --json > out/run.json  # Ergebnis weiterverarbeiten
 ```
+
+Ein Ticket, das die API nicht beantwortet, beendet den Lauf nicht. Es landet in
+der Fehlerliste, der Rest des Stapels steht. Der Rückgabewert ist dann 1.
 
 ## Ein Lauf über alle 100 Tickets
 
 ```
-┏━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓
-┃ Kennung ┃ Betreff                                ┃ Warteschlange ┃ Konf. ┃ Dringlichkeit ┃ Stimmung               ┃ Eskal. ┃ Schritt          ┃
-┡━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩
-│ NT-2071 │ UNGLAUBLICH!!! Rechnung einen Tag zu … │ abrechnung    │  100% │ Bald 0.5      │ Aufgebracht 2.6 (59%)  │    24% │ Regelbearbeitung │
-│ NT-2081 │ Letzte Warnung vor der Verbraucherzen… │ vertragswesen │   10% │ Bald 1.1      │ Verärgert 2.4 (38%)    │    90% │ Eskalation       │
-│ NT-2101 │ Netzausfall im Gewerbegebiet seit heu… │ technik       │  100% │ Sofort 2.7    │ Sachlich 0.1 (94%)     │     6% │ Eilbearbeitung   │
-│ NT-2126 │ DAS IST BETRUG                         │ abrechnung    │   80% │ Bald 1.3      │ Aufgebracht 3.0 (100%) │    86% │ Eskalation       │
-└─────────┴────────────────────────────────────────┴───────────────┴───────┴───────────────┴────────────────────────┴────────┴──────────────────┘
+┏━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┓
+┃ Id      ┃ Subject                                ┃ Queue      ┃ Conf. ┃ Urgency        ┃ Mood                ┃  Esc. ┃ Step              ┃   Hit   ┃
+┡━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━┩
+│ NT-2071 │ UNGLAUBLICH!!! Rechnung einen Tag zu … │ billing    │  100% │ Soon 0.5       │ Outraged 2.7 (67%)  │   25% │ Standard handling │   yes   │
+│ NT-2081 │ Letzte Warnung vor der Verbraucherzen… │ technical  │   19% │ Soon 1.1       │ Annoyed 2.4 (35%)   │   90% │ Escalation        │ billing │
+│ NT-2101 │ Netzausfall im Gewerbegebiet seit heu… │ technical  │  100% │ Immediate 2.8  │ Factual 0.1 (93%)   │    6% │ Rush handling     │   yes   │
+│ NT-2126 │ DAS IST BETRUG                         │ billing    │   88% │ Soon 1.3       │ Outraged 3.0 (100%) │   87% │ Escalation        │   yes   │
+└─────────┴────────────────────────────────────────┴────────────┴───────┴────────────────┴─────────────────────┴───────┴───────────────────┴─────────┘
 ```
 
-Der Lauf dauert 4,1 Sekunden und kostet 0,0040 USD bei 95.851 Eingabe-Token.
-Die Last verteilt sich auf Technik 32, Abrechnung 30, Vertragswesen 19 und
-Vertrieb 19 Tickets; 60 laufen in der Regelbearbeitung, 18 gehen in die
-Sichtprüfung, 14 in die Eilbearbeitung, 8 eskalieren.
+Der Lauf dauert 4,2 Sekunden und kostet 0,0041 USD bei 97.851 Eingabe-Token.
+Die Last verteilt sich auf Technical 31, Billing 30, Sales 20 und Contracts 19
+Tickets; 65 laufen in der Regelbearbeitung, 15 gehen an die Sichtprüfung, 13 in
+die Eilbearbeitung, 7 eskalieren.
 
 Die vollständigen Messungen und was sie über Jev zeigen, stehen in
-[ERGEBNISSE.md](ERGEBNISSE.md): die Tonlage über alle 100 Tickets, die 20
-Grenzfälle mit geteiltem Anliegen, der Vergleich beider Konfidenzschwellen,
-der Unterschied zwischen `confidence` und der Wahrscheinlichkeit der gewählten
-Option und der Nachweis, dass über drei Läufe genau die vier unsichersten
-Tickets die Warteschlange wechseln.
+[ERGEBNISSE.md](ERGEBNISSE.md): die Trefferquote je Konfidenzschwelle, die
+Grenzfälle mit geteiltem Anliegen, die Tonlage über alle 100 Tickets, der
+Unterschied zwischen `confidence` und der Wahrscheinlichkeit der gewählten
+Option und die Streuung über drei Läufe.
 
 ## Tests laufen ohne Netz
 
@@ -90,9 +93,10 @@ Tickets die Warteschlange wechseln.
 .venv/bin/python -m pytest
 ```
 
-Die 29 Tests ersetzen Jev durch eine Attrappe und eine aufgezeichnete Antwort in
-`tests/aufzeichnungen/`. Damit prüfen sie Domänenmodell, Übersetzung und
-Richtlinie, ohne einen Token zu verbrauchen.
+Die 56 Tests ersetzen Jev durch eine Attrappe und eine aufgezeichnete Antwort in
+`tests/recordings/`. Sie prüfen Domänenmodell, Übersetzung, Richtlinie,
+Fehlerbehandlung, Ticketablage und die Ausgabe der CLI, ohne einen Token zu
+verbrauchen.
 
 ## Die Zugangsdaten bleiben außerhalb des Repos
 

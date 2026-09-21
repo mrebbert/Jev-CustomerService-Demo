@@ -1,4 +1,4 @@
-"""Lädt die Demo-Tickets aus der YAML-Ablage."""
+"""Loads the demo tickets from the YAML store."""
 
 from __future__ import annotations
 
@@ -7,21 +7,32 @@ from pathlib import Path
 
 import yaml
 
-from routing.domain import Ticket
+from routing.domain import Queue, Ticket
 
-STANDARDABLAGE = Path(__file__).resolve().parents[2] / "data" / "tickets.yaml"
+DEFAULT_SOURCE = Path(__file__).resolve().parents[2] / "data" / "tickets.yaml"
 
 
-def lade_tickets(pfad: Path | str = STANDARDABLAGE) -> list[Ticket]:
-    """Liest die Tickets und gibt sie in der Reihenfolge der Datei zurück."""
-    rohdaten = yaml.safe_load(Path(pfad).read_text(encoding="utf-8"))
-    return [
-        Ticket(
-            kennung=eintrag["kennung"],
-            betreff=eintrag["betreff"],
-            text=eintrag["text"].strip(),
-            eingang=datetime.fromisoformat(eintrag["eingang"]),
-            kanal=eintrag.get("kanal", "E-Mail"),
+def load_tickets(source: Path | str = DEFAULT_SOURCE) -> list[Ticket]:
+    """Read the tickets and return them in the order of the file.
+
+    A malformed entry raises here, before a single call reaches the API.
+    """
+    raw = yaml.safe_load(Path(source).read_text(encoding="utf-8"))
+    return [_to_ticket(entry, position) for position, entry in enumerate(raw["tickets"], 1)]
+
+
+def _to_ticket(entry: dict, position: int) -> Ticket:
+    try:
+        expected = entry.get("expected")
+        return Ticket(
+            id=entry["id"],
+            subject=entry["subject"],
+            body=entry["body"].strip(),
+            received_at=datetime.fromisoformat(entry["received_at"]),
+            channel=entry.get("channel", "E-Mail"),
+            expected_queue=Queue(expected) if expected else None,
         )
-        for eintrag in rohdaten["tickets"]
-    ]
+    except KeyError as missing:
+        raise ValueError(f"Ticket {position} is missing the field {missing}") from missing
+    except ValueError as error:
+        raise ValueError(f"Ticket {position} ({entry.get('id', '?')}): {error}") from error

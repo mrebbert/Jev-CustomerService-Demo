@@ -1,4 +1,4 @@
-"""Bounded Context Ticket-Routing: ordnet Kundenservice-Tickets einem Team zu."""
+"""Bounded context ticket routing: assigns customer service tickets to a team."""
 
 from routing.domain import (
     Mood,

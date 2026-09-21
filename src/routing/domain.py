@@ -1,7 +1,8 @@
-"""Das Domänenmodell des Ticket-Routings.
+"""The domain model of ticket routing.
 
-Die Begriffe hier folgen der Fachsprache des Kundenservice. Über die Jev-API
-weiß dieses Modul nichts; die Übersetzung leistet `routing.jev_client`.
+The vocabulary follows the language of a customer service department. This
+module knows nothing about the Jev API; `routing.jev_client` does the
+translation.
 """
 
 from __future__ import annotations
@@ -12,199 +13,212 @@ from enum import StrEnum
 
 
 class Queue(StrEnum):
-    """Die Warteschlange, die ein Ticket bearbeitet."""
+    """The team that works on a ticket."""
 
-    ABRECHNUNG = "abrechnung"
-    TECHNIK = "technik"
-    VERTRIEB = "vertrieb"
-    VERTRAGSWESEN = "vertragswesen"
+    BILLING = "billing"
+    TECHNICAL = "technical"
+    SALES = "sales"
+    CONTRACTS = "contracts"
 
     @property
-    def beschreibung(self) -> str:
-        """Fachliche Abgrenzung der Warteschlange, auch Grundlage der Jev-Kriterien."""
-        return _QUEUE_BESCHREIBUNGEN[self]
+    def description(self) -> str:
+        """What the team covers. Also feeds the Jev criteria."""
+        return _QUEUE_DESCRIPTIONS[self]
 
 
-_QUEUE_BESCHREIBUNGEN: dict[Queue, str] = {
-    Queue.ABRECHNUNG: (
-        "Rechnungen, Zahlungen, Lastschriften, Mahnungen, Gutschriften, "
+_QUEUE_DESCRIPTIONS: dict[Queue, str] = {
+    Queue.BILLING: (
+        "Rechnungen, Zahlungen, Lastschriften, Mahnungen, Inkasso, Gutschriften, "
         "Erstattungen und alles, was einen Betrag betrifft."
     ),
-    Queue.TECHNIK: (
-        "Störungen, Fehlermeldungen, Ausfälle, Anmeldung und Zugang, "
-        "Gerätetausch, Anschluss und Leitung."
+    Queue.TECHNICAL: (
+        "Störungen, Fehlermeldungen, Ausfälle, Anmeldung und Zugang, Einstellungen "
+        "und Sperren am Anschluss, Gerätetausch, Anschluss und Leitung."
     ),
-    Queue.VERTRIEB: (
-        "Preise, Tarifwechsel, Angebote, Zusatzleistungen, Neuverträge "
-        "und Rückgewinnung von Interessenten."
+    Queue.SALES: (
+        "Preise, Tarifwechsel, Angebote, Zusatzleistungen, Verfügbarkeit vor einem "
+        "Abschluss, Neuverträge und Rückgewinnung von Interessenten."
     ),
-    Queue.VERTRAGSWESEN: (
-        "Kündigung, Widerruf, Laufzeit, Umzug, Vertragsübernahme, "
-        "Datenauskunft und Stammdaten."
+    Queue.CONTRACTS: (
+        "Kündigung, Widerruf, Laufzeit, Umzug, Vertragsübernahme, Datenauskunft, "
+        "Werbewiderspruch und Stammdaten."
     ),
 }
 
 
 class UrgencyLevel(StrEnum):
-    """Die vier Dringlichkeitsstufen in aufsteigender Reihenfolge."""
+    """The four urgency levels, ordered from calm to immediate."""
 
     ROUTINE = "Routine"
-    BALD = "Bald"
-    DRINGEND = "Dringend"
-    SOFORT = "Sofort"
+    SOON = "Soon"
+    URGENT = "Urgent"
+    IMMEDIATE = "Immediate"
 
     @property
-    def stufe(self) -> int:
-        """Rang der Stufe, beginnend bei null."""
+    def rank(self) -> int:
+        """Position of the level, starting at zero."""
         return list(UrgencyLevel).index(self)
 
     @classmethod
-    def aus_stufe(cls, stufe: int) -> UrgencyLevel:
-        """Bildet einen Rang auf die Stufe ab und hält ihn im gültigen Bereich."""
-        stufen = list(cls)
-        return stufen[max(0, min(stufe, len(stufen) - 1))]
+    def from_rank(cls, rank: int) -> UrgencyLevel:
+        """Map a rank onto a level and keep it inside the valid range."""
+        levels = list(cls)
+        return levels[max(0, min(rank, len(levels) - 1))]
+
+
+class MoodLevel(StrEnum):
+    """The tone a customer writes in, ordered from calm to furious."""
+
+    FACTUAL = "Factual"
+    TENSE = "Tense"
+    ANNOYED = "Annoyed"
+    OUTRAGED = "Outraged"
+
+    @property
+    def rank(self) -> int:
+        """Position of the level, starting at zero."""
+        return list(MoodLevel).index(self)
+
+    @classmethod
+    def from_rank(cls, rank: int) -> MoodLevel:
+        """Map a rank onto a level and keep it inside the valid range."""
+        levels = list(cls)
+        return levels[max(0, min(rank, len(levels) - 1))]
 
 
 @dataclass(frozen=True, slots=True)
 class Urgency:
-    """Wie eilig ein Ticket ist, samt der Sicherheit dieser Einschätzung.
+    """How fast a ticket needs an answer, plus how sure that reading is.
 
-    `wert` trägt die Zwischenstufen, etwa 2.4 zwischen Dringend und Sofort.
-    `stufe` rundet auf die nächstgelegene benannte Stufe.
+    `value` carries the steps in between, say 2.4 between Urgent and Immediate.
+    `level` rounds to the nearest named level.
     """
 
-    wert: float
-    konfidenz: float
+    value: float
+    confidence: float
 
     @property
-    def stufe(self) -> UrgencyLevel:
-        return UrgencyLevel.aus_stufe(round(self.wert))
+    def level(self) -> UrgencyLevel:
+        return UrgencyLevel.from_rank(round(self.value))
 
     def __str__(self) -> str:
-        return f"{self.stufe} ({self.wert:.1f})"
-
-
-class MoodLevel(StrEnum):
-    """Der Ton, in dem ein Kunde schreibt, in aufsteigender Schärfe."""
-
-    SACHLICH = "Sachlich"
-    ANGESPANNT = "Angespannt"
-    VERAERGERT = "Verärgert"
-    AUFGEBRACHT = "Aufgebracht"
-
-    @property
-    def stufe(self) -> int:
-        """Rang der Stufe, beginnend bei null."""
-        return list(MoodLevel).index(self)
-
-    @classmethod
-    def aus_stufe(cls, stufe: int) -> MoodLevel:
-        """Bildet einen Rang auf die Stufe ab und hält ihn im gültigen Bereich."""
-        stufen = list(cls)
-        return stufen[max(0, min(stufe, len(stufen) - 1))]
+        return f"{self.level} ({self.value:.1f})"
 
 
 @dataclass(frozen=True, slots=True)
 class Mood:
-    """Die Stimmung des Textes, getrennt von der Sachlage des Anliegens.
+    """The tone of the text, kept apart from the substance of the request.
 
-    Der Ton sagt, wie der Kunde schreibt, die Dringlichkeit, wie eilig die
-    Sache ist. Beide laufen auseinander: Ein Ausfall kann nüchtern gemeldet
-    werden, eine Kleinigkeit im Zorn.
+    Tone says how the customer writes, urgency says how pressing the matter is.
+    The two drift apart: an outage may be reported calmly, a trifle in anger.
     """
 
-    wert: float
-    konfidenz: float
+    value: float
+    confidence: float
 
     @property
-    def stufe(self) -> MoodLevel:
-        return MoodLevel.aus_stufe(round(self.wert))
+    def level(self) -> MoodLevel:
+        return MoodLevel.from_rank(round(self.value))
 
     def __str__(self) -> str:
-        return f"{self.stufe} ({self.wert:.1f})"
+        return f"{self.level} ({self.value:.1f})"
 
 
 @dataclass(frozen=True, slots=True)
 class Ticket:
-    """Ein eingegangenes Kundenanliegen im Rohzustand."""
+    """An incoming customer request in its raw form.
 
-    kennung: str
-    betreff: str
-    text: str
-    eingang: datetime
-    kanal: str = "E-Mail"
+    `expected_queue` holds the team a human assigned up front. It never reaches
+    the model; it only serves to score the answers afterwards.
+    """
+
+    id: str
+    subject: str
+    body: str
+    received_at: datetime
+    channel: str = "E-Mail"
+    expected_queue: Queue | None = None
 
     @property
-    def volltext(self) -> str:
-        """Betreff und Text als eine Einheit, so wie Jev sie bewertet."""
-        return f"Betreff: {self.betreff}\n\n{self.text}"
+    def full_text(self) -> str:
+        """Subject and body as one unit, the way Jev reads them."""
+        return f"Betreff: {self.subject}\n\n{self.body}"
 
 
 @dataclass(frozen=True, slots=True)
 class RoutingDecision:
-    """Das Ergebnis einer Jev-Anfrage, übersetzt in die Fachsprache."""
+    """A Jev answer translated into the language of the department."""
 
     ticket: Ticket
     queue: Queue
-    queue_konfidenz: float
-    queue_verteilung: dict[Queue, float]
-    dringlichkeit: Urgency
-    stimmung: Mood
-    eskalationswahrscheinlichkeit: float
+    queue_confidence: float
+    queue_distribution: dict[Queue, float]
+    urgency: Urgency
+    mood: Mood
+    escalation_probability: float
 
     @property
-    def zweitbeste_queue(self) -> tuple[Queue, float] | None:
-        """Die stärkste Alternative zur gewählten Warteschlange."""
-        alternativen = [
-            (queue, anteil)
-            for queue, anteil in self.queue_verteilung.items()
+    def runner_up(self) -> tuple[Queue, float] | None:
+        """The strongest alternative to the chosen queue."""
+        alternatives = [
+            (queue, share)
+            for queue, share in self.queue_distribution.items()
             if queue is not self.queue
         ]
-        if not alternativen:
+        if not alternatives:
             return None
-        return max(alternativen, key=lambda eintrag: eintrag[1])
+        return max(alternatives, key=lambda entry: entry[1])
 
     @property
-    def ton_ueber_sache(self) -> float:
-        """Wie weit der Ton über der Sachlage liegt.
+    def tone_above_substance(self) -> float:
+        """How far the tone sits above the substance.
 
-        Ein Wert über null heißt: Der Kunde schreibt schärfer, als die Sache
-        es verlangt. Ein Wert unter null heißt: Er bleibt ruhig, obwohl es
-        brennt. Beides taugt als Hinweis für die Leitstelle.
+        Above zero the customer writes sharper than the matter calls for. Below
+        zero they stay calm although it burns. Both help the review desk.
         """
-        return self.stimmung.wert - self.dringlichkeit.wert
+        return self.mood.value - self.urgency.value
+
+    @property
+    def matches_expectation(self) -> bool | None:
+        """Whether the chosen queue meets the human assignment.
+
+        Returns None when the ticket carries no expectation.
+        """
+        if self.ticket.expected_queue is None:
+            return None
+        return self.queue is self.ticket.expected_queue
 
 
 @dataclass(frozen=True, slots=True)
 class RoutingPolicy:
-    """Die Regeln, nach denen der Kundenservice mit einer Entscheidung umgeht.
+    """The rules the department applies to a decision.
 
-    Jev liefert kalibrierte Wahrscheinlichkeiten. Die Schwellen hier legen fest,
-    ab wann die Zuordnung automatisch greift und wann ein Mensch draufschaut.
+    Jev returns calibrated probabilities. These thresholds decide when an
+    assignment stands on its own and when a human takes a look.
     """
 
-    mindestkonfidenz: float = 0.80
-    eskalationsschwelle: float = 0.60
-    sofort_ab_stufe: UrgencyLevel = UrgencyLevel.DRINGEND
+    min_confidence: float = 0.80
+    escalation_threshold: float = 0.60
+    rush_from_level: UrgencyLevel = UrgencyLevel.URGENT
 
-    def laeuft_automatisch(self, entscheidung: RoutingDecision) -> bool:
-        """Die Zuordnung greift ohne Rückfrage, sobald Jev sicher genug ist."""
-        return entscheidung.queue_konfidenz >= self.mindestkonfidenz
+    def runs_automatically(self, decision: RoutingDecision) -> bool:
+        """The assignment stands as soon as Jev is sure enough."""
+        return decision.queue_confidence >= self.min_confidence
 
-    def eskaliert(self, entscheidung: RoutingDecision) -> bool:
-        """Ein Teamleiter sieht das Ticket, sobald ein Konflikt droht."""
-        return entscheidung.eskalationswahrscheinlichkeit >= self.eskalationsschwelle
+    def escalates(self, decision: RoutingDecision) -> bool:
+        """A team lead looks at the ticket as soon as a conflict looms."""
+        return decision.escalation_probability >= self.escalation_threshold
 
-    def ist_eilig(self, entscheidung: RoutingDecision) -> bool:
-        """Das Ticket wandert in die Eilbearbeitung."""
-        return entscheidung.dringlichkeit.stufe.stufe >= self.sofort_ab_stufe.stufe
+    def is_rush(self, decision: RoutingDecision) -> bool:
+        """The ticket moves into rush handling."""
+        return decision.urgency.level.rank >= self.rush_from_level.rank
 
-    def naechster_schritt(self, entscheidung: RoutingDecision) -> str:
-        """Fasst zusammen, was mit dem Ticket geschieht."""
-        if self.eskaliert(entscheidung):
-            return "Eskalation an die Teamleitung"
-        if not self.laeuft_automatisch(entscheidung):
-            return "Sichtprüfung in der Leitstelle"
-        if self.ist_eilig(entscheidung):
-            return f"Eilbearbeitung in {entscheidung.queue}"
-        return f"Regelbearbeitung in {entscheidung.queue}"
+    def next_step(self, decision: RoutingDecision) -> str:
+        """Sum up what happens to the ticket."""
+        if self.escalates(decision):
+            return "Escalation to the team lead"
+        if not self.runs_automatically(decision):
+            return "Review desk"
+        if self.is_rush(decision):
+            return f"Rush handling in {decision.queue}"
+        return f"Standard handling in {decision.queue}"
