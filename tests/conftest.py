@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 from datetime import datetime
 from pathlib import Path
 
@@ -27,15 +26,14 @@ def ticket() -> Ticket:
 def lies_aufzeichnung(name: str) -> SystemOneResponse:
     """Liest eine aufgezeichnete Jev-Antwort aus einer JSON-Datei.
 
-    JSON kennt nur Zeichenketten als Schlüssel. Legende und Verteilung einer
-    Score-Antwort zählen die Stufen dagegen als Zahlen, darum die Umwandlung.
+    Der Weg führt über den JSON-Text, nicht über ein vorher geladenes dict:
+    Die Antwortmodelle des SDK prüfen streng, und die Stufenschlüssel einer
+    Score-Antwort gelten als Zahlen. Im JSON-Modus rechnet Pydantic die
+    Zeichenketten des Formats in diese Zahlen um, beim dict bleibt es dabei.
     """
-    rohdaten = json.loads((AUFZEICHNUNGEN / name).read_text("utf-8"))
-    for antwort in rohdaten["answers"].values():
-        if antwort["type"] == "score":
-            for feld in ("legend", "probabilities"):
-                antwort[feld] = {int(k): v for k, v in antwort[feld].items()}
-    return SystemOneResponse.model_validate(rohdaten)
+    return SystemOneResponse.model_validate_json(
+        (AUFZEICHNUNGEN / name).read_text("utf-8")
+    )
 
 
 @pytest.fixture

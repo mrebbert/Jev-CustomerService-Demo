@@ -63,7 +63,12 @@ Sekunden und kostet 0,0010 USD bei 24.522 Eingabe-Token.
 
 ### Was auffiel
 
-- Jev antwortet auf `score` mit Zwischenwerten wie 2.01. `Urgency` hält den
-  genauen Wert und rundet erst für die Anzeige auf eine benannte Stufe.
-- Das SDK prüft die Stufenschlüssel einer Score-Antwort streng als Zahlen.
-  Eine aufgezeichnete JSON-Antwort braucht daher die Umwandlung in `int`.
+- Der `score` ist der Erwartungswert über die Stufenverteilung, nicht die
+  wahrscheinlichste Stufe. Nachgerechnet an NT-2046: 0.56 auf Dringend und
+  0.44 auf Sofort ergeben 2.43. `Urgency` hält diesen Wert und rundet erst
+  für die Anzeige auf eine benannte Stufe. Damit bleibt die Reihenfolge
+  innerhalb einer Stufe erhalten.
+- Die Antwortmodelle des SDK laufen mit `strict=True`. Eine aufgezeichnete
+  Antwort liest man daher über `model_validate_json` aus dem JSON-Text.
+  Dieser Weg rechnet die Stufenschlüssel von Zeichenkette in Zahl um, der
+  Umweg über `json.loads` und `model_validate` scheitert daran.
