@@ -209,11 +209,20 @@ Konfidenz bei der Warteschlange reicht von 14 bis 100 Prozent.
 NT-2081 zeigt den Nutzen getrennter Fragen. Die Warteschlange bleibt offen. Die
 Eskalation steht fest.
 
-## Der Score ist ein Erwartungswert
+## Der Score ist der Durchschnitt der Stufennummern
 
-Jev gibt bei einer `score`-Frage die Verteilung über alle Stufen zurück. Der
-Wert `score` ist der gewichtete Mittelwert dieser Verteilung. Der Wert
-`confidence` ist die Masse der gerundeten Stufe.
+Die vier Stufen tragen die Nummern 0 bis 3: Routine 0, Soon 1, Urgent 2 und
+Immediate 3. Jev verteilt auf diese vier Stufen zusammen 100 Prozent. Aus
+dieser Verteilung entstehen zwei Werte.
+
+`score` ist der Durchschnitt der Stufennummern. Jede Nummer zählt dabei mit
+ihrem Prozentsatz. NT-2064 erhält 72 Prozent auf Urgent und 28 Prozent auf
+Immediate. Die Rechnung lautet 2 × 0,72 + 3 × 0,28 = 2,28. Jev gibt 2,27 aus.
+Die Abweichung entsteht durch die gerundete Ausgabe der Prozentsätze.
+
+`confidence` ist der Prozentsatz der Stufe, auf die der `score` rundet.
+NT-2064 rundet von 2,27 auf Stufe 2, also auf Urgent. Dort liegen 72 Prozent.
+Die Konfidenz beträgt 0,72.
 
 | Ticket  | `score` | Routine | Soon | Urgent | Immediate | Stufe     | `confidence` |
 |---------|---------|---------|------|--------|-----------|-----------|--------------|
@@ -229,11 +238,11 @@ Die Nachkommastelle misst den Abstand zur benannten Stufe. Sie gibt zugleich
 die Richtung an.
 
 - Ein Wert nahe ,0 steht für eine eindeutige Stufe. NT-2091 trägt 2,01 und
-  vereint 0,98 der Masse auf Urgent.
+  legt 98 Prozent auf Urgent.
 - Ein Wert nahe ,5 steht für zwei gleich starke Nachbarstufen. NT-2046 trägt
-  2,47 und verteilt die Masse auf Urgent mit 0,52 und Immediate mit 0,48.
+  2,47 und verteilt 52 Prozent auf Urgent und 48 Prozent auf Immediate.
 - Ein Wert dazwischen zeigt die Neigung zur Nachbarstufe. NT-2064 trägt 2,27
-  und legt 0,28 der Masse auf Immediate.
+  und legt 28 Prozent auf Immediate.
 
 `confidence` und Nachkommastelle beantworten verschiedene Fragen.
 `confidence` gibt an, wie sicher die benannte Stufe ist. Die Nachkommastelle
