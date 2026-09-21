@@ -212,22 +212,45 @@ Eskalation steht fest.
 ## Der Score ist ein Erwartungswert
 
 Jev gibt bei einer `score`-Frage die Verteilung über alle Stufen zurück. Der
-Wert `score` ist der gewichtete Mittelwert dieser Verteilung.
+Wert `score` ist der gewichtete Mittelwert dieser Verteilung. Der Wert
+`confidence` ist die Masse der gerundeten Stufe.
 
-| Ticket  | Verteilung über Routine, Soon, Urgent, Immediate | `score` | Summe(Stufe × p) |
-|---------|--------------------------------------------------|---------|------------------|
-| NT-2043 | 1,00 / 0 / 0 / 0                                 | 0,00    | 0,00             |
-| NT-2041 | 0,01 / 0,51 / 0,48 / 0                           | 1,46    | 1,47             |
-| NT-2046 | 0 / 0 / 0,56 / 0,44                              | 2,43    | 2,44             |
-| NT-2053 | 0 / 0 / 0 / 1,00                                 | 3,00    | 3,00             |
+| Ticket  | `score` | Routine | Soon | Urgent | Immediate | Stufe     | `confidence` |
+|---------|---------|---------|------|--------|-----------|-----------|--------------|
+| NT-2043 | 0,00    | 1,00    | 0,00 | 0,00   | 0,00      | Routine   | 1,00         |
+| NT-2041 | 1,42    | 0,02    | 0,54 | 0,44   | 0,00      | Soon      | 0,54         |
+| NT-2103 | 1,59    | 0,01    | 0,39 | 0,60   | 0,00      | Urgent    | 0,58         |
+| NT-2120 | 1,99    | 0,01    | 0,04 | 0,91   | 0,04      | Urgent    | 0,91         |
+| NT-2091 | 2,01    | 0,00    | 0,00 | 0,98   | 0,02      | Urgent    | 0,98         |
+| NT-2064 | 2,27    | 0,00    | 0,00 | 0,72   | 0,28      | Urgent    | 0,72         |
+| NT-2046 | 2,47    | 0,00    | 0,00 | 0,52   | 0,48      | Urgent    | 0,51         |
 
-Die Abweichung von einem Hundertstel entsteht durch die gerundete Ausgabe der
-Wahrscheinlichkeiten.
+Die Nachkommastelle misst den Abstand zur benannten Stufe. Sie gibt zugleich
+die Richtung an.
 
-Die Nachkommastelle trägt Information. NT-2041 liegt mit 1,46 zwischen Soon und
-Urgent. NT-2046 liegt mit 2,43 deutlich über der Grenze zu Urgent. `Urgency`
-hält deshalb den Rohwert. Die Rundung auf eine benannte Stufe erfolgt erst bei
-der Ausgabe.
+- Ein Wert nahe ,0 steht für eine eindeutige Stufe. NT-2091 trägt 2,01 und
+  vereint 0,98 der Masse auf Urgent.
+- Ein Wert nahe ,5 steht für zwei gleich starke Nachbarstufen. NT-2046 trägt
+  2,47 und verteilt die Masse auf Urgent mit 0,52 und Immediate mit 0,48.
+- Ein Wert dazwischen zeigt die Neigung zur Nachbarstufe. NT-2064 trägt 2,27
+  und legt 0,28 der Masse auf Immediate.
+
+`confidence` und Nachkommastelle beantworten verschiedene Fragen.
+`confidence` gibt an, wie sicher die benannte Stufe ist. Die Nachkommastelle
+gibt an, zu welcher Nachbarstufe die Unsicherheit zeigt. NT-2041 und NT-2103
+tragen fast dieselbe Konfidenz. Sie liegen auf verschiedenen Stufen und neigen
+in verschiedene Richtungen.
+
+Aus der Nachkommastelle entsteht eine Rangfolge innerhalb einer Stufe. Die
+Stufe Urgent umfasst 17 Tickets. Ihre Werte reichen von 1,54 bis 2,47. Eine
+Sortierung nach `score` stellt NT-2046 vor NT-2103. Eine Sortierung nach der
+Stufe behandelt beide gleich.
+
+`Urgency` hält deshalb den Rohwert in `value`. Die Rundung auf eine benannte
+Stufe erfolgt erst beim Zugriff auf `level`.
+
+Die Werte schwanken zwischen Läufen um wenige Hundertstel. NT-2046 trug in
+zwei Läufen 2,44 und 2,47. Die Stufe bleibt dabei gleich.
 
 ## Zwei Hinweise für den Nachbau
 
