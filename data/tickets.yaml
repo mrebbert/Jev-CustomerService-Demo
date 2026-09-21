@@ -286,3 +286,200 @@ tickets:
       Ein anderer Anbieter bietet mir dieselbe Leistung für 12 Euro weniger im
       Monat. Ich bin seit neun Jahren bei Ihnen. Können Sie mitgehen? Sonst
       wechsle ich zum Vertragsende.
+
+  # Ab hier Tickets, an denen Ton und Sachlage auseinanderlaufen: laute
+  # Kleinigkeiten, nüchtern gemeldete Notlagen, Lob, Ironie und Resignation.
+
+  - kennung: NT-2071
+    betreff: UNGLAUBLICH!!! Rechnung einen Tag zu spät
+    eingang: "2026-09-21T10:05:00"
+    kanal: E-Mail
+    text: |
+      Das ist doch eine FRECHHEIT! Meine Rechnung sollte am 15. kommen und kam
+      erst am 16.! Wie soll ich denn so planen?? Jedes Mal dasselbe Theater mit
+      Ihnen. Ich erwarte eine Entschuldigung und zwar schriftlich!!!
+
+  - kennung: NT-2072
+    betreff: Hinweis zum Ausfall der Notrufweiterleitung
+    eingang: "2026-09-21T10:26:00"
+    kanal: E-Mail
+    text: |
+      Sehr geehrte Damen und Herren,
+      als Betreiber eines Pflegeheims teile ich Ihnen mit, dass die
+      Notrufweiterleitung unserer Anlage seit heute 6 Uhr nicht funktioniert.
+      Betroffen sind 42 Bewohner. Wir haben ersatzweise Mobiltelefone verteilt.
+      Ich bitte um Prüfung und um Rückmeldung zum weiteren Vorgehen.
+      Mit freundlichen Grüßen
+
+  - kennung: NT-2073
+    betreff: Danke für die schnelle Hilfe
+    eingang: "2026-09-21T11:02:00"
+    kanal: Kontaktformular
+    text: |
+      Ich wollte mich einmal bedanken. Ihr Techniker war gestern da, hat den
+      Fehler in zwanzig Minuten gefunden und mir noch erklärt, wie ich das WLAN
+      besser stelle. So macht Kundenservice Freude. Bitte geben Sie das Lob weiter.
+
+  - kennung: NT-2074
+    betreff: Ich gebe auf
+    eingang: "2026-09-21T11:48:00"
+    kanal: E-Mail
+    text: |
+      Es ist der siebte Anruf in vier Wochen. Jedes Mal sagt mir jemand anderes
+      etwas anderes. Ich habe keine Kraft mehr, dem hinterherzulaufen. Wenn sich
+      diesmal niemand meldet, lasse ich es einfach und zahle weiter für etwas,
+      das nicht funktioniert. Meine Kundennummer ist 90223318.
+
+  - kennung: NT-2075
+    betreff: Großartig, schon wieder kein Netz
+    eingang: "2026-09-21T12:15:00"
+    kanal: Chat
+    text: |
+      Na super, wieder mal kein Empfang im Homeoffice. Dritte Woche in Folge
+      pünktlich zum Montagmorgen. Klasse Timing, wirklich. Können Sie mir sagen,
+      ob das Absicht ist oder ob Sie den Mast einfach abgeschaltet haben?
+
+  - kennung: NT-2076
+    betreff: Bitte um Ratenzahlung
+    eingang: "2026-09-21T13:30:00"
+    kanal: E-Mail
+    text: |
+      Guten Tag,
+      ich habe meine Arbeit verloren und kann die offene Rechnung über 240 Euro
+      im Moment nicht auf einmal zahlen. Wäre eine Ratenzahlung über vier Monate
+      möglich? Ich möchte die Sache in Ordnung bringen und nicht in die Mahnung
+      laufen.
+
+  - kennung: NT-2077
+    betreff: SIE HABEN MEINEN ANSCHLUSS GESPERRT
+    eingang: "2026-09-21T14:02:00"
+    kanal: Telefonnotiz
+    text: |
+      Kunde ruft sehr laut an. Anschluss wurde wegen offener Forderung gesperrt,
+      er sagt, er habe bezahlt. Beschimpft den Mitarbeiter mehrfach, droht damit,
+      vor der Filiale zu stehen. Sperre besteht seit heute 9 Uhr, Kunde betreibt
+      einen Onlineshop und kann keine Bestellungen bearbeiten.
+
+  - kennung: NT-2078
+    betreff: Frage zur Rechnungsstellung bei Zweitwohnsitz
+    eingang: "2026-09-21T14:40:00"
+    kanal: E-Mail
+    text: |
+      Ich habe eine Wohnung in Emden und eine in Oldenburg. Können beide
+      Anschlüsse auf einer Rechnung zusammengefasst werden? Falls ja, was muss
+      ich dafür veranlassen?
+
+  - kennung: NT-2079
+    betreff: Störungsmeldung nach Sturm
+    eingang: "2026-09-21T15:10:00"
+    kanal: Kontaktformular
+    text: |
+      Nach dem Sturm gestern Nacht liegt das Kabel zum Haus auf dem Rasen. Der
+      Anschluss läuft noch, aber das Kabel ist lose und hängt über den Weg. Ich
+      melde das, bevor jemand darüber stolpert. Bitte sagen Sie, wer das repariert.
+
+  - kennung: NT-2080
+    betreff: Vertrag läuft weiter, obwohl gekündigt
+    eingang: "2026-09-21T15:55:00"
+    kanal: E-Mail
+    text: |
+      Ich habe im Juni schriftlich gekündigt und eine Bestätigung erhalten.
+      Trotzdem buchen Sie im September weiter ab. Die Bestätigung hänge ich noch
+      einmal an. Bitte stellen Sie die Abbuchungen ein und erstatten Sie die drei
+      Monate.
+
+  - kennung: NT-2081
+    betreff: Letzte Warnung vor der Verbraucherzentrale
+    eingang: "2026-09-22T07:40:00"
+    kanal: E-Mail
+    text: |
+      Sie haben mir dreimal zugesichert, die falsche Position zu streichen, und
+      dreimal ist nichts geschehen. Ich habe alles dokumentiert, Datum und
+      Uhrzeit jedes Gesprächs. Entweder Sie klären das bis Freitag oder ich gehe
+      zur Verbraucherzentrale und schildere den Fall öffentlich.
+
+  - kennung: NT-2082
+    betreff: Interesse an Geschäftskundentarif
+    eingang: "2026-09-22T08:15:00"
+    kanal: E-Mail
+    text: |
+      Wir sind ein Handwerksbetrieb mit zwölf Mitarbeitern und suchen einen
+      Anbieter für Mobilfunk und Festnetz. Können Sie uns ein Angebot machen und
+      nennen, welche Servicezeiten für Geschäftskunden gelten?
+
+  - kennung: NT-2083
+    betreff: Anschluss seit Umzug tot, Kind im Fernunterricht
+    eingang: "2026-09-22T08:44:00"
+    kanal: Kontaktformular
+    text: |
+      Seit dem Umzug am 15.09. haben wir keinen Anschluss. Mein Sohn hat
+      Fernunterricht und verpasst jeden Tag den Onlineunterricht. Ich habe
+      bereits zweimal angerufen, man versprach einen Rückruf, der nie kam.
+      Bitte helfen Sie uns, wir wissen nicht mehr weiter.
+
+  - kennung: NT-2084
+    betreff: Korrektur meiner Anschrift
+    eingang: "2026-09-22T09:20:00"
+    kanal: Kontaktformular
+    text: |
+      In Ihren Unterlagen steht Mühlenweg 7, richtig ist Mühlenweg 17. Bitte
+      korrigieren Sie das, damit die Post ankommt. Kundennummer 88940217.
+
+  - kennung: NT-2085
+    betreff: Werbeanrufe trotz Widerspruch
+    eingang: "2026-09-22T10:05:00"
+    kanal: E-Mail
+    text: |
+      Ich habe der Nutzung meiner Daten zu Werbezwecken im Mai ausdrücklich
+      widersprochen. Seitdem rufen Sie mich zweimal pro Woche an. Das ist nicht
+      nur lästig, sondern nach meiner Kenntnis rechtswidrig. Ich fordere Sie auf,
+      das sofort einzustellen und mir das schriftlich zu bestätigen.
+
+  - kennung: NT-2086
+    betreff: Endlich klappt alles
+    eingang: "2026-09-22T10:38:00"
+    kanal: Chat
+    text: |
+      Nach dem Wechsel auf den neuen Router läuft die Leitung seit zwei Wochen
+      stabil. Ich hatte mich im August beschwert und möchte jetzt sagen, dass es
+      jetzt passt. Eine Frage habe ich noch: Kann ich den alten Router behalten
+      oder soll ich ihn zurückschicken?
+
+  - kennung: NT-2087
+    betreff: Rechnung für verstorbene Mutter
+    eingang: "2026-09-22T11:12:00"
+    kanal: E-Mail
+    text: |
+      Meine Mutter ist im Juli verstorben, ich hatte den Vertrag im August
+      gekündigt und die Sterbeurkunde geschickt. Gestern kam eine Mahnung an ihren
+      Namen. Für die Familie ist das schwer zu ertragen. Bitte prüfen Sie den
+      Vorgang und stoppen Sie die Mahnungen.
+
+  - kennung: NT-2088
+    betreff: Geschwindigkeit dauerhaft unter der Zusage
+    eingang: "2026-09-22T12:00:00"
+    kanal: E-Mail
+    text: |
+      Laut Vertrag sind 100 Mbit zugesagt, gemessen habe ich über vier Wochen
+      im Mittel 38 Mbit. Die Messprotokoll nach dem Verfahren der Bundesnetzagentur
+      liegt bei, 30 Messungen an 10 Tagen. Ich bitte um Nachbesserung oder um
+      Anpassung des Entgelts.
+
+  - kennung: NT-2089
+    betreff: Wer denkt sich so ein Menü aus?
+    eingang: "2026-09-22T13:25:00"
+    kanal: Kontaktformular
+    text: |
+      Ihre Telefonhotline ist eine Zumutung. Sieben Menüpunkte, dann Musik, dann
+      wird aufgelegt. Ich wollte nur wissen, ob mein Tarif eine Auslandsoption
+      enthält. Dafür brauche ich jetzt ein Kontaktformular. Sagen Sie mir bitte
+      einfach die Antwort.
+
+  - kennung: NT-2090
+    betreff: Anschluss für Neubau, Termin gesucht
+    eingang: "2026-09-22T14:10:00"
+    kanal: E-Mail
+    text: |
+      Wir bauen ein Haus in Aurich, Einzug ist für März geplant. Wann sollte ich
+      den Anschluss bestellen, damit er rechtzeitig liegt, und welche Unterlagen
+      brauchen Sie vom Bauherrn?

@@ -73,3 +73,35 @@ def test_ruhige_tickets_laufen_im_regelbetrieb(ticket) -> None:
 def test_volltext_traegt_betreff_und_text(ticket) -> None:
     assert ticket.betreff in ticket.volltext
     assert ticket.text in ticket.volltext
+
+
+def test_tonlage_rundet_wie_die_dringlichkeit() -> None:
+    from routing.domain import Mood, MoodLevel
+
+    assert Mood(wert=0.4, konfidenz=0.8).stufe is MoodLevel.SACHLICH
+    assert Mood(wert=2.6, konfidenz=0.8).stufe is MoodLevel.AUFGEBRACHT
+    assert MoodLevel.aus_stufe(42) is MoodLevel.AUFGEBRACHT
+
+
+def test_lauter_ton_bei_kleiner_sache_faellt_auf(ticket) -> None:
+    lautes_kleines = entscheidung_mit(ticket, dringlichkeit=0.2, stimmung=3.0)
+    assert lautes_kleines.ton_ueber_sache == pytest.approx(2.8)
+
+
+def test_ruhiger_ton_bei_grosser_sache_faellt_auf(ticket) -> None:
+    stille_notlage = entscheidung_mit(ticket, dringlichkeit=3.0, stimmung=0.5)
+    assert stille_notlage.ton_ueber_sache == pytest.approx(-2.5)
+
+
+def test_ton_und_sache_im_gleichklang_ergeben_null(ticket) -> None:
+    ausgeglichen = entscheidung_mit(ticket, dringlichkeit=2.0, stimmung=2.0)
+    assert ausgeglichen.ton_ueber_sache == pytest.approx(0.0)
+
+
+def test_die_tonlage_aendert_den_naechsten_schritt_nicht(ticket) -> None:
+    from routing.domain import RoutingPolicy
+
+    policy = RoutingPolicy()
+    leise = entscheidung_mit(ticket, dringlichkeit=0.2, stimmung=0.0)
+    laut = entscheidung_mit(ticket, dringlichkeit=0.2, stimmung=3.0)
+    assert policy.naechster_schritt(leise) == policy.naechster_schritt(laut)

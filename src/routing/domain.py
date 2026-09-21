@@ -84,6 +84,46 @@ class Urgency:
         return f"{self.stufe} ({self.wert:.1f})"
 
 
+class MoodLevel(StrEnum):
+    """Der Ton, in dem ein Kunde schreibt, in aufsteigender Schärfe."""
+
+    SACHLICH = "Sachlich"
+    ANGESPANNT = "Angespannt"
+    VERAERGERT = "Verärgert"
+    AUFGEBRACHT = "Aufgebracht"
+
+    @property
+    def stufe(self) -> int:
+        """Rang der Stufe, beginnend bei null."""
+        return list(MoodLevel).index(self)
+
+    @classmethod
+    def aus_stufe(cls, stufe: int) -> MoodLevel:
+        """Bildet einen Rang auf die Stufe ab und hält ihn im gültigen Bereich."""
+        stufen = list(cls)
+        return stufen[max(0, min(stufe, len(stufen) - 1))]
+
+
+@dataclass(frozen=True, slots=True)
+class Mood:
+    """Die Stimmung des Textes, getrennt von der Sachlage des Anliegens.
+
+    Der Ton sagt, wie der Kunde schreibt, die Dringlichkeit, wie eilig die
+    Sache ist. Beide laufen auseinander: Ein Ausfall kann nüchtern gemeldet
+    werden, eine Kleinigkeit im Zorn.
+    """
+
+    wert: float
+    konfidenz: float
+
+    @property
+    def stufe(self) -> MoodLevel:
+        return MoodLevel.aus_stufe(round(self.wert))
+
+    def __str__(self) -> str:
+        return f"{self.stufe} ({self.wert:.1f})"
+
+
 @dataclass(frozen=True, slots=True)
 class Ticket:
     """Ein eingegangenes Kundenanliegen im Rohzustand."""
@@ -109,6 +149,7 @@ class RoutingDecision:
     queue_konfidenz: float
     queue_verteilung: dict[Queue, float]
     dringlichkeit: Urgency
+    stimmung: Mood
     eskalationswahrscheinlichkeit: float
 
     @property
@@ -122,6 +163,16 @@ class RoutingDecision:
         if not alternativen:
             return None
         return max(alternativen, key=lambda eintrag: eintrag[1])
+
+    @property
+    def ton_ueber_sache(self) -> float:
+        """Wie weit der Ton über der Sachlage liegt.
+
+        Ein Wert über null heißt: Der Kunde schreibt schärfer, als die Sache
+        es verlangt. Ein Wert unter null heißt: Er bleibt ruhig, obwohl es
+        brennt. Beides taugt als Hinweis für die Leitstelle.
+        """
+        return self.stimmung.wert - self.dringlichkeit.wert
 
 
 @dataclass(frozen=True, slots=True)

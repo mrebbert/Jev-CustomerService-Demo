@@ -72,3 +72,31 @@ Sekunden und kostet 0,0010 USD bei 24.522 Eingabe-Token.
   Antwort liest man daher über `model_validate_json` aus dem JSON-Text.
   Dieser Weg rechnet die Stufenschlüssel von Zeichenkette in Zahl um, der
   Umweg über `json.loads` und `model_validate` scheitert daran.
+
+## Erweiterung vom 21.09.2026: Stimmung und 50 Tickets
+
+Jev beantwortet jetzt vier Fragen je Aufruf. Die neue `score`-Frage `stimmung`
+misst den Ton von Sachlich bis Aufgebracht und liefert Wert und Konfidenz.
+Die Ticketablage wuchs auf 50 Einträge.
+
+- [x] `Mood` und `MoodLevel` im Domänenmodell, dazu `ton_ueber_sache`
+- [x] Vierte Frage in `baue_fragen`, Übersetzung in `zu_entscheidung`
+- [x] Spalte Stimmung in der Tabelle, Tonlage in der Zusammenfassung, JSON erweitert
+- [x] 20 Tickets ergänzt, in denen Ton und Sachlage auseinanderlaufen
+- [x] 8 Tests ergänzt, Aufzeichnung um die Stimmungsantwort erweitert
+
+### Ergebnis
+
+Ein Lauf über 50 Tickets dauert 2,4 Sekunden und kostet 0,0020 USD bei
+48.165 Eingabe-Token. Die Tonlage verteilt sich auf 35 sachliche,
+7 angespannte, 6 verärgerte und 2 aufgebrachte Tickets.
+
+- Die Richtlinie bleibt unverändert. Der Ton beschreibt, er entscheidet nicht.
+  Ein Test hält das fest: Gleiche Sachlage, anderer Ton, gleicher Schritt.
+- NT-2071 schreibt aufgebracht über eine Kleinigkeit, NT-2072 meldet sachlich
+  den Ausfall einer Notrufweiterleitung. Genau diese Paarung trennt die beiden
+  Skalen sichtbar.
+- NT-2081 zeigt eine Warteschlange mit 13 Prozent Konfidenz bei 90 Prozent
+  Eskalation. Das Modell sagt sauber: Team unklar, Chefsache klar.
+- Die Schärfeskala kennt kein Lob. NT-2073 und NT-2086 landen bei Sachlich 0.0.
+  Für Dankesschreiben wäre eine eigene `noul`-Frage nötig.

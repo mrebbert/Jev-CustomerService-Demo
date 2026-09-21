@@ -10,6 +10,7 @@ from routing.jev_client import (
     FRAGE_DRINGLICHKEIT,
     FRAGE_ESKALATION,
     FRAGE_QUEUE,
+    FRAGE_STIMMUNG,
     baue_fragen,
     zu_entscheidung,
 )
@@ -17,7 +18,12 @@ from routing.jev_client import (
 
 def test_fragen_decken_alle_warteschlangen_ab() -> None:
     fragen = baue_fragen()
-    assert set(fragen) == {FRAGE_QUEUE, FRAGE_DRINGLICHKEIT, FRAGE_ESKALATION}
+    assert set(fragen) == {
+        FRAGE_QUEUE,
+        FRAGE_DRINGLICHKEIT,
+        FRAGE_STIMMUNG,
+        FRAGE_ESKALATION,
+    }
     assert set(fragen[FRAGE_QUEUE].criteria) == {queue.value for queue in Queue}
 
 
@@ -50,3 +56,26 @@ def test_falscher_antworttyp_wird_gemeldet(ticket, jev_antwort) -> None:
 
     with pytest.raises(TypeError, match=FRAGE_QUEUE):
         zu_entscheidung(ticket, antwort)
+
+
+def test_stimmungsfrage_nennt_vier_stufen() -> None:
+    from routing.domain import MoodLevel
+
+    fragen = baue_fragen()
+    assert FRAGE_STIMMUNG in fragen
+    assert len(fragen[FRAGE_STIMMUNG].criteria) == len(list(MoodLevel))
+
+
+def test_stimmung_kommt_mit_score_und_konfidenz_an(ticket, jev_antwort) -> None:
+    from routing.domain import MoodLevel
+
+    entscheidung = zu_entscheidung(ticket, jev_antwort)
+    assert entscheidung.stimmung.wert == pytest.approx(1.62)
+    assert entscheidung.stimmung.konfidenz == pytest.approx(0.64)
+    assert entscheidung.stimmung.stufe is MoodLevel.VERAERGERT
+
+
+def test_stimmung_und_dringlichkeit_bleiben_getrennt(ticket, jev_antwort) -> None:
+    entscheidung = zu_entscheidung(ticket, jev_antwort)
+    assert entscheidung.dringlichkeit.wert != entscheidung.stimmung.wert
+    assert entscheidung.ton_ueber_sache == pytest.approx(1.62 - 2.01)

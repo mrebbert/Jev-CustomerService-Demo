@@ -22,12 +22,21 @@ from typesafe_sdk import (
     TypeSafeClient,
 )
 
-from routing.domain import Queue, RoutingDecision, Ticket, Urgency, UrgencyLevel
+from routing.domain import (
+    Mood,
+    MoodLevel,
+    Queue,
+    RoutingDecision,
+    Ticket,
+    Urgency,
+    UrgencyLevel,
+)
 
 STANDARDMODELL: Final = "jev-latest"
 
 FRAGE_QUEUE: Final = "queue"
 FRAGE_DRINGLICHKEIT: Final = "dringlichkeit"
+FRAGE_STIMMUNG: Final = "stimmung"
 FRAGE_ESKALATION: Final = "eskalation"
 
 
@@ -57,6 +66,18 @@ def baue_fragen() -> dict[str, Choice | Score | Noul]:
                 "Sofort: Der Betrieb des Kunden steht still oder eine Frist endet heute.",
             ],
         ),
+        FRAGE_STIMMUNG: Score(
+            instructions=(
+                "In welchem Ton schreibt der Kunde? Bewerte allein die Sprache, "
+                "nicht die Schwere des Anliegens."
+            ),
+            criteria=[
+                "Sachlich: nüchterne Schilderung, höfliche Anrede, keine Wertung.",
+                "Angespannt: spürbare Ungeduld, Nachdruck, Hinweis auf Wartezeit.",
+                "Verärgert: offene Kritik, Vorwürfe, Ausrufezeichen, Enttäuschung.",
+                "Aufgebracht: Zorn, Drohung, Angriff auf Personen, Großbuchstaben.",
+            ],
+        ),
         FRAGE_ESKALATION: Noul(
             instructions=(
                 "Braucht dieses Ticket die Teamleitung, weil ein Konflikt droht?"
@@ -80,6 +101,7 @@ def zu_entscheidung(ticket: Ticket, antwort: SystemOneResponse) -> RoutingDecisi
     """Übersetzt eine Jev-Antwort in eine Routing-Entscheidung."""
     queue_antwort = antwort.answers[FRAGE_QUEUE]
     dringlichkeit_antwort = antwort.answers[FRAGE_DRINGLICHKEIT]
+    stimmung_antwort = antwort.answers[FRAGE_STIMMUNG]
     eskalation_antwort = antwort.answers[FRAGE_ESKALATION]
 
     if not isinstance(queue_antwort, ChoiceAnswer):
@@ -87,6 +109,10 @@ def zu_entscheidung(ticket: Ticket, antwort: SystemOneResponse) -> RoutingDecisi
     if not isinstance(dringlichkeit_antwort, ScoreAnswer):
         raise TypeError(
             f"Jev lieferte für {FRAGE_DRINGLICHKEIT} den Typ {dringlichkeit_antwort.type}"
+        )
+    if not isinstance(stimmung_antwort, ScoreAnswer):
+        raise TypeError(
+            f"Jev lieferte für {FRAGE_STIMMUNG} den Typ {stimmung_antwort.type}"
         )
     if not isinstance(eskalation_antwort, NoulAnswer):
         raise TypeError(
@@ -104,6 +130,10 @@ def zu_entscheidung(ticket: Ticket, antwort: SystemOneResponse) -> RoutingDecisi
         dringlichkeit=Urgency(
             wert=dringlichkeit_antwort.score,
             konfidenz=dringlichkeit_antwort.confidence,
+        ),
+        stimmung=Mood(
+            wert=stimmung_antwort.score,
+            konfidenz=stimmung_antwort.confidence,
         ),
         eskalationswahrscheinlichkeit=eskalation_antwort.noul,
     )

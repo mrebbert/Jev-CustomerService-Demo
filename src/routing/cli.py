@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 from rich.console import Console
 from rich.table import Table
 
-from routing.domain import Queue, RoutingPolicy, Ticket
+from routing.domain import MoodLevel, Queue, RoutingPolicy, Ticket
 from routing.jev_client import STANDARDMODELL, JevClassifier
 from routing.router import RoutedTicket, TicketRouter
 from routing.tickets import STANDARDABLAGE, lade_tickets
@@ -26,6 +26,25 @@ FARBE_JE_QUEUE = {
     Queue.VERTRIEB: "magenta",
     Queue.VERTRAGSWESEN: "yellow",
 }
+
+
+FARBE_JE_STIMMUNG = {
+    MoodLevel.SACHLICH: "green",
+    MoodLevel.ANGESPANNT: "yellow",
+    MoodLevel.VERAERGERT: "dark_orange",
+    MoodLevel.AUFGEBRACHT: "red",
+}
+
+
+def kurzer_schritt(ergebnis: RoutedTicket) -> str:
+    """Die Spalte nennt nur die Bearbeitungsart, die Warteschlange steht daneben."""
+    if ergebnis.eskaliert:
+        return "Eskalation"
+    if not ergebnis.automatisch:
+        return "Sichtprüfung"
+    if ergebnis.eilig:
+        return "Eilbearbeitung"
+    return "Regelbearbeitung"
 
 
 def baue_parser() -> argparse.ArgumentParser:
@@ -80,9 +99,10 @@ def zeige_tabelle(console: Console, ergebnisse: list[RoutedTicket]) -> None:
     tabelle.add_column("Betreff", max_width=38, min_width=14, no_wrap=True, overflow="ellipsis")
     tabelle.add_column("Warteschlange", no_wrap=True, min_width=13)
     tabelle.add_column("Konf.", justify="right", min_width=5, no_wrap=True)
-    tabelle.add_column("Dringlichkeit", no_wrap=True, min_width=14)
+    tabelle.add_column("Dringlichkeit", no_wrap=True, min_width=13)
+    tabelle.add_column("Stimmung", no_wrap=True, min_width=19)
     tabelle.add_column("Eskal.", justify="right", min_width=6, no_wrap=True)
-    tabelle.add_column("Nächster Schritt", no_wrap=True, overflow="ellipsis")
+    tabelle.add_column("Schritt", no_wrap=True, min_width=15)
 
     for ergebnis in ergebnisse:
         entscheidung = ergebnis.entscheidung
@@ -93,9 +113,16 @@ def zeige_tabelle(console: Console, ergebnisse: list[RoutedTicket]) -> None:
         eskalation = f"{entscheidung.eskalationswahrscheinlichkeit:.0%}"
         if ergebnis.eskaliert:
             eskalation = f"[bold red]{eskalation}[/]"
-        dringlichkeit = str(entscheidung.dringlichkeit)
+        dringlichkeit = (
+            f"{entscheidung.dringlichkeit.stufe} {entscheidung.dringlichkeit.wert:.1f}"
+        )
         if ergebnis.eilig:
             dringlichkeit = f"[bold]{dringlichkeit}[/]"
+        stimmung = entscheidung.stimmung
+        stimmungstext = (
+            f"[{FARBE_JE_STIMMUNG[stimmung.stufe]}]{stimmung.stufe} "
+            f"{stimmung.wert:.1f}[/] ({stimmung.konfidenz:.0%})"
+        )
 
         tabelle.add_row(
             entscheidung.ticket.kennung,
@@ -103,8 +130,9 @@ def zeige_tabelle(console: Console, ergebnisse: list[RoutedTicket]) -> None:
             f"[{farbe}]{entscheidung.queue}[/]",
             konfidenz,
             dringlichkeit,
+            stimmungstext,
             eskalation,
-            ergebnis.naechster_schritt,
+            kurzer_schritt(ergebnis),
         )
     console.print(tabelle)
 
@@ -117,11 +145,38 @@ def zeige_zusammenfassung(
     eskalationen = sum(1 for e in ergebnisse if e.eskaliert)
     eilig = sum(1 for e in ergebnisse if e.eilig)
 
+    tonlagen = Counter(e.entscheidung.stimmung.stufe for e in ergebnisse)
+    schaerfer_als_die_sache = [
+        e for e in ergebnisse if e.entscheidung.ton_ueber_sache >= 1.5
+    ]
+    ruhiger_als_die_sache = [
+        e for e in ergebnisse if e.entscheidung.ton_ueber_sache <= -1.5
+    ]
+
     zeilen = [
         "[bold]Auslastung der Warteschlangen[/]",
         *(
             f"  {queue.value:<14} {anzahl:>2} Tickets"
             for queue, anzahl in sorted(verteilung.items(), key=lambda p: -p[1])
+        ),
+        "",
+        "[bold]Tonlage der Tickets[/]",
+        *(
+            f"  {stufe.value:<14} {anzahl:>2} Tickets"
+            for stufe, anzahl in sorted(tonlagen.items(), key=lambda p: p[0].stufe)
+        ),
+        "",
+        f"Ton über Sache:    {len(schaerfer_als_die_sache)}"
+        + (
+            "  (" + ", ".join(e.ticket.kennung for e in schaerfer_als_die_sache) + ")"
+            if schaerfer_als_die_sache
+            else ""
+        ),
+        f"Sache über Ton:    {len(ruhiger_als_die_sache)}"
+        + (
+            "  (" + ", ".join(e.ticket.kennung for e in ruhiger_als_die_sache) + ")"
+            if ruhiger_als_die_sache
+            else ""
         ),
         "",
         f"Eilbearbeitung:    {eilig} von {len(ergebnisse)}",
@@ -150,6 +205,12 @@ def als_json(ergebnisse: list[RoutedTicket]) -> str:
                 "wert": round(e.entscheidung.dringlichkeit.wert, 2),
                 "konfidenz": round(e.entscheidung.dringlichkeit.konfidenz, 4),
             },
+            "stimmung": {
+                "stufe": e.entscheidung.stimmung.stufe.value,
+                "wert": round(e.entscheidung.stimmung.wert, 2),
+                "konfidenz": round(e.entscheidung.stimmung.konfidenz, 4),
+            },
+            "ton_ueber_sache": round(e.entscheidung.ton_ueber_sache, 2),
             "eskalationswahrscheinlichkeit": round(
                 e.entscheidung.eskalationswahrscheinlichkeit, 4
             ),

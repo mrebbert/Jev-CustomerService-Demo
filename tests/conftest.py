@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 from typesafe_sdk import SystemOneResponse
 
-from routing.domain import Queue, RoutingDecision, Ticket, Urgency
+from routing.domain import Mood, Queue, RoutingDecision, Ticket, Urgency
 
 AUFZEICHNUNGEN = Path(__file__).parent / "aufzeichnungen"
 
@@ -48,6 +48,7 @@ def entscheidung_mit(
     queue: Queue = Queue.ABRECHNUNG,
     konfidenz: float = 0.97,
     dringlichkeit: float = 1.0,
+    stimmung: float = 1.0,
     eskalation: float = 0.05,
 ) -> RoutingDecision:
     """Baut eine Entscheidung für Tests der Richtlinie."""
@@ -58,5 +59,6 @@ def entscheidung_mit(
         queue_konfidenz=konfidenz,
         queue_verteilung={q: (konfidenz if q is queue else rest) for q in Queue},
         dringlichkeit=Urgency(wert=dringlichkeit, konfidenz=0.9),
+        stimmung=Mood(wert=stimmung, konfidenz=0.8),
         eskalationswahrscheinlichkeit=eskalation,
     )

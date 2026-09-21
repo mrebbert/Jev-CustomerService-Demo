@@ -1,6 +1,9 @@
 {
   "model": "jev-1.13.0",
-  "usage": {"input_tokens": 464, "output_tokens": 86},
+  "usage": {
+    "input_tokens": 612,
+    "output_tokens": 118
+  },
   "answers": {
     "queue": {
       "type": "choice",
@@ -17,9 +20,39 @@
       "type": "score",
       "score": 2.01,
       "confidence": 0.92,
-      "legend": {"0": "Routine", "1": "Bald", "2": "Dringend", "3": "Sofort"},
-      "probabilities": {"0": 0.0, "1": 0.03, "2": 0.92, "3": 0.05}
+      "legend": {
+        "0": "Routine",
+        "1": "Bald",
+        "2": "Dringend",
+        "3": "Sofort"
+      },
+      "probabilities": {
+        "0": 0.0,
+        "1": 0.03,
+        "2": 0.92,
+        "3": 0.05
+      }
     },
-    "eskalation": {"type": "noul", "noul": 0.37}
+    "eskalation": {
+      "type": "noul",
+      "noul": 0.37
+    },
+    "stimmung": {
+      "type": "score",
+      "score": 1.62,
+      "confidence": 0.64,
+      "legend": {
+        "0": "Sachlich",
+        "1": "Angespannt",
+        "2": "Verärgert",
+        "3": "Aufgebracht"
+      },
+      "probabilities": {
+        "0": 0.02,
+        "1": 0.36,
+        "2": 0.58,
+        "3": 0.04
+      }
+    }
   }
 }
