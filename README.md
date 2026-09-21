@@ -122,10 +122,12 @@ Die vollständigen Messungen stehen in [ERGEBNISSE.md](ERGEBNISSE.md).
 .venv/bin/python -m pytest
 ```
 
-Die 56 Tests ersetzen Jev durch eine Attrappe und eine aufgezeichnete Antwort.
-Die Aufzeichnung liegt in `tests/recordings/`. Die Tests prüfen Domänenmodell,
-Übersetzung, Richtlinie, Fehlerbehandlung, Ticketablage und Ausgabe. Der
-Testlauf arbeitet allein mit lokalen Daten.
+Die 56 Tests ersetzen Jev durch drei Stubs und eine aufgezeichnete Antwort.
+`StubClassifier` liefert vorbereitete Entscheidungen, `FailingClassifier` wirft
+einen Fehler, `DriftingClassifier` wechselt die Warteschlange. Die Aufzeichnung
+liegt in `tests/recordings/`. Die Tests prüfen Domänenmodell, Übersetzung,
+Richtlinie, Fehlerbehandlung, Ticketablage und Ausgabe. Der Testlauf arbeitet
+allein mit lokalen Daten.
 
 Die 100 Demo-Tickets stehen in `data/tickets.yaml`. Alle Namen, Nummern und
 Beträge darin sind erfunden.

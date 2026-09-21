@@ -14,8 +14,8 @@ from routing.domain import Queue, RoutingDecision, RoutingPolicy, Ticket
 class TicketClassifier(Protocol):
     """The port the routing asks for a verdict.
 
-    The demo uses `routing.jev_client.JevClassifier`. Tests plug in a stub with
-    recorded answers and run without the network.
+    The demo uses `routing.jev_client.JevClassifier`. Tests plug in stubs that
+    return prepared decisions and run without the network.
     """
 
     def classify(self, ticket: Ticket) -> RoutingDecision: ...
