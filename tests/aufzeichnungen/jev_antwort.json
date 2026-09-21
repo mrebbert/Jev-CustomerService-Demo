@@ -1,0 +1,25 @@
+{
+  "model": "jev-1.13.0",
+  "usage": {"input_tokens": 464, "output_tokens": 86},
+  "answers": {
+    "queue": {
+      "type": "choice",
+      "choice": "abrechnung",
+      "confidence": 0.97,
+      "probabilities": {
+        "abrechnung": 0.97,
+        "technik": 0.02,
+        "vertrieb": 0.0,
+        "vertragswesen": 0.01
+      }
+    },
+    "dringlichkeit": {
+      "type": "score",
+      "score": 2.01,
+      "confidence": 0.92,
+      "legend": {"0": "Routine", "1": "Bald", "2": "Dringend", "3": "Sofort"},
+      "probabilities": {"0": 0.0, "1": 0.03, "2": 0.92, "3": 0.05}
+    },
+    "eskalation": {"type": "noul", "noul": 0.37}
+  }
+}

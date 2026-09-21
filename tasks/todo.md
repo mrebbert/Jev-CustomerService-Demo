@@ -26,14 +26,14 @@ Ein Aufruf, drei Fragen parallel:
 
 ## Aufgabenliste
 
-- [ ] 1. Gerüst anlegen: venv, .gitignore, requirements.txt, .env.example, README
-- [ ] 2. Domänenmodell in `src/routing/domain.py` schreiben, dazu Tests
-- [ ] 3. Anti-Corruption Layer `src/routing/jev_client.py` gegen typesafe-sdk
-- [ ] 4. Anwendungsfall `src/routing/router.py`, Jev-Antwort auf RoutingDecision abbilden
-- [ ] 5. 30 deutsche Demo-Tickets als `data/tickets.yaml` schreiben
-- [ ] 6. CLI `python -m routing.cli`: Tickets laden, routen, Tabelle ausgeben
-- [ ] 7. Tests mit Fake-Jev-Antworten, kein Netz im Testlauf
-- [ ] 8. README mit Ablauf, Schlüsselvergabe und Beispielausgabe
+- [x] 1. Gerüst anlegen: venv, .gitignore, requirements.txt, .env.example, README
+- [x] 2. Domänenmodell in `src/routing/domain.py` schreiben, dazu Tests
+- [x] 3. Anti-Corruption Layer `src/routing/jev_client.py` gegen typesafe-sdk
+- [x] 4. Anwendungsfall `src/routing/router.py`, Jev-Antwort auf RoutingDecision abbilden
+- [x] 5. 30 deutsche Demo-Tickets als `data/tickets.yaml` schreiben
+- [x] 6. CLI `python -m routing.cli`: Tickets laden, routen, Tabelle ausgeben
+- [x] 7. Tests mit Fake-Jev-Antworten, kein Netz im Testlauf
+- [x] 8. README mit Ablauf, Schlüsselvergabe und Beispielausgabe
 
 ## Entscheidungen
 
@@ -47,3 +47,23 @@ Ein Aufruf, drei Fragen parallel:
 
 - `TYPESAFE_API_KEY` fehlt noch. Bis er vorliegt, laufen Aufbau und Tests
   gegen aufgezeichnete Antworten.
+
+## Ergebnis vom 21.09.2026
+
+Die Demo läuft vollständig. Ein Lauf über alle 30 Tickets dauert rund zwei
+Sekunden und kostet 0,0010 USD bei 24.522 Eingabe-Token.
+
+- Die Verteilung fällt ausgewogen aus: Technik 9, Vertragswesen 8,
+  Abrechnung 7, Vertrieb 6.
+- Jev erkennt beide gebauten Eskalationsfälle, NT-2047 mit 93 Prozent und
+  NT-2060 mit 75 Prozent.
+- Der Grenzfall NT-2068 bleibt mit 78 Prozent unter der Schwelle und geht in
+  die Sichtprüfung. Genau dafür dienen die kalibrierten Wahrscheinlichkeiten.
+- 21 Tests laufen ohne Netz gegen eine aufgezeichnete Antwort.
+
+### Was auffiel
+
+- Jev antwortet auf `score` mit Zwischenwerten wie 2.01. `Urgency` hält den
+  genauen Wert und rundet erst für die Anzeige auf eine benannte Stufe.
+- Das SDK prüft die Stufenschlüssel einer Score-Antwort streng als Zahlen.
+  Eine aufgezeichnete JSON-Antwort braucht daher die Umwandlung in `int`.

@@ -76,11 +76,11 @@ def waehle_tickets(args: argparse.Namespace) -> list[Ticket]:
 
 def zeige_tabelle(console: Console, ergebnisse: list[RoutedTicket]) -> None:
     tabelle = Table(title="Zuordnung der Tickets", header_style="bold")
-    tabelle.add_column("Kennung", no_wrap=True)
+    tabelle.add_column("Kennung", no_wrap=True, min_width=7)
     tabelle.add_column("Betreff", max_width=38, min_width=14, no_wrap=True, overflow="ellipsis")
-    tabelle.add_column("Warteschlange", no_wrap=True)
+    tabelle.add_column("Warteschlange", no_wrap=True, min_width=13)
     tabelle.add_column("Konf.", justify="right", min_width=5, no_wrap=True)
-    tabelle.add_column("Dringlichkeit", no_wrap=True)
+    tabelle.add_column("Dringlichkeit", no_wrap=True, min_width=14)
     tabelle.add_column("Eskal.", justify="right", min_width=6, no_wrap=True)
     tabelle.add_column("Nächster Schritt", no_wrap=True, overflow="ellipsis")
 
