@@ -122,3 +122,10 @@ Testlauf arbeitet allein mit lokalen Daten.
 
 Die 100 Demo-Tickets stehen in `data/tickets.yaml`. Alle Namen, Nummern und
 Beträge darin sind erfunden.
+
+## Die Lizenz ist MIT
+
+Der Code steht unter der MIT-Lizenz. Der Text steht in [LICENSE](LICENSE).
+
+Die Demo nutzt die Jev-API von typesafe.ai. Für den Zugang gelten die
+Bedingungen des Anbieters.
