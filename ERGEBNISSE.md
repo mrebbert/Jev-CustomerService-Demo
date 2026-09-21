@@ -284,10 +284,12 @@ NT-2073, NT-2086 und NT-2121 enthalten Lob. Alle drei erhalten Factual 0,0.
 Die vier Stufen reichen von Factual bis Outraged. Freude liegt außerhalb
 dieser Reihe. Für die Erkennung von Lob eignet sich eine eigene `noul`-Frage.
 
-## Aufgezeichnete Antworten liest man als JSON-Text ein
+## Pydantic wandelt Stufennummern allein im JSON-Modus um
 
-Lies aufgezeichnete Antworten als JSON-Text ein. Die Antwortmodelle des SDK
-prüfen mit `strict=True`. Sie erwarten die Stufennummern einer Score-Antwort
-als Zahlen. JSON kennt jedoch allein Zeichenketten als Schlüssel.
-`model_validate_json` wandelt diese Zeichenketten in Zahlen um. Der Weg über
-`json.loads` und `model_validate` scheitert daran.
+Die Antwortmodelle des SDK prüfen mit `strict=True`. Sie erwarten die
+Stufennummern einer Score-Antwort als Zahlen. JSON kennt allein Zeichenketten
+als Schlüssel. Im JSON-Modus wandelt Pydantic diese Zeichenketten in Zahlen um.
+Aus einem geladenen dict behält es die Zeichenketten bei.
+
+Lies aufgezeichnete Antworten deshalb mit `model_validate_json` aus dem
+Dateitext. Der Weg über `json.loads` und `model_validate` scheitert.
