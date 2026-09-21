@@ -1,0 +1,288 @@
+# Demo-Tickets für die Nordlicht Telekom, einen frei erfundenen Anbieter für
+# Internet, Mobilfunk und Festnetz. Alle Namen, Nummern und Beträge sind erfunden.
+# Die Sammlung deckt die vier Warteschlangen ab und enthält Grenzfälle, an denen
+# die Konfidenz von Jev sichtbar sinkt.
+
+tickets:
+  - kennung: NT-2041
+    betreff: Lastschrift zweimal abgebucht
+    eingang: "2026-09-18T08:12:00"
+    kanal: E-Mail
+    text: |
+      Guten Tag,
+      auf meinem Kontoauszug steht der Betrag von 49,90 Euro für den September
+      gleich zweimal, einmal am 02.09. und einmal am 04.09. Mein Konto ist
+      dadurch ins Minus gerutscht und meine Bank hat 8,50 Euro Gebühr berechnet.
+      Bitte erstatten Sie die doppelte Abbuchung und die Gebühr.
+      Kundennummer 88213447.
+
+  - kennung: NT-2042
+    betreff: Internet seit gestern Abend tot
+    eingang: "2026-09-18T08:31:00"
+    kanal: Kontaktformular
+    text: |
+      Seit gestern etwa 21 Uhr habe ich keine Verbindung mehr. Die Router-Lampe
+      für DSL blinkt dauerhaft rot. Neustart, anderes Kabel, anderer Anschluss in
+      der Wohnung, alles schon probiert. Ich arbeite von zu Hause und komme an
+      keine Firmendateien. Bitte dringend prüfen, ob bei Ihnen etwas anliegt.
+
+  - kennung: NT-2043
+    betreff: Frage zum Tarifwechsel auf 250 Mbit
+    eingang: "2026-09-18T09:05:00"
+    kanal: E-Mail
+    text: |
+      Hallo,
+      ich habe aktuell den Tarif mit 100 Mbit und überlege, auf 250 Mbit zu
+      wechseln. Was kostet das im Monat und verlängert sich dadurch meine
+      Laufzeit? Falls es ein Angebot für Bestandskunden gibt, nehme ich das gern.
+
+  - kennung: NT-2044
+    betreff: Kündigung zum Vertragsende
+    eingang: "2026-09-18T09:47:00"
+    kanal: E-Mail
+    text: |
+      Sehr geehrte Damen und Herren,
+      hiermit kündige ich meinen Vertrag mit der Kundennummer 90114562 fristgerecht
+      zum nächstmöglichen Termin. Ich ziehe ins Ausland. Bitte bestätigen Sie mir
+      die Kündigung schriftlich und nennen Sie das genaue Vertragsende.
+
+  - kennung: NT-2045
+    betreff: Mahnung trotz bezahlter Rechnung
+    eingang: "2026-09-18T10:22:00"
+    kanal: E-Mail
+    text: |
+      Ich habe heute eine Mahnung über 62,40 Euro plus 5 Euro Mahngebühr erhalten.
+      Die Rechnung habe ich am 28.08. überwiesen, der Beleg meiner Bank liegt mir
+      vor. Ich bitte Sie, die Mahnung zurückzunehmen und die Gebühr zu streichen.
+      Den Zahlungsbeleg hänge ich an.
+
+  - kennung: NT-2046
+    betreff: Störung im ganzen Ort?
+    eingang: "2026-09-18T10:58:00"
+    kanal: Chat
+    text: |
+      Hier in Sandhorst hat seit heute früh niemand Internet, auch die Nachbarn
+      nicht. Der Bäcker kann keine Karten mehr annehmen. Gibt es bei Ihnen eine
+      bekannte Störung und wann ist sie behoben? Wir hängen komplett fest.
+
+  - kennung: NT-2047
+    betreff: Anwalt eingeschaltet wegen Nichtbearbeitung
+    eingang: "2026-09-18T11:30:00"
+    kanal: E-Mail
+    text: |
+      Zum vierten Mal schreibe ich Ihnen wegen der falschen Abrechnung meiner
+      Auslandsgespräche über 214 Euro. Keine meiner Nachrichten wurde beantwortet.
+      Ich setze Ihnen eine letzte Frist von zehn Tagen, danach übergebe ich die
+      Sache meinem Anwalt und wende mich an die Bundesnetzagentur.
+
+  - kennung: NT-2048
+    betreff: Umzug nach Leer zum 1. November
+    eingang: "2026-09-18T12:15:00"
+    kanal: Kontaktformular
+    text: |
+      Guten Tag, ich ziehe zum 01.11. nach Leer in die Mühlenstraße 14. Kann ich
+      meinen Vertrag mitnehmen und ist dort dieselbe Geschwindigkeit verfügbar?
+      Falls nicht, welche Möglichkeiten habe ich?
+
+  - kennung: NT-2049
+    betreff: Zweite SIM für das Tablet
+    eingang: "2026-09-18T13:02:00"
+    kanal: E-Mail
+    text: |
+      Ich möchte zu meinem Mobilfunkvertrag eine zusätzliche SIM-Karte für mein
+      Tablet. Was kostet die Multi-SIM monatlich und wie schnell bekomme ich sie?
+
+  - kennung: NT-2050
+    betreff: Rechnung nicht nachvollziehbar
+    eingang: "2026-09-18T14:20:00"
+    kanal: E-Mail
+    text: |
+      Meine Septemberrechnung liegt bei 118,70 Euro statt der üblichen 54,90 Euro.
+      In der Aufstellung finde ich eine Position "Sonderdienste 63,80 Euro", die
+      ich nicht zuordnen kann. Ich habe keine Sonderrufnummern gewählt. Bitte
+      erklären Sie mir die Position im Einzelnen.
+
+  - kennung: NT-2051
+    betreff: Router macht seltsame Geräusche und wird heiß
+    eingang: "2026-09-18T15:41:00"
+    kanal: Telefonnotiz
+    text: |
+      Kundin meldet, dass ihr Router seit einigen Tagen sehr warm wird und leise
+      pfeift. Verbindung läuft noch, bricht aber abends mehrfach ab. Kundin hat
+      Sorge wegen Brandgefahr und möchte ein Austauschgerät.
+
+  - kennung: NT-2052
+    betreff: Widerruf des gestern geschlossenen Vertrags
+    eingang: "2026-09-19T07:55:00"
+    kanal: E-Mail
+    text: |
+      Ich habe gestern am Telefon einen Vertrag über den Tarif Nordlicht Aktiv
+      abgeschlossen und möchte diesen innerhalb der Widerrufsfrist widerrufen.
+      Bitte bestätigen Sie den Eingang meines Widerrufs schriftlich.
+
+  - kennung: NT-2053
+    betreff: Geschäftsanschluss ausgefallen, Praxis steht still
+    eingang: "2026-09-19T08:03:00"
+    kanal: Telefonnotiz
+    text: |
+      Zahnarztpraxis meldet totalen Ausfall von Telefon und Internet seit 7:30 Uhr.
+      Die Praxis kann keine Termine annehmen und keine Abrechnung übertragen.
+      Acht Mitarbeiter ohne Arbeitsgrundlage. Bittet um Rückruf innerhalb einer
+      Stunde und um einen Technikertermin noch heute.
+
+  - kennung: NT-2054
+    betreff: Preiserhöhung angekündigt, Sonderkündigung?
+    eingang: "2026-09-19T09:10:00"
+    kanal: E-Mail
+    text: |
+      Sie haben mir eine Preiserhöhung um 4 Euro ab Dezember angekündigt. Ich
+      möchte wissen, ob mir daraus ein Sonderkündigungsrecht zusteht und bis wann
+      ich es ausüben müsste. Falls Sie mir stattdessen den alten Preis halten,
+      bleibe ich gern Kunde.
+
+  - kennung: NT-2055
+    betreff: Gutschrift aus Juli immer noch offen
+    eingang: "2026-09-19T09:44:00"
+    kanal: Kontaktformular
+    text: |
+      Im Juli wurde mir eine Gutschrift über 35 Euro zugesagt, weil der Anschluss
+      zwei Wochen nicht verfügbar war. Auf den Rechnungen für August und September
+      finde ich die Gutschrift nicht. Wann wird sie verrechnet?
+
+  - kennung: NT-2056
+    betreff: WLAN im Obergeschoss zu schwach
+    eingang: "2026-09-19T10:30:00"
+    kanal: Chat
+    text: |
+      Unten läuft alles schnell, oben im Schlafzimmer habe ich kaum noch Empfang.
+      Liegt das am Router oder brauche ich einen Verstärker? Falls Sie so ein
+      Gerät anbieten, was kostet es?
+
+  - kennung: NT-2057
+    betreff: Glasfaser für unsere Straße
+    eingang: "2026-09-19T11:12:00"
+    kanal: E-Mail
+    text: |
+      Wir haben gehört, dass in unserer Straße Glasfaser verlegt wird. Ab wann
+      kann ich buchen, welche Geschwindigkeiten gibt es und was kostet der
+      Hausanschluss? Ich würde sofort wechseln.
+
+  - kennung: NT-2058
+    betreff: Vertrag nach Todesfall auflösen
+    eingang: "2026-09-19T12:40:00"
+    kanal: E-Mail
+    text: |
+      Mein Vater ist am 30.08. verstorben. Ich möchte seinen Vertrag mit der
+      Kundennummer 71220398 beenden. Die Sterbeurkunde liegt bei. Bitte teilen Sie
+      mir mit, welche Unterlagen Sie noch brauchen und ab wann keine Beiträge mehr
+      abgebucht werden.
+
+  - kennung: NT-2059
+    betreff: Drosselung trotz unbegrenztem Tarif
+    eingang: "2026-09-19T13:25:00"
+    kanal: Kontaktformular
+    text: |
+      Mein Mobilfunktarif ist als unbegrenzt beworben, seit dem 15.09. ist die
+      Geschwindigkeit aber auf Schneckentempo gedrosselt. Entweder liegt ein
+      technischer Fehler vor oder Ihre Werbung stimmt nicht. Bitte klären Sie das.
+
+  - kennung: NT-2060
+    betreff: Kündigung, weil nichts funktioniert
+    eingang: "2026-09-19T14:50:00"
+    kanal: E-Mail
+    text: |
+      Mir reicht es. Seit dem Anschluss im Juni bricht die Leitung täglich ab,
+      drei Technikerbesuche haben nichts gebracht. Ich kündige fristlos und
+      verlange die Rückzahlung der Beiträge für Juli bis September.
+
+  - kennung: NT-2061
+    betreff: Rufnummernmitnahme klappt nicht
+    eingang: "2026-09-19T15:33:00"
+    kanal: Telefonnotiz
+    text: |
+      Kunde wechselt von einem anderen Anbieter zu uns. Der Portierungstermin war
+      der 16.09., seine alte Nummer ist seitdem nicht erreichbar, die neue SIM
+      zeigt kein Netz. Kunde ist selbstständig und verliert Aufträge.
+
+  - kennung: NT-2062
+    betreff: Bankverbindung ändern
+    eingang: "2026-09-20T08:18:00"
+    kanal: Kontaktformular
+    text: |
+      Ich habe die Bank gewechselt. Ab Oktober buchen Sie bitte von meinem neuen
+      Konto ab. Die IBAN lautet DE00 1234 5678 9012 3456 78. Kundennummer 88670125.
+
+  - kennung: NT-2063
+    betreff: Angebot für Familienpaket
+    eingang: "2026-09-20T09:02:00"
+    kanal: E-Mail
+    text: |
+      Wir sind vier Personen im Haushalt und haben vier einzelne Mobilfunkverträge
+      bei verschiedenen Anbietern. Lohnt sich ein Familienpaket bei Ihnen? Bitte
+      schicken Sie mir ein Angebot mit den Kosten pro Monat.
+
+  - kennung: NT-2064
+    betreff: Störungsmeldung Festnetz, kein Freizeichen
+    eingang: "2026-09-20T09:55:00"
+    kanal: Telefonnotiz
+    text: |
+      Seit zwei Tagen kein Freizeichen am Festnetz, Internet läuft normal. Kunde
+      ist 84 Jahre alt, wohnt allein und braucht das Telefon für den Hausnotruf.
+      Bittet um schnelle Hilfe.
+
+  - kennung: NT-2065
+    betreff: Auskunft über meine gespeicherten Daten
+    eingang: "2026-09-20T11:14:00"
+    kanal: E-Mail
+    text: |
+      Nach Artikel 15 der Datenschutz-Grundverordnung verlange ich Auskunft über
+      alle personenbezogenen Daten, die Sie zu mir gespeichert haben, sowie über
+      Empfänger und Speicherdauer. Bitte antworten Sie innerhalb der gesetzlichen
+      Frist von einem Monat.
+
+  - kennung: NT-2066
+    betreff: Doppelte Vertragsanlage nach Beratung
+    eingang: "2026-09-20T12:31:00"
+    kanal: Kontaktformular
+    text: |
+      Nach einem Beratungsgespräch im Laden habe ich jetzt zwei Verträge auf
+      meinen Namen, einen vom 05.09. und einen vom 08.09. Gewollt war nur einer.
+      Beide werden abgebucht, zusammen 96 Euro im Monat. Bitte lösen Sie den
+      zweiten auf und erstatten Sie die Abbuchung.
+
+  - kennung: NT-2067
+    betreff: Roaming-Kosten nach Norwegenurlaub
+    eingang: "2026-09-20T13:47:00"
+    kanal: E-Mail
+    text: |
+      Nach zwei Wochen Norwegen finde ich auf der Rechnung 187 Euro Roaming. Ich
+      dachte, im europäischen Ausland gilt der Inlandspreis. Bitte prüfen Sie die
+      Positionen und erklären Sie mir, wie der Betrag zustande kommt.
+
+  - kennung: NT-2068
+    betreff: Neuer Anschluss für Ferienwohnung
+    eingang: "2026-09-20T15:09:00"
+    kanal: E-Mail
+    text: |
+      Wir vermieten ab Januar eine Ferienwohnung in Greetsiel und brauchen dort
+      einen Internetanschluss mit WLAN für Gäste. Welche Tarife bieten Sie für
+      diesen Zweck und wie lange dauert die Bereitstellung?
+
+  - kennung: NT-2069
+    betreff: Beschwerde über Techniker
+    eingang: "2026-09-21T08:25:00"
+    kanal: E-Mail
+    text: |
+      Ihr Techniker war gestern hier, hat die Wohnungstür offen stehen lassen,
+      Dreck im Flur hinterlassen und nach zehn Minuten gesagt, das Problem liege
+      nicht bei ihm. Die Leitung fällt weiterhin aus. So geht man nicht mit Kunden
+      um. Ich erwarte eine Stellungnahme der Leitung und einen neuen Termin.
+
+  - kennung: NT-2070
+    betreff: Wechselangebot der Konkurrenz
+    eingang: "2026-09-21T09:38:00"
+    kanal: Chat
+    text: |
+      Ein anderer Anbieter bietet mir dieselbe Leistung für 12 Euro weniger im
+      Monat. Ich bin seit neun Jahren bei Ihnen. Können Sie mitgehen? Sonst
+      wechsle ich zum Vertragsende.

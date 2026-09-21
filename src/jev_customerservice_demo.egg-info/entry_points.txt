@@ -1,0 +1,2 @@
+[console_scripts]
+route-tickets = routing.cli:main
