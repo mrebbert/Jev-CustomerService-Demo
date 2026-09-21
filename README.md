@@ -70,54 +70,17 @@ Weitere Aufrufe:
 │ NT-2077 │ SIE HABEN MEINEN ANSCHLUSS GESPERRT     │ abrechnung    │   87% │ Sofort 3.0    │ Aufgebracht 2.9 (91%) │    67% │ Eskalation       │
 │ NT-2081 │ Letzte Warnung vor der Verbraucherzen…  │ vertragswesen │   13% │ Bald 1.2      │ Verärgert 2.4 (39%)   │    90% │ Eskalation       │
 └─────────┴────────────────────────────────────────┴───────────────┴───────┴───────────────┴───────────────────────┴────────┴──────────────────┘
-
-Auslastung der Warteschlangen
-  technik        18 Tickets
-  abrechnung     13 Tickets
-  vertragswesen  11 Tickets
-  vertrieb        8 Tickets
-
-Tonlage der Tickets
-  Sachlich       35 Tickets
-  Angespannt      7 Tickets
-  Verärgert       6 Tickets
-  Aufgebracht     2 Tickets
-
-Ton über Sache:    2  (NT-2071, NT-2089)
-Sache über Ton:    6  (NT-2046, NT-2051, NT-2053, NT-2061, NT-2064, NT-2072)
-
-Eilbearbeitung:    12 von 50
-Eskalation:        5 von 50
-Sichtprüfung:      5 von 50
-Modell:            jev-1.13.0
-Eingabe-Token:     48165
-Kosten:            0.0020 USD
 ```
 
-Der ganze Lauf dauert rund zwei Sekunden, weil der Router acht Tickets
-nebenläufig bewertet. Die Kosten liegen bei einem Fünftel Cent für 50 Tickets.
+Der Lauf dauert 2,4 Sekunden und kostet 0,0020 USD bei 48.165 Eingabe-Token.
+Die Last verteilt sich auf Technik 18, Abrechnung 13, Vertragswesen 11 und
+Vertrieb 8 Tickets; 12 gehen in die Eilbearbeitung, 5 eskalieren, 5 landen in
+der Sichtprüfung.
 
-## Die Grenzfälle zeigen den Nutzen der Wahrscheinlichkeiten
-
-**Der Ton täuscht über die Sachlage.** NT-2071 schreibt in Großbuchstaben über
-eine Rechnung, die einen Tag zu spät kam: Aufgebracht 2.7 bei Dringlichkeit 0.5.
-NT-2072 meldet nüchtern den Ausfall der Notrufweiterleitung für 42 Bewohner
-eines Pflegeheims: Sachlich 0.0 bei Dringlichkeit 2.3. Wer nach Lautstärke
-sortiert, bearbeitet das falsche Ticket zuerst.
-
-**Eine unsichere Zuordnung meldet sich selbst.** NT-2081 droht mit der
-Verbraucherzentrale wegen einer nicht gestrichenen Rechnungsposition. Die
-Warteschlange bleibt mit 13 Prozent offen, denn das Anliegen trägt Abrechnung
-und Vertragswesen zugleich. Die Eskalation steht dagegen bei 90 Prozent, also
-greift sie und ein Mensch entscheidet über das Team.
-
-**Der Ausnahmefall trägt beides.** NT-2077 verbindet eine Sperre mit einem
-stillstehenden Onlineshop: Sofort 3.0, Aufgebracht 2.9, Eskalation 67 Prozent.
-Hier decken sich Ton und Sachlage.
-
-**Die Skala kennt keine Freude.** NT-2073 und NT-2086 sind Lob. Beide landen bei
-Sachlich 0.0, denn die Stufen messen allein die Schärfe. Wer Dankesschreiben
-erkennen will, stellt dafür eine eigene `noul`-Frage.
+Die vollständigen Messungen und was sie über Jev zeigen, stehen in
+[ERGEBNISSE.md](ERGEBNISSE.md): die Tonlage über alle 50 Tickets, die
+Grenzfälle mit niedriger Konfidenz, der Vergleich beider Konfidenzschwellen
+und der Nachweis, dass ein `score` der Erwartungswert über die Stufen ist.
 
 ## Tests laufen ohne Netz
 

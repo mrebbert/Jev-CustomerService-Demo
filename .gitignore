@@ -7,3 +7,5 @@ out/
 *.egg-info/
 build/
 dist/
+tasks/
+.claude/
