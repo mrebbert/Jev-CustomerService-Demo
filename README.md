@@ -1,47 +1,67 @@
 # Ticket-Routing im Kundenservice mit Jev
 
-Diese Demo verteilt 100 eingehende Kundenservice-Tickets auf vier
-Warteschlangen. Die Entscheidung trifft Jev, das System-One-Modell von
-typesafe.ai: Es liest den Ticketext und beantwortet vier typisierte Fragen mit
-kalibrierten Wahrscheinlichkeiten. Ein Aufruf je Ticket genügt.
+Diese Demo ordnet 100 Kundenservice-Tickets vier Warteschlangen zu. Die
+Zuordnung trifft Jev, das System-One-Modell von typesafe.ai. Jev liest den
+Ticketext und beantwortet vier typisierte Fragen. Jede Antwort trägt eine
+kalibrierte Wahrscheinlichkeit. Ein Aufruf je Ticket genügt.
 
-Jedes Ticket trägt zusätzlich die Warteschlange, die ein erfahrener Disponent
-wählt. Daran misst der Lauf, ob Jev richtig liegt: **89 von 97 Tickets
-stimmen, das sind 92 Prozent.** Sieben der acht Fehler meldet das Modell selbst,
-weil ihre Konfidenz unter der Schwelle bleibt.
+Jedes Ticket trägt zusätzlich die Warteschlange, die ein Disponent wählt.
+Daran misst der Lauf die Trefferquote. Jev trifft 89 von 97 Zuordnungen. Das
+sind 92 Prozent. Sieben der acht Fehler bleiben unter der Konfidenzschwelle
+von 0,80. Das Modell meldet sie damit selbst.
 
-## Jev beantwortet vier Fragen zugleich
+## Jev beantwortet vier Fragen je Ticket
 
-| Frage       | Primitiv | Ergebnis                                                        |
-|-------------|----------|-----------------------------------------------------------------|
-| `queue`     | `choice` | eine der vier Warteschlangen, dazu die Verteilung über alle vier |
-| `urgency`   | `score`  | Stufe zwischen Routine und Immediate, dazu die Konfidenz         |
-| `mood`      | `score`  | Ton zwischen Factual und Outraged, dazu die Konfidenz            |
-| `escalation`| `noul`   | Wahrscheinlichkeit, dass die Teamleitung eingreifen muss         |
+| Frage        | Primitiv | Ergebnis                                                |
+|--------------|----------|---------------------------------------------------------|
+| `queue`      | `choice` | eine Warteschlange, dazu die Verteilung über alle vier   |
+| `urgency`    | `score`  | Stufe von Routine bis Immediate, dazu die Konfidenz      |
+| `mood`       | `score`  | Stufe von Factual bis Outraged, dazu die Konfidenz       |
+| `escalation` | `noul`   | Wahrscheinlichkeit, dass die Teamleitung eingreift       |
 
-Dringlichkeit und Stimmung messen verschiedene Dinge. Die eine Frage wiegt die
-Sachlage, die andere allein die Sprache. Die Kennzahl `tone_above_substance`
-zieht beide voneinander ab und zeigt, wo sie auseinanderlaufen.
+`urgency` bewertet die Sachlage. `mood` bewertet allein die Sprache. Beide
+Werte laufen auseinander. Die Kennzahl `tone_above_substance` zieht `urgency`
+von `mood` ab. Ein Wert über null steht für einen scharfen Ton bei geringer
+Sachlage. Ein Wert unter null steht für einen sachlichen Ton bei hoher Dringlichkeit.
 
-## Der Schnitt folgt dem Bounded Context Ticket-Routing
+## Die Konfidenz misst etwas anderes als die Wahrscheinlichkeit
+
+Eine `choice`-Antwort liefert zwei Größen. Beide beantworten verschiedene
+Fragen.
+
+`probabilities` verteilt die Wahrscheinlichkeit auf alle Optionen. Die Summe
+beträgt 1,0. Der Wert je Option gibt an, wie stark das Modell diese Option
+stützt.
+
+`confidence` gilt allein für die gewählte Option. Der Wert misst den Abstand
+zum Zufall. Bei vier Optionen entspricht die Wahrscheinlichkeit 0,25 dem
+reinen Raten. Diese Lage ergibt die Konfidenz 0. Die Wahrscheinlichkeit 1,00
+ergibt die Konfidenz 1.
+
+In allen geprüften Antworten gilt diese Umrechnung:
 
 ```
-src/routing/
-  domain.py       Ticket, Queue, Urgency, Mood, RoutingDecision, RoutingPolicy
-  jev_client.py   Anti-Corruption Layer: die einzige Stelle mit Jev-Begriffen
-  router.py       Anwendungsfall, Port TicketClassifier, RoutingRun, Stabilität
-  tickets.py      lädt die Demo-Tickets und prüft sie
-  cli.py          Einstieg und Ausgabe
-data/tickets.yaml 100 deutsche Demo-Tickets mit erwarteter Warteschlange
-tests/            56 Tests gegen eine aufgezeichnete Jev-Antwort, ohne Netz
+confidence = (p - 1/n) / (1 - 1/n)       n = Anzahl der Optionen
+                                         p = Wahrscheinlichkeit der Wahl
 ```
 
-Der Code ist durchgängig englisch, die Ticketdaten sind deutsch. Die Kriterien,
-nach denen Jev entscheidet, stammen aus dem Domänenmodell: `Queue.description`
-liefert die Abgrenzung der Teams, `UrgencyLevel` und `MoodLevel` die Stufen.
-Damit beschreibt die Fachsprache das Modell, nicht umgekehrt.
+| Optionen | p(Wahl) | Konfidenz |
+|----------|---------|-----------|
+| 4        | 0,25    | 0,00      |
+| 4        | 0,50    | 0,33      |
+| 4        | 0,75    | 0,67      |
+| 2        | 0,50    | 0,00      |
+| 2        | 0,75    | 0,50      |
 
-## So startest du die Demo
+Daraus folgt die Regel für die Praxis: Setze Schwellen auf `confidence`. Die
+rohe Wahrscheinlichkeit hängt von der Anzahl der Optionen ab. Bei zwei
+Optionen bedeutet 0,50 reines Raten. Bei zehn Optionen bedeutet derselbe Wert
+eine deutliche Präferenz. Die Konfidenz gleicht diesen Unterschied aus.
+`RoutingPolicy` nutzt deshalb `confidence`.
+
+Den Umfang der Prüfung nennt [ERGEBNISSE.md](ERGEBNISSE.md).
+
+## Die Demo startet mit vier Befehlen
 
 ```bash
 python3 -m venv .venv
@@ -50,18 +70,21 @@ cp .env.example .env        # TYPESAFE_API_KEY eintragen
 .venv/bin/python -m routing.cli
 ```
 
+Den Zugang zur Jev-API trägst du in `.env` ein. Die Datei bleibt über
+`.gitignore` außerhalb der Versionsverwaltung. `.env.example` zeigt die Form.
+
 Weitere Aufrufe:
 
 ```bash
 .venv/bin/python -m routing.cli --limit 5              # nur die ersten fünf
 .venv/bin/python -m routing.cli --ticket NT-2047       # ein einzelnes Ticket
 .venv/bin/python -m routing.cli --min-confidence 0.95  # strenger prüfen
-.venv/bin/python -m routing.cli --repeat 3             # Streuung sichtbar machen
-.venv/bin/python -m routing.cli --json > out/run.json  # Ergebnis weiterverarbeiten
+.venv/bin/python -m routing.cli --repeat 3             # Streuung messen
+.venv/bin/python -m routing.cli --json > out/run.json  # Ergebnis als JSON
 ```
 
-Ein Ticket, das die API nicht beantwortet, beendet den Lauf nicht. Es landet in
-der Fehlerliste, der Rest des Stapels steht. Der Rückgabewert ist dann 1.
+Wenn die API bei einem Ticket ausfällt, läuft der Stapel weiter. Das Ticket
+erscheint in der Fehlerliste. Der Rückgabewert ist dann 1.
 
 ## Ein Lauf über alle 100 Tickets
 
@@ -76,29 +99,26 @@ der Fehlerliste, der Rest des Stapels steht. Der Rückgabewert ist dann 1.
 └─────────┴────────────────────────────────────────┴────────────┴───────┴────────────────┴─────────────────────┴───────┴───────────────────┴─────────┘
 ```
 
-Der Lauf dauert 4,2 Sekunden und kostet 0,0041 USD bei 97.851 Eingabe-Token.
-Die Last verteilt sich auf Technical 31, Billing 30, Sales 20 und Contracts 19
-Tickets; 65 laufen in der Regelbearbeitung, 15 gehen an die Sichtprüfung, 13 in
-die Eilbearbeitung, 7 eskalieren.
+Der Lauf dauert 4,2 Sekunden. Er kostet 0,0041 USD bei 97.851 Eingabe-Token.
+Die Tickets verteilen sich auf Technical 31, Billing 30, Sales 20 und
+Contracts 19. Davon laufen 65 in der Regelbearbeitung. 15 gehen an die
+Sichtprüfung, 13 in die Eilbearbeitung, 7 in die Eskalation.
 
-Die vollständigen Messungen und was sie über Jev zeigen, stehen in
-[ERGEBNISSE.md](ERGEBNISSE.md): die Trefferquote je Konfidenzschwelle, die
-Grenzfälle mit geteiltem Anliegen, die Tonlage über alle 100 Tickets, der
-Unterschied zwischen `confidence` und der Wahrscheinlichkeit der gewählten
-Option und die Streuung über drei Läufe.
+Die Spalte `Hit` vergleicht die Wahl mit der Erwartung des Disponenten. Bei
+einer Abweichung nennt sie die erwartete Warteschlange.
 
-## Tests laufen ohne Netz
+Die vollständigen Messungen stehen in [ERGEBNISSE.md](ERGEBNISSE.md).
+
+## Die Tests laufen ohne Netzverbindung
 
 ```bash
 .venv/bin/python -m pytest
 ```
 
-Die 56 Tests ersetzen Jev durch eine Attrappe und eine aufgezeichnete Antwort in
-`tests/recordings/`. Sie prüfen Domänenmodell, Übersetzung, Richtlinie,
-Fehlerbehandlung, Ticketablage und die Ausgabe der CLI, ohne einen Token zu
-verbrauchen.
+Die 56 Tests ersetzen Jev durch eine Attrappe und eine aufgezeichnete Antwort.
+Die Aufzeichnung liegt in `tests/recordings/`. Die Tests prüfen Domänenmodell,
+Übersetzung, Richtlinie, Fehlerbehandlung, Ticketablage und Ausgabe. Der
+Testlauf arbeitet allein mit lokalen Daten.
 
-## Die Zugangsdaten bleiben außerhalb des Repos
-
-`TYPESAFE_API_KEY` steht in `.env`, die Datei bleibt über `.gitignore` draußen.
-`.env.example` zeigt nur die Form.
+Die 100 Demo-Tickets stehen in `data/tickets.yaml`. Alle Namen, Nummern und
+Beträge darin sind erfunden.
