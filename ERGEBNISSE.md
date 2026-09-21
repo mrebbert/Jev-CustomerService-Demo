@@ -138,7 +138,7 @@ deshalb `confidence`.
 | Modell        | jev-1.13.0                                |
 
 Ein Aufruf je Ticket beantwortet alle vier Fragen. typesafe.ai berechnet allein
-die Eingabe-Token. Es zählen der Ticketext und die Fragen. Ein Posteingang von
+die Eingabe-Token. Es zählen der Ticket-Text und die Fragen. Ein Posteingang von
 10.000 Tickets kostet nach dieser Messung 41 Cent.
 
 ## Die Tickets verteilen sich ungleich auf die vier Warteschlangen
@@ -236,6 +236,11 @@ Die Abweichung entsteht durch die gerundete Ausgabe der Prozentsätze.
 NT-2064 rundet von 2,27 auf Stufe 2, also auf Urgent. Dort liegen 72 Prozent.
 Die Konfidenz beträgt 0,72.
 
+Die folgende Tabelle stammt aus einem eigenen Aufruf für sieben Tickets. Die
+JSON-Ausgabe der Demo führt je Stufe allein Stufe, Wert und Konfidenz. Für die
+Prozentsätze je Stufe braucht es diesen Aufruf. Die Werte weichen daher um
+wenige Hundertstel vom Referenzlauf ab.
+
 | Ticket  | `score` | Routine | Soon | Urgent | Immediate | Stufe     | `confidence` |
 |---------|---------|---------|------|--------|-----------|-----------|--------------|
 | NT-2043 | 0,00    | 1,00    | 0,00 | 0,00   | 0,00      | Routine   | 1,00         |
@@ -263,7 +268,7 @@ tragen fast dieselbe Konfidenz. Sie liegen auf verschiedenen Stufen und neigen
 in verschiedene Richtungen.
 
 Aus der Nachkommastelle entsteht eine Rangfolge innerhalb einer Stufe. Die
-Stufe Urgent umfasst 17 Tickets. Ihre Werte reichen von 1,54 bis 2,47. Eine
+Stufe Urgent umfasst 17 Tickets. Ihre Werte reichen von 1,54 bis 2,44. Eine
 Sortierung nach `score` stellt NT-2046 vor NT-2103. Eine Sortierung nach der
 Stufe behandelt beide gleich.
 
@@ -273,11 +278,13 @@ Stufe erfolgt erst beim Zugriff auf `level`.
 Die Werte schwanken zwischen Läufen um wenige Hundertstel. NT-2046 trug in
 zwei Läufen 2,44 und 2,47. Die Stufe bleibt dabei gleich.
 
-## Zwei Hinweise für den Nachbau
+## Die Skala von mood erfasst allein die Schärfe
 
-Die Skala von `mood` erfasst allein die Schärfe. NT-2073, NT-2086 und NT-2121
-enthalten Lob. Alle drei erhalten Factual 0,0. Für die Erkennung von Lob eignet
-sich eine eigene `noul`-Frage.
+NT-2073, NT-2086 und NT-2121 enthalten Lob. Alle drei erhalten Factual 0,0.
+Die vier Stufen reichen von Factual bis Outraged. Freude liegt außerhalb
+dieser Reihe. Für die Erkennung von Lob eignet sich eine eigene `noul`-Frage.
+
+## Aufgezeichnete Antworten liest man als JSON-Text ein
 
 Lies aufgezeichnete Antworten als JSON-Text ein. Die Antwortmodelle des SDK
 prüfen mit `strict=True`. Sie erwarten die Stufennummern einer Score-Antwort

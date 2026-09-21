@@ -2,7 +2,7 @@
 
 Diese Demo ordnet 100 Kundenservice-Tickets vier Warteschlangen zu. Die
 Zuordnung trifft Jev, das System-One-Modell von typesafe.ai. Jev liest den
-Ticketext und beantwortet vier Fragen mit festem Antworttyp. Jede Antwort
+Ticket-Text und beantwortet vier Fragen mit festem Antworttyp. Jede Antwort
 trägt eine Wahrscheinlichkeit. Ein Aufruf je Ticket genügt.
 
 Jedes Ticket trägt zusätzlich die Warteschlange, die ein Disponent wählt.
@@ -12,8 +12,8 @@ von 0,80. Das Modell meldet diese sieben Fehler damit selbst.
 
 ## Jev beantwortet vier Fragen je Ticket
 
-| Frage        | Primitiv | Ergebnis                                                |
-|--------------|----------|---------------------------------------------------------|
+| Frage        | Antworttyp | Ergebnis                                                |
+|--------------|------------|-------------------------------------------------------|
 | `queue`      | `choice` | eine Warteschlange, dazu die Verteilung über alle vier   |
 | `urgency`    | `score`  | Stufe von Routine bis Immediate, dazu die Konfidenz      |
 | `mood`       | `score`  | Stufe von Factual bis Outraged, dazu die Konfidenz       |
@@ -37,7 +37,7 @@ gibt an, wie stark das Modell diese Option stützt.
 vor dem reinen Raten.
 
 Ein Beispiel mit vier Warteschlangen: Wer rät, trifft mit 25 Prozent. Eine
-Antwort mit 50 Prozent trägt davon 25 Prozentpunkte Vorsprung. Der
+Antwort mit 50 Prozent liegt damit 25 Prozentpunkte über dem Raten. Der
 größtmögliche Vorsprung beträgt 75 Prozentpunkte, nämlich von 25 auf
 100 Prozent. 25 geteilt durch 75 ergibt die Konfidenz 0,33.
 
@@ -48,13 +48,13 @@ confidence = (p - 1/n) / (1 - 1/n)       n = Anzahl der Optionen
                                          p = Prozentsatz der gewählten Option
 ```
 
-| Optionen | Raten | p(Wahl) | Konfidenz |
-|----------|-------|---------|-----------|
-| 4        | 0,25  | 0,25    | 0,00      |
-| 4        | 0,25  | 0,50    | 0,33      |
-| 4        | 0,25  | 0,75    | 0,67      |
-| 2        | 0,50  | 0,50    | 0,00      |
-| 2        | 0,50  | 0,75    | 0,50      |
+| Optionen | Raten trifft mit | Wahl trägt | Konfidenz |
+|----------|------------------|------------|-----------|
+| 4        | 25 %             | 25 %       | 0,00      |
+| 4        | 25 %             | 50 %       | 0,33      |
+| 4        | 25 %             | 75 %       | 0,67      |
+| 2        | 50 %             | 50 %       | 0,00      |
+| 2        | 50 %             | 75 %       | 0,50      |
 
 Daraus folgt die Regel für die Praxis: Setze Schwellen auf `confidence`. Der
 Prozentsatz allein hängt von der Anzahl der Optionen ab. Bei zwei Optionen
@@ -89,7 +89,7 @@ Weitere Aufrufe:
 Wenn die API bei einem Ticket ausfällt, laufen die übrigen Tickets weiter. Das
 Ticket erscheint in der Fehlerliste. Der Rückgabewert ist dann 1.
 
-## Ein Lauf über alle 100 Tickets
+## Ein Lauf über alle 100 Tickets dauert 4,2 Sekunden
 
 ```
 ┏━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┓
@@ -102,10 +102,14 @@ Ticket erscheint in der Fehlerliste. Der Rückgabewert ist dann 1.
 └─────────┴────────────────────────────────────────┴────────────┴───────┴────────────────┴─────────────────────┴───────┴───────────────────┴─────────┘
 ```
 
-Der Lauf dauert 4,2 Sekunden. Er kostet 0,0041 USD bei 97.851 Eingabe-Token.
-Die Tickets verteilen sich auf Technical 31, Billing 30, Sales 20 und
-Contracts 19. Davon laufen 65 in der Regelbearbeitung. 14 gehen an die
-Sichtprüfung, 13 in die Eilbearbeitung, 8 in die Eskalation.
+Die Tabelle zeigt vier Zeilen aus einem Lauf. NT-2081 trägt die niedrigste
+Konfidenz aller Tickets. Sein Wert wandert zwischen den Läufen.
+
+Der Lauf kostet 0,0041 USD bei 97.851 Eingabe-Token. Die Tickets verteilen
+sich auf Technical 31, Billing 30, Sales 20 und
+Contracts 19. Davon laufen 65 im Standard handling. 14 gehen an die Review
+desk, 13 in das Rush handling, 8 in die Escalation. Die Spalte `Step` nennt
+diese vier Bearbeitungsarten.
 
 Die Spalte `Hit` vergleicht die Wahl mit der Erwartung des Disponenten. Bei
 einer Abweichung nennt sie die erwartete Warteschlange.
