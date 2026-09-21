@@ -9,7 +9,7 @@ tickets:
   - id: NT-2041
     expected: billing
     subject: Lastschrift zweimal abgebucht
-    received_at: "2026-09-18T08:12:00"
+    received_at: "2026-09-14T08:12:00"
     channel: E-Mail
     body: |
       Guten Tag,
@@ -22,7 +22,7 @@ tickets:
   - id: NT-2042
     expected: technical
     subject: Internet seit gestern Abend tot
-    received_at: "2026-09-18T08:31:00"
+    received_at: "2026-09-14T08:31:00"
     channel: Kontaktformular
     body: |
       Seit gestern etwa 21 Uhr habe ich keine Verbindung mehr. Die Router-Lampe
@@ -33,7 +33,7 @@ tickets:
   - id: NT-2043
     expected: sales
     subject: Frage zum Tarifwechsel auf 250 Mbit
-    received_at: "2026-09-18T09:05:00"
+    received_at: "2026-09-14T09:05:00"
     channel: E-Mail
     body: |
       Hallo,
@@ -44,7 +44,7 @@ tickets:
   - id: NT-2044
     expected: contracts
     subject: Kündigung zum Vertragsende
-    received_at: "2026-09-18T09:47:00"
+    received_at: "2026-09-14T09:47:00"
     channel: E-Mail
     body: |
       Sehr geehrte Damen und Herren,
@@ -55,7 +55,7 @@ tickets:
   - id: NT-2045
     expected: billing
     subject: Mahnung trotz bezahlter Rechnung
-    received_at: "2026-09-18T10:22:00"
+    received_at: "2026-09-14T10:22:00"
     channel: E-Mail
     body: |
       Ich habe heute eine Mahnung über 62,40 Euro plus 5 Euro Mahngebühr erhalten.
@@ -66,7 +66,7 @@ tickets:
   - id: NT-2046
     expected: technical
     subject: Störung im ganzen Ort?
-    received_at: "2026-09-18T10:58:00"
+    received_at: "2026-09-14T10:58:00"
     channel: Chat
     body: |
       Hier in Sandhorst hat seit heute früh niemand Internet, auch die Nachbarn
@@ -76,7 +76,7 @@ tickets:
   - id: NT-2047
     expected: billing
     subject: Anwalt eingeschaltet wegen Nichtbearbeitung
-    received_at: "2026-09-18T11:30:00"
+    received_at: "2026-09-14T11:30:00"
     channel: E-Mail
     body: |
       Zum vierten Mal schreibe ich Ihnen wegen der falschen Abrechnung meiner
@@ -87,7 +87,7 @@ tickets:
   - id: NT-2048
     expected: contracts
     subject: Umzug nach Leer zum 1. November
-    received_at: "2026-09-18T12:15:00"
+    received_at: "2026-09-14T12:15:00"
     channel: Kontaktformular
     body: |
       Guten Tag, ich ziehe zum 01.11. nach Leer in die Mühlenstraße 14. Kann ich
@@ -97,7 +97,7 @@ tickets:
   - id: NT-2049
     expected: sales
     subject: Zweite SIM für das Tablet
-    received_at: "2026-09-18T13:02:00"
+    received_at: "2026-09-14T13:02:00"
     channel: E-Mail
     body: |
       Ich möchte zu meinem Mobilfunkvertrag eine zusätzliche SIM-Karte für mein
@@ -106,7 +106,7 @@ tickets:
   - id: NT-2050
     expected: billing
     subject: Rechnung nicht nachvollziehbar
-    received_at: "2026-09-18T14:20:00"
+    received_at: "2026-09-14T14:20:00"
     channel: E-Mail
     body: |
       Meine Septemberrechnung liegt bei 118,70 Euro statt der üblichen 54,90 Euro.
@@ -117,7 +117,7 @@ tickets:
   - id: NT-2051
     expected: technical
     subject: Router macht seltsame Geräusche und wird heiß
-    received_at: "2026-09-18T15:41:00"
+    received_at: "2026-09-14T15:41:00"
     channel: Telefonnotiz
     body: |
       Kundin meldet, dass ihr Router seit einigen Tagen sehr warm wird und leise
@@ -127,7 +127,7 @@ tickets:
   - id: NT-2052
     expected: contracts
     subject: Widerruf des gestern geschlossenen Vertrags
-    received_at: "2026-09-19T07:55:00"
+    received_at: "2026-09-15T07:55:00"
     channel: E-Mail
     body: |
       Ich habe gestern am Telefon einen Vertrag über den Tarif Nordlicht Aktiv
@@ -137,7 +137,7 @@ tickets:
   - id: NT-2053
     expected: technical
     subject: Geschäftsanschluss ausgefallen, Praxis steht still
-    received_at: "2026-09-19T08:03:00"
+    received_at: "2026-09-15T08:03:00"
     channel: Telefonnotiz
     body: |
       Zahnarztpraxis meldet totalen Ausfall von Telefon und Internet seit 7:30 Uhr.
@@ -148,7 +148,7 @@ tickets:
   - id: NT-2054
     expected: contracts
     subject: Preiserhöhung angekündigt, Sonderkündigung?
-    received_at: "2026-09-19T09:10:00"
+    received_at: "2026-09-15T09:10:00"
     channel: E-Mail
     body: |
       Sie haben mir eine Preiserhöhung um 4 Euro ab Dezember angekündigt. Ich
@@ -159,7 +159,7 @@ tickets:
   - id: NT-2055
     expected: billing
     subject: Gutschrift aus Juli immer noch offen
-    received_at: "2026-09-19T09:44:00"
+    received_at: "2026-09-15T09:44:00"
     channel: Kontaktformular
     body: |
       Im Juli wurde mir eine Gutschrift über 35 Euro zugesagt, weil der Anschluss
@@ -169,7 +169,7 @@ tickets:
   - id: NT-2056
     expected: technical
     subject: WLAN im Obergeschoss zu schwach
-    received_at: "2026-09-19T10:30:00"
+    received_at: "2026-09-15T10:30:00"
     channel: Chat
     body: |
       Unten läuft alles schnell, oben im Schlafzimmer habe ich kaum noch Empfang.
@@ -179,7 +179,7 @@ tickets:
   - id: NT-2057
     expected: sales
     subject: Glasfaser für unsere Straße
-    received_at: "2026-09-19T11:12:00"
+    received_at: "2026-09-15T11:12:00"
     channel: E-Mail
     body: |
       Wir haben gehört, dass in unserer Straße Glasfaser verlegt wird. Ab wann
@@ -189,7 +189,7 @@ tickets:
   - id: NT-2058
     expected: contracts
     subject: Vertrag nach Todesfall auflösen
-    received_at: "2026-09-19T12:40:00"
+    received_at: "2026-09-15T12:40:00"
     channel: E-Mail
     body: |
       Mein Vater ist am 30.08. verstorben. Ich möchte seinen Vertrag mit der
@@ -200,7 +200,7 @@ tickets:
   - id: NT-2059
     expected: technical
     subject: Drosselung trotz unbegrenztem Tarif
-    received_at: "2026-09-19T13:25:00"
+    received_at: "2026-09-15T13:25:00"
     channel: Kontaktformular
     body: |
       Mein Mobilfunktarif ist als unbegrenzt beworben, seit dem 15.09. ist die
@@ -210,7 +210,7 @@ tickets:
   - id: NT-2060
     expected: contracts
     subject: Kündigung, weil nichts funktioniert
-    received_at: "2026-09-19T14:50:00"
+    received_at: "2026-09-15T14:50:00"
     channel: E-Mail
     body: |
       Mir reicht es. Seit dem Anschluss im Juni bricht die Leitung täglich ab,
@@ -220,7 +220,7 @@ tickets:
   - id: NT-2061
     expected: technical
     subject: Rufnummernmitnahme klappt nicht
-    received_at: "2026-09-19T15:33:00"
+    received_at: "2026-09-15T15:33:00"
     channel: Telefonnotiz
     body: |
       Kunde wechselt von einem anderen Anbieter zu uns. Der Portierungstermin war
@@ -230,7 +230,7 @@ tickets:
   - id: NT-2062
     expected: billing
     subject: Bankverbindung ändern
-    received_at: "2026-09-20T08:18:00"
+    received_at: "2026-09-16T08:18:00"
     channel: Kontaktformular
     body: |
       Ich habe die Bank gewechselt. Ab Oktober buchen Sie bitte von meinem neuen
@@ -239,7 +239,7 @@ tickets:
   - id: NT-2063
     expected: sales
     subject: Angebot für Familienpaket
-    received_at: "2026-09-20T09:02:00"
+    received_at: "2026-09-16T09:02:00"
     channel: E-Mail
     body: |
       Wir sind vier Personen im Haushalt und haben vier einzelne Mobilfunkverträge
@@ -249,7 +249,7 @@ tickets:
   - id: NT-2064
     expected: technical
     subject: Störungsmeldung Festnetz, kein Freizeichen
-    received_at: "2026-09-20T09:55:00"
+    received_at: "2026-09-16T09:55:00"
     channel: Telefonnotiz
     body: |
       Seit zwei Tagen kein Freizeichen am Festnetz, Internet läuft normal. Kunde
@@ -259,7 +259,7 @@ tickets:
   - id: NT-2065
     expected: contracts
     subject: Auskunft über meine gespeicherten Daten
-    received_at: "2026-09-20T11:14:00"
+    received_at: "2026-09-16T11:14:00"
     channel: E-Mail
     body: |
       Nach Artikel 15 der Datenschutz-Grundverordnung verlange ich Auskunft über
@@ -270,7 +270,7 @@ tickets:
   - id: NT-2066
     expected: contracts
     subject: Doppelte Vertragsanlage nach Beratung
-    received_at: "2026-09-20T12:31:00"
+    received_at: "2026-09-16T12:31:00"
     channel: Kontaktformular
     body: |
       Nach einem Beratungsgespräch im Laden habe ich jetzt zwei Verträge auf
@@ -281,7 +281,7 @@ tickets:
   - id: NT-2067
     expected: billing
     subject: Roaming-Kosten nach Norwegenurlaub
-    received_at: "2026-09-20T13:47:00"
+    received_at: "2026-09-16T13:47:00"
     channel: E-Mail
     body: |
       Nach zwei Wochen Norwegen finde ich auf der Rechnung 187 Euro Roaming. Ich
@@ -291,7 +291,7 @@ tickets:
   - id: NT-2068
     expected: sales
     subject: Neuer Anschluss für Ferienwohnung
-    received_at: "2026-09-20T15:09:00"
+    received_at: "2026-09-16T15:09:00"
     channel: E-Mail
     body: |
       Wir vermieten ab Januar eine Ferienwohnung in Greetsiel und brauchen dort
@@ -301,7 +301,7 @@ tickets:
   - id: NT-2069
     expected: technical
     subject: Beschwerde über Techniker
-    received_at: "2026-09-21T08:25:00"
+    received_at: "2026-09-17T08:25:00"
     channel: E-Mail
     body: |
       Ihr Techniker war gestern hier, hat die Wohnungstür offen stehen lassen,
@@ -312,7 +312,7 @@ tickets:
   - id: NT-2070
     expected: sales
     subject: Wechselangebot der Konkurrenz
-    received_at: "2026-09-21T09:38:00"
+    received_at: "2026-09-17T09:38:00"
     channel: Chat
     body: |
       Ein anderer Anbieter bietet mir dieselbe Leistung für 12 Euro weniger im
@@ -325,7 +325,7 @@ tickets:
   - id: NT-2071
     expected: billing
     subject: UNGLAUBLICH!!! Rechnung einen Tag zu spät
-    received_at: "2026-09-21T10:05:00"
+    received_at: "2026-09-17T10:05:00"
     channel: E-Mail
     body: |
       Das ist doch eine FRECHHEIT! Meine Rechnung sollte am 15. kommen und kam
@@ -335,7 +335,7 @@ tickets:
   - id: NT-2072
     expected: technical
     subject: Hinweis zum Ausfall der Notrufweiterleitung
-    received_at: "2026-09-21T10:26:00"
+    received_at: "2026-09-17T10:26:00"
     channel: E-Mail
     body: |
       Sehr geehrte Damen und Herren,
@@ -348,7 +348,7 @@ tickets:
   - id: NT-2073
     expected: technical
     subject: Danke für die schnelle Hilfe
-    received_at: "2026-09-21T11:02:00"
+    received_at: "2026-09-17T11:02:00"
     channel: Kontaktformular
     body: |
       Ich wollte mich einmal bedanken. Ihr Techniker war gestern da, hat den
@@ -357,7 +357,7 @@ tickets:
 
   - id: NT-2074
     subject: Ich gebe auf
-    received_at: "2026-09-21T11:48:00"
+    received_at: "2026-09-17T11:48:00"
     channel: E-Mail
     body: |
       Es ist der siebte Anruf in vier Wochen. Jedes Mal sagt mir jemand anderes
@@ -368,7 +368,7 @@ tickets:
   - id: NT-2075
     expected: technical
     subject: Großartig, schon wieder kein Netz
-    received_at: "2026-09-21T12:15:00"
+    received_at: "2026-09-17T12:15:00"
     channel: Chat
     body: |
       Na super, wieder mal kein Empfang im Homeoffice. Dritte Woche in Folge
@@ -378,7 +378,7 @@ tickets:
   - id: NT-2076
     expected: billing
     subject: Bitte um Ratenzahlung
-    received_at: "2026-09-21T13:30:00"
+    received_at: "2026-09-17T13:30:00"
     channel: E-Mail
     body: |
       Guten Tag,
@@ -390,7 +390,7 @@ tickets:
   - id: NT-2077
     expected: billing
     subject: SIE HABEN MEINEN ANSCHLUSS GESPERRT
-    received_at: "2026-09-21T14:02:00"
+    received_at: "2026-09-17T14:02:00"
     channel: Telefonnotiz
     body: |
       Kunde ruft sehr laut an. Anschluss wurde wegen offener Forderung gesperrt,
@@ -401,7 +401,7 @@ tickets:
   - id: NT-2078
     expected: billing
     subject: Frage zur Rechnungsstellung bei Zweitwohnsitz
-    received_at: "2026-09-21T14:40:00"
+    received_at: "2026-09-17T14:40:00"
     channel: E-Mail
     body: |
       Ich habe eine Wohnung in Emden und eine in Oldenburg. Können beide
@@ -411,7 +411,7 @@ tickets:
   - id: NT-2079
     expected: technical
     subject: Störungsmeldung nach Sturm
-    received_at: "2026-09-21T15:10:00"
+    received_at: "2026-09-17T15:10:00"
     channel: Kontaktformular
     body: |
       Nach dem Sturm gestern Nacht liegt das Kabel zum Haus auf dem Rasen. Der
@@ -421,7 +421,7 @@ tickets:
   - id: NT-2080
     expected: contracts
     subject: Vertrag läuft weiter, obwohl gekündigt
-    received_at: "2026-09-21T15:55:00"
+    received_at: "2026-09-17T15:55:00"
     channel: E-Mail
     body: |
       Ich habe im Juni schriftlich gekündigt und eine Bestätigung erhalten.
@@ -432,7 +432,7 @@ tickets:
   - id: NT-2081
     expected: billing
     subject: Letzte Warnung vor der Verbraucherzentrale
-    received_at: "2026-09-22T07:40:00"
+    received_at: "2026-09-18T07:40:00"
     channel: E-Mail
     body: |
       Sie haben mir dreimal zugesichert, die falsche Position zu streichen, und
@@ -443,7 +443,7 @@ tickets:
   - id: NT-2082
     expected: sales
     subject: Interesse an Geschäftskundentarif
-    received_at: "2026-09-22T08:15:00"
+    received_at: "2026-09-18T08:15:00"
     channel: E-Mail
     body: |
       Wir sind ein Handwerksbetrieb mit zwölf Mitarbeitern und suchen einen
@@ -453,7 +453,7 @@ tickets:
   - id: NT-2083
     expected: technical
     subject: Anschluss seit Umzug tot, Kind im Fernunterricht
-    received_at: "2026-09-22T08:44:00"
+    received_at: "2026-09-18T08:44:00"
     channel: Kontaktformular
     body: |
       Seit dem Umzug am 15.09. haben wir keinen Anschluss. Mein Sohn hat
@@ -464,7 +464,7 @@ tickets:
   - id: NT-2084
     expected: contracts
     subject: Korrektur meiner Anschrift
-    received_at: "2026-09-22T09:20:00"
+    received_at: "2026-09-18T09:20:00"
     channel: Kontaktformular
     body: |
       In Ihren Unterlagen steht Mühlenweg 7, richtig ist Mühlenweg 17. Bitte
@@ -473,7 +473,7 @@ tickets:
   - id: NT-2085
     expected: contracts
     subject: Werbeanrufe trotz Widerspruch
-    received_at: "2026-09-22T10:05:00"
+    received_at: "2026-09-18T10:05:00"
     channel: E-Mail
     body: |
       Ich habe der Nutzung meiner Daten zu Werbezwecken im Mai ausdrücklich
@@ -484,7 +484,7 @@ tickets:
   - id: NT-2086
     expected: technical
     subject: Endlich klappt alles
-    received_at: "2026-09-22T10:38:00"
+    received_at: "2026-09-18T10:38:00"
     channel: Chat
     body: |
       Nach dem Wechsel auf den neuen Router läuft die Leitung seit zwei Wochen
@@ -495,7 +495,7 @@ tickets:
   - id: NT-2087
     expected: billing
     subject: Rechnung für verstorbene Mutter
-    received_at: "2026-09-22T11:12:00"
+    received_at: "2026-09-18T11:12:00"
     channel: E-Mail
     body: |
       Meine Mutter ist im Juli verstorben, ich hatte den Vertrag im August
@@ -506,7 +506,7 @@ tickets:
   - id: NT-2088
     expected: technical
     subject: Geschwindigkeit dauerhaft unter der Zusage
-    received_at: "2026-09-22T12:00:00"
+    received_at: "2026-09-18T12:00:00"
     channel: E-Mail
     body: |
       Laut Vertrag sind 100 Mbit zugesagt, gemessen habe ich über vier Wochen
@@ -517,7 +517,7 @@ tickets:
   - id: NT-2089
     expected: sales
     subject: Wer denkt sich so ein Menü aus?
-    received_at: "2026-09-22T13:25:00"
+    received_at: "2026-09-18T13:25:00"
     channel: Kontaktformular
     body: |
       Ihre Telefonhotline ist eine Zumutung. Sieben Menüpunkte, dann Musik, dann
@@ -528,7 +528,7 @@ tickets:
   - id: NT-2090
     expected: sales
     subject: Anschluss für Neubau, Termin gesucht
-    received_at: "2026-09-22T14:10:00"
+    received_at: "2026-09-18T14:10:00"
     channel: E-Mail
     body: |
       Wir bauen ein Haus in Aurich, Einzug ist für März geplant. Wann sollte ich
@@ -541,7 +541,7 @@ tickets:
   - id: NT-2091
     expected: billing
     subject: Prepaid-Guthaben verschwunden
-    received_at: "2026-09-22T15:20:00"
+    received_at: "2026-09-18T15:20:00"
     channel: Chat
     body: |
       Ich hatte gestern 25 Euro aufgeladen, heute zeigt die App 0,00 Euro an.
@@ -551,7 +551,7 @@ tickets:
   - id: NT-2092
     expected: sales
     subject: Angebot zum Wechsel von Kabel auf Glasfaser
-    received_at: "2026-09-22T15:48:00"
+    received_at: "2026-09-18T15:48:00"
     channel: E-Mail
     body: |
       Sie haben mir einen Brief zum Glasfaserausbau geschickt. Bevor ich
@@ -561,7 +561,7 @@ tickets:
   - id: NT-2093
     expected: technical
     subject: Techniker dreimal nicht erschienen
-    received_at: "2026-09-22T16:30:00"
+    received_at: "2026-09-18T16:30:00"
     channel: Telefonnotiz
     body: |
       Kundin hat dreimal einen halben Tag Urlaub genommen, dreimal kam niemand.
@@ -572,7 +572,7 @@ tickets:
   - id: NT-2094
     expected: billing
     subject: Zusatzoption gebucht, die ich nicht wollte
-    received_at: "2026-09-22T17:05:00"
+    received_at: "2026-09-18T17:05:00"
     channel: Kontaktformular
     body: |
       Auf der Rechnung steht eine Option Musikstreaming für 9,99 Euro. Ich habe
@@ -582,7 +582,7 @@ tickets:
   - id: NT-2095
     expected: sales
     subject: Frage zur Mindestlaufzeit bei Studentenrabatt
-    received_at: "2026-09-23T07:35:00"
+    received_at: "2026-09-19T07:35:00"
     channel: E-Mail
     body: |
       Ich studiere ab Oktober in Göttingen. Gilt der Studentenrabatt für die
@@ -591,7 +591,7 @@ tickets:
   - id: NT-2096
     expected: technical
     subject: Mobilfunk bricht im Zug regelmäßig ab
-    received_at: "2026-09-23T08:02:00"
+    received_at: "2026-09-19T08:02:00"
     channel: Kontaktformular
     body: |
       Auf meiner täglichen Strecke zwischen Emden und Oldenburg bricht die
@@ -601,7 +601,7 @@ tickets:
   - id: NT-2097
     expected: billing
     subject: Seit sechs Wochen keine Antwort
-    received_at: "2026-09-23T08:40:00"
+    received_at: "2026-09-19T08:40:00"
     channel: E-Mail
     body: |
       Am 12. August habe ich Ihnen geschrieben, am 26. August erneut, am 9.
@@ -612,7 +612,7 @@ tickets:
   - id: NT-2098
     expected: billing
     subject: Gerät zurückgeschickt, Belastung läuft weiter
-    received_at: "2026-09-23T09:15:00"
+    received_at: "2026-09-19T09:15:00"
     channel: E-Mail
     body: |
       Den Router habe ich am 01.09. per Paketdienst zurückgeschickt, Sendungsnummer
@@ -622,7 +622,7 @@ tickets:
   - id: NT-2099
     expected: sales
     subject: Interesse an Zweitanschluss für die Werkstatt
-    received_at: "2026-09-23T09:50:00"
+    received_at: "2026-09-19T09:50:00"
     channel: Telefonnotiz
     body: |
       Kunde betreibt eine Kfz-Werkstatt und möchte einen zweiten Anschluss für
@@ -632,7 +632,7 @@ tickets:
   - id: NT-2100
     expected: contracts
     subject: Kann mein Sohn den Vertrag übernehmen?
-    received_at: "2026-09-23T10:25:00"
+    received_at: "2026-09-19T10:25:00"
     channel: E-Mail
     body: |
       Ich ziehe ins Seniorenheim und möchte den Anschluss in der Wohnung
@@ -642,7 +642,7 @@ tickets:
   - id: NT-2101
     expected: technical
     subject: Netzausfall im Gewerbegebiet seit heute früh
-    received_at: "2026-09-23T11:00:00"
+    received_at: "2026-09-19T11:00:00"
     channel: Telefonnotiz
     body: |
       Mehrere Betriebe im Gewerbegebiet Süd melden Ausfall seit 5:30 Uhr.
@@ -652,7 +652,7 @@ tickets:
   - id: NT-2102
     expected: contracts
     subject: Wie kündige ich richtig?
-    received_at: "2026-09-23T11:42:00"
+    received_at: "2026-09-19T11:42:00"
     channel: Chat
     body: |
       Ich möchte kündigen, weiß aber nicht, ob per Brief oder über das Portal
@@ -662,7 +662,7 @@ tickets:
   - id: NT-2103
     expected: billing
     subject: ZAHLEN SIE ENDLICH MEINE GUTSCHRIFT AUS
-    received_at: "2026-09-23T12:18:00"
+    received_at: "2026-09-19T12:18:00"
     channel: E-Mail
     body: |
       Seit Mai warte ich auf 120 Euro! FÜNF Monate! Jeder Mitarbeiter erzählt mir
@@ -672,7 +672,7 @@ tickets:
   - id: NT-2104
     expected: contracts
     subject: Vertragsverlängerung ohne meine Zustimmung
-    received_at: "2026-09-23T13:05:00"
+    received_at: "2026-09-19T13:05:00"
     channel: E-Mail
     body: |
       In meiner Vertragsübersicht steht plötzlich ein Ende im Jahr 2028. Ich habe
@@ -682,7 +682,7 @@ tickets:
   - id: NT-2105
     expected: sales
     subject: Empfehlung für älteren Nutzer gesucht
-    received_at: "2026-09-23T13:44:00"
+    received_at: "2026-09-19T13:44:00"
     channel: Kontaktformular
     body: |
       Meine Mutter ist 79 und braucht ein einfaches Handy mit Vertrag, wenig
@@ -692,7 +692,7 @@ tickets:
   - id: NT-2106
     expected: billing
     subject: Störung behoben, aber Entschädigung offen
-    received_at: "2026-09-23T14:20:00"
+    received_at: "2026-09-19T14:20:00"
     channel: E-Mail
     body: |
       Der Anschluss läuft seit gestern wieder, vielen Dank. Elf Tage lang ging
@@ -702,7 +702,7 @@ tickets:
   - id: NT-2107
     expected: billing
     subject: Zwei Rechnungen für denselben Monat
-    received_at: "2026-09-23T15:02:00"
+    received_at: "2026-09-19T15:02:00"
     channel: Kontaktformular
     body: |
       Für September habe ich zwei Rechnungen erhalten, Nummer 4471902 über 54,90
@@ -712,7 +712,7 @@ tickets:
   - id: NT-2108
     expected: sales
     subject: Nach dem Gespräch gestern
-    received_at: "2026-09-23T15:40:00"
+    received_at: "2026-09-19T15:40:00"
     channel: Telefonnotiz
     body: |
       Kunde bezieht sich auf ein Gespräch von gestern, in dem ihm ein Wechsel auf
@@ -722,7 +722,7 @@ tickets:
   - id: NT-2109
     expected: technical
     subject: Internet langsam nur abends
-    received_at: "2026-09-23T16:15:00"
+    received_at: "2026-09-19T16:15:00"
     channel: Kontaktformular
     body: |
       Tagsüber messe ich 95 Mbit, ab etwa 19 Uhr fällt es auf 12 bis 20 Mbit.
@@ -732,7 +732,7 @@ tickets:
   - id: NT-2110
     expected: contracts
     subject: Umzug ins Ausland, was passiert mit dem Vertrag?
-    received_at: "2026-09-23T17:00:00"
+    received_at: "2026-09-19T17:00:00"
     channel: E-Mail
     body: |
       Ich gehe für zwei Jahre nach Rotterdam. Kann ich den Vertrag ruhen lassen,
@@ -742,7 +742,7 @@ tickets:
   - id: NT-2111
     expected: technical
     subject: Roamingsperre für mein Kind einrichten
-    received_at: "2026-09-24T07:50:00"
+    received_at: "2026-09-20T07:50:00"
     channel: Kontaktformular
     body: |
       Meine Tochter fährt auf Klassenfahrt in die Schweiz. Ich möchte eine
@@ -752,7 +752,7 @@ tickets:
   - id: NT-2112
     expected: contracts
     subject: Falscher Name auf der Rechnung
-    received_at: "2026-09-24T08:25:00"
+    received_at: "2026-09-20T08:25:00"
     channel: E-Mail
     body: |
       Auf meinen Rechnungen steht der Name meines Vormieters. Der Anschluss läuft
@@ -762,7 +762,7 @@ tickets:
   - id: NT-2113
     expected: technical
     subject: Ihre App funktioniert nicht
-    received_at: "2026-09-24T09:10:00"
+    received_at: "2026-09-20T09:10:00"
     channel: Chat
     body: |
       Seit dem Update kann ich mich in der App nicht mehr anmelden. Passwort
@@ -772,7 +772,7 @@ tickets:
   - id: NT-2114
     expected: technical
     subject: Kein Anschluss, aber Rechnung
-    received_at: "2026-09-24T09:55:00"
+    received_at: "2026-09-20T09:55:00"
     channel: E-Mail
     body: |
       Der Anschluss sollte am 01.09. bereitgestellt werden. Bis heute liegt
@@ -783,7 +783,7 @@ tickets:
   - id: NT-2115
     expected: billing
     subject: Auskunft zu Vertragsdetails für die Steuererklärung
-    received_at: "2026-09-24T10:30:00"
+    received_at: "2026-09-20T10:30:00"
     channel: Kontaktformular
     body: |
       Für die Steuererklärung brauche ich eine Aufstellung der gezahlten Beiträge
@@ -793,7 +793,7 @@ tickets:
   - id: NT-2116
     expected: sales
     subject: Angebot Business-Paket für Steuerkanzlei
-    received_at: "2026-09-24T11:05:00"
+    received_at: "2026-09-20T11:05:00"
     channel: E-Mail
     body: |
       Wir sind eine Steuerkanzlei mit sieben Arbeitsplätzen und arbeiten mit
@@ -804,7 +804,7 @@ tickets:
   - id: NT-2117
     expected: technical
     subject: Wie viel Datenvolumen habe ich noch?
-    received_at: "2026-09-24T11:40:00"
+    received_at: "2026-09-20T11:40:00"
     channel: Chat
     body: |
       Wo sehe ich, wie viel Datenvolumen in diesem Monat noch übrig ist? In der
@@ -813,7 +813,7 @@ tickets:
   - id: NT-2118
     expected: billing
     subject: Inkasso trotz Klärung
-    received_at: "2026-09-24T12:20:00"
+    received_at: "2026-09-20T12:20:00"
     channel: E-Mail
     body: |
       Ihr Mitarbeiter hat mir im August bestätigt, dass die Forderung über 89
@@ -825,7 +825,7 @@ tickets:
   - id: NT-2119
     expected: sales
     subject: Wechsel des Tarifs zum Monatsende
-    received_at: "2026-09-24T13:00:00"
+    received_at: "2026-09-20T13:00:00"
     channel: Kontaktformular
     body: |
       Ich möchte vom Tarif Aktiv auf Kompakt wechseln, weil ich das Volumen nicht
@@ -834,7 +834,7 @@ tickets:
   - id: NT-2120
     expected: technical
     subject: Kabel bei Bauarbeiten beschädigt
-    received_at: "2026-09-24T13:35:00"
+    received_at: "2026-09-20T13:35:00"
     channel: Telefonnotiz
     body: |
       Bauunternehmen meldet, dass beim Aushub in der Feldstraße ein Kabel
@@ -844,7 +844,7 @@ tickets:
 
   - id: NT-2121
     subject: Vielen Dank an die Kollegin am Telefon
-    received_at: "2026-09-24T14:10:00"
+    received_at: "2026-09-20T14:10:00"
     channel: Kontaktformular
     body: |
       Ich hatte heute eine sehr freundliche Kollegin am Telefon, die meine Frage
@@ -854,7 +854,7 @@ tickets:
   - id: NT-2122
     expected: technical
     subject: Vertrag gekündigt, Gerät nicht abgeholt
-    received_at: "2026-09-24T14:50:00"
+    received_at: "2026-09-20T14:50:00"
     channel: E-Mail
     body: |
       Mein Vertrag endete am 31.08. Sie haben angekündigt, den Router abzuholen.
@@ -864,7 +864,7 @@ tickets:
   - id: NT-2123
     expected: billing
     subject: Unerwartete Kosten für Auslandsgespräche
-    received_at: "2026-09-24T15:25:00"
+    received_at: "2026-09-20T15:25:00"
     channel: E-Mail
     body: |
       Auf der Rechnung stehen 64 Euro für Gespräche nach Polen. Meine Tochter
@@ -874,7 +874,7 @@ tickets:
 
   - id: NT-2124
     subject: Lange Wartezeit, aber Problem gelöst
-    received_at: "2026-09-24T16:00:00"
+    received_at: "2026-09-20T16:00:00"
     channel: Chat
     body: |
       Ich musste 40 Minuten in der Warteschleife hängen, was wirklich zu lang
@@ -884,7 +884,7 @@ tickets:
   - id: NT-2125
     expected: technical
     subject: Passwort für das Kundenportal vergessen
-    received_at: "2026-09-24T16:35:00"
+    received_at: "2026-09-20T16:35:00"
     channel: Kontaktformular
     body: |
       Ich komme nicht mehr ins Kundenportal. Die Funktion Passwort vergessen
@@ -894,7 +894,7 @@ tickets:
   - id: NT-2126
     expected: billing
     subject: DAS IST BETRUG
-    received_at: "2026-09-25T07:20:00"
+    received_at: "2026-09-21T07:20:00"
     channel: E-Mail
     body: |
       Sie haben mir am Telefon 29,99 zugesagt und berechnen 39,99! Das nenne ich
@@ -904,7 +904,7 @@ tickets:
   - id: NT-2127
     expected: contracts
     subject: Verfügbarkeit an neuer Adresse prüfen
-    received_at: "2026-09-25T08:00:00"
+    received_at: "2026-09-21T08:00:00"
     channel: Chat
     body: |
       Wir ziehen im Dezember nach Norden, Osterstraße 42. Können Sie prüfen, ob
@@ -913,7 +913,7 @@ tickets:
   - id: NT-2128
     expected: technical
     subject: Rufnummer soll geheim bleiben
-    received_at: "2026-09-25T08:35:00"
+    received_at: "2026-09-21T08:35:00"
     channel: E-Mail
     body: |
       Ich möchte, dass meine Rufnummer nicht in öffentlichen Verzeichnissen
@@ -923,7 +923,7 @@ tickets:
   - id: NT-2129
     expected: billing
     subject: Anschluss gesperrt, obwohl Ratenzahlung vereinbart
-    received_at: "2026-09-25T09:10:00"
+    received_at: "2026-09-21T09:10:00"
     channel: Telefonnotiz
     body: |
       Kundin hat im August eine Ratenzahlung über vier Monate vereinbart und die
@@ -934,7 +934,7 @@ tickets:
   - id: NT-2130
     expected: sales
     subject: Frage zu Ihrem Werbeschreiben
-    received_at: "2026-09-25T09:45:00"
+    received_at: "2026-09-21T09:45:00"
     channel: E-Mail
     body: |
       In Ihrem Brief steht ein Preis von 24,99 Euro für die ersten zwölf Monate.
@@ -944,7 +944,7 @@ tickets:
   - id: NT-2131
     expected: technical
     subject: Internet nach Gewitter tot
-    received_at: "2026-09-25T10:20:00"
+    received_at: "2026-09-21T10:20:00"
     channel: Kontaktformular
     body: |
       Nach dem Gewitter gestern Abend ist der Router dunkel, keine Lampe
@@ -954,7 +954,7 @@ tickets:
   - id: NT-2132
     expected: contracts
     subject: Beschwerde über Werbeanruf am Sonntag
-    received_at: "2026-09-25T10:55:00"
+    received_at: "2026-09-21T10:55:00"
     channel: E-Mail
     body: |
       Gestern, Sonntagvormittag um 9 Uhr, rief mich jemand in Ihrem Auftrag an
@@ -965,7 +965,7 @@ tickets:
   - id: NT-2133
     expected: sales
     subject: Zwei Verträge zusammenlegen
-    received_at: "2026-09-25T11:30:00"
+    received_at: "2026-09-21T11:30:00"
     channel: Kontaktformular
     body: |
       Meine Partnerin und ich haben je einen Mobilfunkvertrag bei Ihnen. Können
@@ -975,7 +975,7 @@ tickets:
   - id: NT-2134
     expected: billing
     subject: Erstattung nach Doppelzahlung
-    received_at: "2026-09-25T12:05:00"
+    received_at: "2026-09-21T12:05:00"
     channel: E-Mail
     body: |
       Ich hatte die Rechnung überwiesen und nicht bemerkt, dass die Lastschrift
@@ -985,7 +985,7 @@ tickets:
   - id: NT-2135
     expected: sales
     subject: Netzabdeckung vor Vertragsabschluss prüfen
-    received_at: "2026-09-25T12:40:00"
+    received_at: "2026-09-21T12:40:00"
     channel: Chat
     body: |
       Bevor ich wechsle: Wie ist die Mobilfunkabdeckung in Dornum und auf der
@@ -994,7 +994,7 @@ tickets:
   - id: NT-2136
     expected: contracts
     subject: Kündigungsbestätigung fehlt seit acht Wochen
-    received_at: "2026-09-25T13:15:00"
+    received_at: "2026-09-21T13:15:00"
     channel: E-Mail
     body: |
       Am 28. Juli habe ich per Einschreiben gekündigt, der Rückschein liegt mir
@@ -1005,7 +1005,7 @@ tickets:
   - id: NT-2137
     expected: sales
     subject: Zusatzkarte für Smartwatch
-    received_at: "2026-09-25T13:50:00"
+    received_at: "2026-09-21T13:50:00"
     channel: Kontaktformular
     body: |
       Ich habe eine neue Smartwatch mit eSIM. Kann ich meine Rufnummer auf beiden
@@ -1014,7 +1014,7 @@ tickets:
   - id: NT-2138
     expected: technical
     subject: Seit dem Wechsel nur Ärger
-    received_at: "2026-09-25T14:25:00"
+    received_at: "2026-09-21T14:25:00"
     channel: E-Mail
     body: |
       Ich bin im Juli zu Ihnen gewechselt, weil mir schnelleres Internet
@@ -1026,7 +1026,7 @@ tickets:
   - id: NT-2139
     expected: billing
     subject: Rechnung bitte künftig per Post
-    received_at: "2026-09-25T15:00:00"
+    received_at: "2026-09-21T15:00:00"
     channel: Telefonnotiz
     body: |
       Kunde, 81 Jahre, möchte die Rechnung wieder in Papierform erhalten, weil er
@@ -1035,7 +1035,7 @@ tickets:
   - id: NT-2140
     expected: sales
     subject: Anschluss für Vereinsheim
-    received_at: "2026-09-25T15:35:00"
+    received_at: "2026-09-21T15:35:00"
     channel: E-Mail
     body: |
       Unser Sportverein braucht im Vereinsheim einen Internetanschluss für die

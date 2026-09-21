@@ -1,7 +1,7 @@
 # Was die Jev-Läufe über die 100 Demo-Tickets zeigen
 
-Alle Zahlen stammen aus Läufen vom 21. bis 25. September 2026 gegen
-`jev-1.13.0`. Die Tickets stehen in `data/tickets.yaml`, den Lauf startet
+Alle Zahlen stammen aus Läufen vom 21. September 2026 gegen `jev-1.13.0`.
+Die Tickets stehen in `data/tickets.yaml`, den Lauf startet
 `python -m routing.cli`. Als Referenz dient ein einzelner Lauf; der Abschnitt
 zur Streuung zeigt, wie stark die Zahlen über mehrere Läufe wandern.
 
