@@ -483,3 +483,462 @@ tickets:
       Wir bauen ein Haus in Aurich, Einzug ist für März geplant. Wann sollte ich
       den Anschluss bestellen, damit er rechtzeitig liegt, und welche Unterlagen
       brauchen Sie vom Bauherrn?
+
+  # Zweite Erweiterung: breiterer Themenschnitt, mehr Vertrieb und mehr
+  # Mischanliegen, an denen die Konfidenz der Zuordnung sichtbar sinkt.
+
+  - kennung: NT-2091
+    betreff: Prepaid-Guthaben verschwunden
+    eingang: "2026-09-22T15:20:00"
+    kanal: Chat
+    text: |
+      Ich hatte gestern 25 Euro aufgeladen, heute zeigt die App 0,00 Euro an.
+      Telefoniert habe ich nicht. Wo ist das Geld hin? Ich brauche die Karte
+      für die Arbeit.
+
+  - kennung: NT-2092
+    betreff: Angebot zum Wechsel von Kabel auf Glasfaser
+    eingang: "2026-09-22T15:48:00"
+    kanal: E-Mail
+    text: |
+      Sie haben mir einen Brief zum Glasfaserausbau geschickt. Bevor ich
+      unterschreibe: Bleibt meine Rufnummer, wie lange dauert die Umschaltung
+      und was passiert, wenn der Ausbau sich verzögert?
+
+  - kennung: NT-2093
+    betreff: Techniker dreimal nicht erschienen
+    eingang: "2026-09-22T16:30:00"
+    kanal: Telefonnotiz
+    text: |
+      Kundin hat dreimal einen halben Tag Urlaub genommen, dreimal kam niemand.
+      Beim dritten Mal wurde ihr gesagt, der Termin sei storniert worden, ohne
+      sie zu informieren. Sie verlangt Ersatz für den Verdienstausfall und einen
+      festen Termin mit Zusage.
+
+  - kennung: NT-2094
+    betreff: Zusatzoption gebucht, die ich nicht wollte
+    eingang: "2026-09-22T17:05:00"
+    kanal: Kontaktformular
+    text: |
+      Auf der Rechnung steht eine Option Musikstreaming für 9,99 Euro. Ich habe
+      die nie gebucht. Bitte kündigen Sie die Option und erstatten Sie die drei
+      Monate, die bereits abgebucht wurden.
+
+  - kennung: NT-2095
+    betreff: Frage zur Mindestlaufzeit bei Studentenrabatt
+    eingang: "2026-09-23T07:35:00"
+    kanal: E-Mail
+    text: |
+      Ich studiere ab Oktober in Göttingen. Gilt der Studentenrabatt für die
+      ganze Laufzeit und muss ich die Immatrikulation jedes Jahr nachweisen?
+
+  - kennung: NT-2096
+    betreff: Mobilfunk bricht im Zug regelmäßig ab
+    eingang: "2026-09-23T08:02:00"
+    kanal: Kontaktformular
+    text: |
+      Auf meiner täglichen Strecke zwischen Emden und Oldenburg bricht die
+      Verbindung an denselben drei Stellen ab. Ich arbeite im Zug. Gibt es dort
+      bekannte Lücken und ist ein Ausbau geplant?
+
+  - kennung: NT-2097
+    betreff: Seit sechs Wochen keine Antwort
+    eingang: "2026-09-23T08:40:00"
+    kanal: E-Mail
+    text: |
+      Am 12. August habe ich Ihnen geschrieben, am 26. August erneut, am 9.
+      September ein drittes Mal. Keine Antwort, nicht einmal eine Eingangsbestätigung.
+      Ist bei Ihnen jemand erreichbar? Mein Anliegen ist eine falsche Abrechnung
+      über 78 Euro.
+
+  - kennung: NT-2098
+    betreff: Gerät zurückgeschickt, Belastung läuft weiter
+    eingang: "2026-09-23T09:15:00"
+    kanal: E-Mail
+    text: |
+      Den Router habe ich am 01.09. per Paketdienst zurückgeschickt, Sendungsnummer
+      liegt bei. Sie berechnen weiter 5 Euro Gerätemiete. Bitte prüfen Sie den
+      Eingang und stellen Sie die Belastung ein.
+
+  - kennung: NT-2099
+    betreff: Interesse an Zweitanschluss für die Werkstatt
+    eingang: "2026-09-23T09:50:00"
+    kanal: Telefonnotiz
+    text: |
+      Kunde betreibt eine Kfz-Werkstatt und möchte einen zweiten Anschluss für
+      das Büro im Obergeschoss. Fragt nach Kosten, Bereitstellungszeit und ob
+      beide Anschlüsse auf einer Rechnung laufen können.
+
+  - kennung: NT-2100
+    betreff: Kann mein Sohn den Vertrag übernehmen?
+    eingang: "2026-09-23T10:25:00"
+    kanal: E-Mail
+    text: |
+      Ich ziehe ins Seniorenheim und möchte den Anschluss in der Wohnung
+      behalten, weil mein Sohn dort einzieht. Kann er den Vertrag übernehmen und
+      welche Unterlagen brauchen Sie dafür?
+
+  - kennung: NT-2101
+    betreff: Netzausfall im Gewerbegebiet seit heute früh
+    eingang: "2026-09-23T11:00:00"
+    kanal: Telefonnotiz
+    text: |
+      Mehrere Betriebe im Gewerbegebiet Süd melden Ausfall seit 5:30 Uhr.
+      Betroffen sind Kartenzahlung, Warenwirtschaft und Telefon. Ein Spediteur
+      kann keine Frachtpapiere übermitteln. Sammelmeldung, Rückruf erbeten.
+
+  - kennung: NT-2102
+    betreff: Wie kündige ich richtig?
+    eingang: "2026-09-23T11:42:00"
+    kanal: Chat
+    text: |
+      Ich möchte kündigen, weiß aber nicht, ob per Brief oder über das Portal
+      und welche Frist gilt. Können Sie mir das kurz erklären? Mein Vertrag läuft
+      seit 2023.
+
+  - kennung: NT-2103
+    betreff: ZAHLEN SIE ENDLICH MEINE GUTSCHRIFT AUS
+    eingang: "2026-09-23T12:18:00"
+    kanal: E-Mail
+    text: |
+      Seit Mai warte ich auf 120 Euro! FÜNF Monate! Jeder Mitarbeiter erzählt mir
+      etwas anderes, zuletzt hieß es, die Buchhaltung prüft. Was gibt es da zu
+      prüfen? Das ist mein Geld. Ich will diese Woche eine Überweisung sehen.
+
+  - kennung: NT-2104
+    betreff: Vertragsverlängerung ohne meine Zustimmung
+    eingang: "2026-09-23T13:05:00"
+    kanal: E-Mail
+    text: |
+      In meiner Vertragsübersicht steht plötzlich ein Ende im Jahr 2028. Ich habe
+      keiner Verlängerung zugestimmt und auch kein Gespräch dazu geführt. Bitte
+      nennen Sie mir, auf welcher Grundlage die Verlängerung erfasst wurde.
+
+  - kennung: NT-2105
+    betreff: Empfehlung für älteren Nutzer gesucht
+    eingang: "2026-09-23T13:44:00"
+    kanal: Kontaktformular
+    text: |
+      Meine Mutter ist 79 und braucht ein einfaches Handy mit Vertrag, wenig
+      Datenvolumen, große Tasten, keine Vertragsfallen. Was empfehlen Sie und
+      was kostet das im Monat?
+
+  - kennung: NT-2106
+    betreff: Störung behoben, aber Entschädigung offen
+    eingang: "2026-09-23T14:20:00"
+    kanal: E-Mail
+    text: |
+      Der Anschluss läuft seit gestern wieder, vielen Dank. Elf Tage lang ging
+      nichts. Nach meiner Kenntnis steht mir dafür eine Entschädigung zu. Wie
+      beantrage ich die und in welcher Höhe?
+
+  - kennung: NT-2107
+    betreff: Zwei Rechnungen für denselben Monat
+    eingang: "2026-09-23T15:02:00"
+    kanal: Kontaktformular
+    text: |
+      Für September habe ich zwei Rechnungen erhalten, Nummer 4471902 über 54,90
+      Euro und Nummer 4472118 über 54,90 Euro. Welche gilt? Abgebucht wurde
+      bisher nur eine.
+
+  - kennung: NT-2108
+    betreff: Nach dem Gespräch gestern
+    eingang: "2026-09-23T15:40:00"
+    kanal: Telefonnotiz
+    text: |
+      Kunde bezieht sich auf ein Gespräch von gestern, in dem ihm ein Wechsel auf
+      einen günstigeren Tarif zugesagt wurde. Er möchte die Zusage schriftlich
+      und fragt, ab wann der neue Preis gilt. Name des Kollegen weiß er nicht mehr.
+
+  - kennung: NT-2109
+    betreff: Internet langsam nur abends
+    eingang: "2026-09-23T16:15:00"
+    kanal: Kontaktformular
+    text: |
+      Tagsüber messe ich 95 Mbit, ab etwa 19 Uhr fällt es auf 12 bis 20 Mbit.
+      Liegt das an der Auslastung im Ort oder an meinem Anschluss? Ich hänge
+      Messungen aus zwei Wochen an.
+
+  - kennung: NT-2110
+    betreff: Umzug ins Ausland, was passiert mit dem Vertrag?
+    eingang: "2026-09-23T17:00:00"
+    kanal: E-Mail
+    text: |
+      Ich gehe für zwei Jahre nach Rotterdam. Kann ich den Vertrag ruhen lassen,
+      muss ich kündigen oder gibt es eine andere Möglichkeit? Die Laufzeit geht
+      noch bis August 2027.
+
+  - kennung: NT-2111
+    betreff: Roamingsperre für mein Kind einrichten
+    eingang: "2026-09-24T07:50:00"
+    kanal: Kontaktformular
+    text: |
+      Meine Tochter fährt auf Klassenfahrt in die Schweiz. Ich möchte eine
+      Sperre für Auslandsnutzung und teure Dienste einrichten, damit keine
+      Kosten entstehen. Wie mache ich das?
+
+  - kennung: NT-2112
+    betreff: Falscher Name auf der Rechnung
+    eingang: "2026-09-24T08:25:00"
+    kanal: E-Mail
+    text: |
+      Auf meinen Rechnungen steht der Name meines Vormieters. Der Anschluss läuft
+      seit Februar auf mich, der Vertrag ist auch auf meinen Namen. Bitte
+      korrigieren Sie das, ich brauche die Rechnung fürs Finanzamt.
+
+  - kennung: NT-2113
+    betreff: Ihre App funktioniert nicht
+    eingang: "2026-09-24T09:10:00"
+    kanal: Chat
+    text: |
+      Seit dem Update kann ich mich in der App nicht mehr anmelden. Passwort
+      zurücksetzen bringt nichts, die Mail kommt nicht an. Im Browser klappt es.
+      Was soll ich tun?
+
+  - kennung: NT-2114
+    betreff: Kein Anschluss, aber Rechnung
+    eingang: "2026-09-24T09:55:00"
+    kanal: E-Mail
+    text: |
+      Der Anschluss sollte am 01.09. bereitgestellt werden. Bis heute liegt
+      nichts, kein Techniker, kein Termin. Eine Rechnung über den vollen
+      Monatsbeitrag kam dagegen pünktlich. Ich zahle nicht für Nichts. Bitte
+      klären Sie beides.
+
+  - kennung: NT-2115
+    betreff: Auskunft zu Vertragsdetails für die Steuererklärung
+    eingang: "2026-09-24T10:30:00"
+    kanal: Kontaktformular
+    text: |
+      Für die Steuererklärung brauche ich eine Aufstellung der gezahlten Beiträge
+      für 2025, getrennt nach Anschluss und Mobilfunk. Können Sie mir die
+      zuschicken?
+
+  - kennung: NT-2116
+    betreff: Angebot Business-Paket für Steuerkanzlei
+    eingang: "2026-09-24T11:05:00"
+    kanal: E-Mail
+    text: |
+      Wir sind eine Steuerkanzlei mit sieben Arbeitsplätzen und arbeiten mit
+      sensiblen Mandantendaten. Uns interessiert ein Geschäftsanschluss mit
+      fester IP-Adresse und einer zugesicherten Entstörzeit. Bitte schicken Sie
+      uns ein Angebot mit Vertragsbedingungen.
+
+  - kennung: NT-2117
+    betreff: Wie viel Datenvolumen habe ich noch?
+    eingang: "2026-09-24T11:40:00"
+    kanal: Chat
+    text: |
+      Wo sehe ich, wie viel Datenvolumen in diesem Monat noch übrig ist? In der
+      App finde ich die Anzeige nicht.
+
+  - kennung: NT-2118
+    betreff: Inkasso trotz Klärung
+    eingang: "2026-09-24T12:20:00"
+    kanal: E-Mail
+    text: |
+      Ihr Mitarbeiter hat mir im August bestätigt, dass die Forderung über 89
+      Euro storniert wird. Heute schreibt mich ein Inkassobüro an, mit Gebühren
+      von 45 Euro obendrauf. Ich habe die Bestätigung schriftlich. Nehmen Sie den
+      Vorgang zurück und tragen Sie die Kosten, sonst wende ich mich an einen
+      Anwalt.
+
+  - kennung: NT-2119
+    betreff: Wechsel des Tarifs zum Monatsende
+    eingang: "2026-09-24T13:00:00"
+    kanal: Kontaktformular
+    text: |
+      Ich möchte vom Tarif Aktiv auf Kompakt wechseln, weil ich das Volumen nicht
+      brauche. Geht das zum Monatsende und bleibt die Laufzeit unverändert?
+
+  - kennung: NT-2120
+    betreff: Kabel bei Bauarbeiten beschädigt
+    eingang: "2026-09-24T13:35:00"
+    kanal: Telefonnotiz
+    text: |
+      Bauunternehmen meldet, dass beim Aushub in der Feldstraße ein Kabel
+      getroffen wurde. Mehrere Haushalte ohne Anschluss. Firma bittet um
+      Rückruf zur Schadensaufnahme und fragt nach dem Vorgehen bei der
+      Haftung.
+
+  - kennung: NT-2121
+    betreff: Vielen Dank an die Kollegin am Telefon
+    eingang: "2026-09-24T14:10:00"
+    kanal: Kontaktformular
+    text: |
+      Ich hatte heute eine sehr freundliche Kollegin am Telefon, die meine Frage
+      zur Rechnung in fünf Minuten geklärt hat. Leider habe ich den Namen nicht
+      notiert, es war gegen 10:30 Uhr. Bitte richten Sie ein Lob aus.
+
+  - kennung: NT-2122
+    betreff: Vertrag gekündigt, Gerät nicht abgeholt
+    eingang: "2026-09-24T14:50:00"
+    kanal: E-Mail
+    text: |
+      Mein Vertrag endete am 31.08. Sie haben angekündigt, den Router abzuholen.
+      Seitdem steht das Gerät bei mir im Flur. Ich brauche den Platz. Wie werde
+      ich es los, ohne dass Sie mir eine Gebühr berechnen?
+
+  - kennung: NT-2123
+    betreff: Unerwartete Kosten für Auslandsgespräche
+    eingang: "2026-09-24T15:25:00"
+    kanal: E-Mail
+    text: |
+      Auf der Rechnung stehen 64 Euro für Gespräche nach Polen. Meine Tochter
+      hat mit den Großeltern telefoniert, wir dachten, das sei im Tarif
+      enthalten. Gibt es eine Option, die solche Gespräche abdeckt, und lässt
+      sich für diesen Monat etwas machen?
+
+  - kennung: NT-2124
+    betreff: Lange Wartezeit, aber Problem gelöst
+    eingang: "2026-09-24T16:00:00"
+    kanal: Chat
+    text: |
+      Ich musste 40 Minuten in der Warteschleife hängen, was wirklich zu lang
+      ist. Der Kollege danach hat das Problem dann sofort gelöst. Beides wollte
+      ich Ihnen sagen. An der Wartezeit sollten Sie arbeiten.
+
+  - kennung: NT-2125
+    betreff: Passwort für das Kundenportal vergessen
+    eingang: "2026-09-24T16:35:00"
+    kanal: Kontaktformular
+    text: |
+      Ich komme nicht mehr ins Kundenportal. Die Funktion Passwort vergessen
+      schickt mir keine Mail, auch nicht im Spam-Ordner. Meine Adresse lautet
+      wie in Ihren Unterlagen hinterlegt.
+
+  - kennung: NT-2126
+    betreff: DAS IST BETRUG
+    eingang: "2026-09-25T07:20:00"
+    kanal: E-Mail
+    text: |
+      Sie haben mir am Telefon 29,99 zugesagt und berechnen 39,99! Das nenne ich
+      Betrug am Kunden. Ich habe mir Datum und Uhrzeit notiert. Entweder Sie
+      halten sich an Ihre Zusage oder wir sehen uns vor Gericht.
+
+  - kennung: NT-2127
+    betreff: Verfügbarkeit an neuer Adresse prüfen
+    eingang: "2026-09-25T08:00:00"
+    kanal: Chat
+    text: |
+      Wir ziehen im Dezember nach Norden, Osterstraße 42. Können Sie prüfen, ob
+      dort Glasfaser verfügbar ist und welche Geschwindigkeit möglich wäre?
+
+  - kennung: NT-2128
+    betreff: Rufnummer soll geheim bleiben
+    eingang: "2026-09-25T08:35:00"
+    kanal: E-Mail
+    text: |
+      Ich möchte, dass meine Rufnummer nicht in öffentlichen Verzeichnissen
+      erscheint und bei ausgehenden Anrufen unterdrückt wird. Bitte richten Sie
+      beides ein und bestätigen Sie mir das.
+
+  - kennung: NT-2129
+    betreff: Anschluss gesperrt, obwohl Ratenzahlung vereinbart
+    eingang: "2026-09-25T09:10:00"
+    kanal: Telefonnotiz
+    text: |
+      Kundin hat im August eine Ratenzahlung über vier Monate vereinbart und die
+      ersten beiden Raten gezahlt. Heute ist der Anschluss gesperrt. Sie ist
+      alleinerziehend, das Kind hat Fernunterricht. Kundin ist den Tränen nahe
+      und bittet um sofortige Freischaltung.
+
+  - kennung: NT-2130
+    betreff: Frage zu Ihrem Werbeschreiben
+    eingang: "2026-09-25T09:45:00"
+    kanal: E-Mail
+    text: |
+      In Ihrem Brief steht ein Preis von 24,99 Euro für die ersten zwölf Monate.
+      Was kostet der Tarif danach und welche Kündigungsfrist gilt? Ohne diese
+      Angaben unterschreibe ich nichts.
+
+  - kennung: NT-2131
+    betreff: Internet nach Gewitter tot
+    eingang: "2026-09-25T10:20:00"
+    kanal: Kontaktformular
+    text: |
+      Nach dem Gewitter gestern Abend ist der Router dunkel, keine Lampe
+      leuchtet. Steckdose funktioniert, ich habe es mit einer anderen probiert.
+      Vermutlich ist das Gerät defekt. Wie bekomme ich Ersatz?
+
+  - kennung: NT-2132
+    betreff: Beschwerde über Werbeanruf am Sonntag
+    eingang: "2026-09-25T10:55:00"
+    kanal: E-Mail
+    text: |
+      Gestern, Sonntagvormittag um 9 Uhr, rief mich jemand in Ihrem Auftrag an
+      und wollte mir einen neuen Tarif verkaufen. Am Sonntag. Ich habe kleine
+      Kinder, die geschlafen haben. Stellen Sie das ab und sagen Sie mir, wer
+      meine Nummer weitergegeben hat.
+
+  - kennung: NT-2133
+    betreff: Zwei Verträge zusammenlegen
+    eingang: "2026-09-25T11:30:00"
+    kanal: Kontaktformular
+    text: |
+      Meine Partnerin und ich haben je einen Mobilfunkvertrag bei Ihnen. Können
+      wir die zu einem Partnertarif zusammenlegen und was spart das? Beide
+      Laufzeiten enden im Frühjahr.
+
+  - kennung: NT-2134
+    betreff: Erstattung nach Doppelzahlung
+    eingang: "2026-09-25T12:05:00"
+    kanal: E-Mail
+    text: |
+      Ich hatte die Rechnung überwiesen und nicht bemerkt, dass die Lastschrift
+      noch aktiv war. Der Betrag von 47,80 Euro wurde zweimal gezahlt. Bitte
+      erstatten Sie die Überweisung auf mein Konto zurück.
+
+  - kennung: NT-2135
+    betreff: Netzabdeckung vor Vertragsabschluss prüfen
+    eingang: "2026-09-25T12:40:00"
+    kanal: Chat
+    text: |
+      Bevor ich wechsle: Wie ist die Mobilfunkabdeckung in Dornum und auf der
+      Insel Baltrum? Ich bin oft dort und brauche verlässlichen Empfang.
+
+  - kennung: NT-2136
+    betreff: Kündigungsbestätigung fehlt seit acht Wochen
+    eingang: "2026-09-25T13:15:00"
+    kanal: E-Mail
+    text: |
+      Am 28. Juli habe ich per Einschreiben gekündigt, der Rückschein liegt mir
+      vor. Eine Bestätigung habe ich nie erhalten, Abbuchungen laufen weiter.
+      Ich bitte um die Bestätigung mit dem Vertragsende und um Rückzahlung der
+      Beträge ab dem Kündigungstermin.
+
+  - kennung: NT-2137
+    betreff: Zusatzkarte für Smartwatch
+    eingang: "2026-09-25T13:50:00"
+    kanal: Kontaktformular
+    text: |
+      Ich habe eine neue Smartwatch mit eSIM. Kann ich meine Rufnummer auf beiden
+      Geräten nutzen und was kostet das zusätzlich?
+
+  - kennung: NT-2138
+    betreff: Seit dem Wechsel nur Ärger
+    eingang: "2026-09-25T14:25:00"
+    kanal: E-Mail
+    text: |
+      Ich bin im Juli zu Ihnen gewechselt, weil mir schnelleres Internet
+      versprochen wurde. Seitdem: zwei Wochen ohne Anschluss, dann halbe
+      Geschwindigkeit, dann ein Techniker, der nichts fand. Ich bereue den
+      Wechsel und möchte wissen, welche Lösung Sie mir anbieten, bevor ich den
+      Vertrag rückabwickle.
+
+  - kennung: NT-2139
+    betreff: Rechnung bitte künftig per Post
+    eingang: "2026-09-25T15:00:00"
+    kanal: Telefonnotiz
+    text: |
+      Kunde, 81 Jahre, möchte die Rechnung wieder in Papierform erhalten, weil er
+      keine E-Mail nutzt. Fragt, ob dafür Kosten entstehen.
+
+  - kennung: NT-2140
+    betreff: Anschluss für Vereinsheim
+    eingang: "2026-09-25T15:35:00"
+    kanal: E-Mail
+    text: |
+      Unser Sportverein braucht im Vereinsheim einen Internetanschluss für die
+      Kasse und ein WLAN für Mitglieder. Wir sind gemeinnützig. Gibt es dafür
+      passende Tarife und welche Unterlagen brauchen Sie vom Verein?

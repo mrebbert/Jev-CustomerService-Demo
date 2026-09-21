@@ -141,9 +141,9 @@ def zeige_zusammenfassung(
     console: Console, ergebnisse: list[RoutedTicket], classifier: JevClassifier
 ) -> None:
     verteilung = Counter(e.entscheidung.queue for e in ergebnisse)
-    sichtpruefung = sum(1 for e in ergebnisse if not e.automatisch)
-    eskalationen = sum(1 for e in ergebnisse if e.eskaliert)
-    eilig = sum(1 for e in ergebnisse if e.eilig)
+    # Jedes Ticket nimmt genau einen Weg, darum zählt die Zusammenfassung den
+    # tatsächlichen Schritt und nicht die überlappenden Merkmale.
+    schritte = Counter(kurzer_schritt(e) for e in ergebnisse)
 
     tonlagen = Counter(e.entscheidung.stimmung.stufe for e in ergebnisse)
     schaerfer_als_die_sache = [
@@ -179,9 +179,12 @@ def zeige_zusammenfassung(
             else ""
         ),
         "",
-        f"Eilbearbeitung:    {eilig} von {len(ergebnisse)}",
-        f"Eskalation:        {eskalationen} von {len(ergebnisse)}",
-        f"Sichtprüfung:      {sichtpruefung} von {len(ergebnisse)}",
+        "[bold]Nächster Schritt[/]",
+        *(
+            f"  {name:<18} {anzahl:>3} von {len(ergebnisse)}"
+            for name, anzahl in sorted(schritte.items(), key=lambda p: -p[1])
+        ),
+        "",
         f"Modell:            {classifier.letztes_modell}",
         f"Eingabe-Token:     {classifier.token_eingang}",
         f"Kosten:            {classifier.token_eingang * 0.042 / 1_000_000:.4f} USD",

@@ -1,6 +1,6 @@
 # Ticket-Routing im Kundenservice mit Jev
 
-Diese Demo verteilt 50 eingehende Kundenservice-Tickets auf vier
+Diese Demo verteilt 100 eingehende Kundenservice-Tickets auf vier
 Warteschlangen. Die Entscheidung trifft Jev, das System-One-Modell von
 typesafe.ai: Es liest den Ticketext und beantwortet vier typisierte Fragen mit
 kalibrierten Wahrscheinlichkeiten. Ein Aufruf je Ticket genügt.
@@ -32,7 +32,7 @@ src/routing/
   router.py       Anwendungsfall, Port TicketClassifier, nebenläufige Bewertung
   tickets.py      lädt die Demo-Tickets
   cli.py          Einstieg und Ausgabe
-data/tickets.yaml 50 deutsche Demo-Tickets, frei erfunden
+data/tickets.yaml 100 deutsche Demo-Tickets, frei erfunden
 tests/            Tests gegen eine aufgezeichnete Jev-Antwort, ohne Netz
 ```
 
@@ -59,28 +59,30 @@ Weitere Aufrufe:
 .venv/bin/python -m routing.cli --json > out/lauf.json    # Ergebnis weiterverarbeiten
 ```
 
-## Ein Lauf über alle 50 Tickets
+## Ein Lauf über alle 100 Tickets
 
 ```
-┏━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓
-┃ Kennung ┃ Betreff                                ┃ Warteschlange ┃ Konf. ┃ Dringlichkeit ┃ Stimmung              ┃ Eskal. ┃ Schritt          ┃
-┡━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩
-│ NT-2071 │ UNGLAUBLICH!!! Rechnung einen Tag zu …  │ abrechnung    │  100% │ Routine 0.5   │ Aufgebracht 2.7 (67%) │    24% │ Regelbearbeitung │
-│ NT-2072 │ Hinweis zum Ausfall der Notrufweiterl…  │ technik       │  100% │ Dringend 2.3  │ Sachlich 0.0 (100%)   │     6% │ Eilbearbeitung   │
-│ NT-2077 │ SIE HABEN MEINEN ANSCHLUSS GESPERRT     │ abrechnung    │   87% │ Sofort 3.0    │ Aufgebracht 2.9 (91%) │    67% │ Eskalation       │
-│ NT-2081 │ Letzte Warnung vor der Verbraucherzen…  │ vertragswesen │   13% │ Bald 1.2      │ Verärgert 2.4 (39%)   │    90% │ Eskalation       │
-└─────────┴────────────────────────────────────────┴───────────────┴───────┴───────────────┴───────────────────────┴────────┴──────────────────┘
+┏━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━┓
+┃ Kennung ┃ Betreff                                ┃ Warteschlange ┃ Konf. ┃ Dringlichkeit ┃ Stimmung               ┃ Eskal. ┃ Schritt          ┃
+┡━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━┩
+│ NT-2071 │ UNGLAUBLICH!!! Rechnung einen Tag zu … │ abrechnung    │  100% │ Bald 0.5      │ Aufgebracht 2.6 (59%)  │    24% │ Regelbearbeitung │
+│ NT-2081 │ Letzte Warnung vor der Verbraucherzen… │ vertragswesen │   10% │ Bald 1.1      │ Verärgert 2.4 (38%)    │    90% │ Eskalation       │
+│ NT-2101 │ Netzausfall im Gewerbegebiet seit heu… │ technik       │  100% │ Sofort 2.7    │ Sachlich 0.1 (94%)     │     6% │ Eilbearbeitung   │
+│ NT-2126 │ DAS IST BETRUG                         │ abrechnung    │   80% │ Bald 1.3      │ Aufgebracht 3.0 (100%) │    86% │ Eskalation       │
+└─────────┴────────────────────────────────────────┴───────────────┴───────┴───────────────┴────────────────────────┴────────┴──────────────────┘
 ```
 
-Der Lauf dauert 2,4 Sekunden und kostet 0,0020 USD bei 48.165 Eingabe-Token.
-Die Last verteilt sich auf Technik 18, Abrechnung 13, Vertragswesen 11 und
-Vertrieb 8 Tickets; 12 gehen in die Eilbearbeitung, 5 eskalieren, 5 landen in
-der Sichtprüfung.
+Der Lauf dauert 4,1 Sekunden und kostet 0,0040 USD bei 95.851 Eingabe-Token.
+Die Last verteilt sich auf Technik 32, Abrechnung 30, Vertragswesen 19 und
+Vertrieb 19 Tickets; 60 laufen in der Regelbearbeitung, 18 gehen in die
+Sichtprüfung, 14 in die Eilbearbeitung, 8 eskalieren.
 
 Die vollständigen Messungen und was sie über Jev zeigen, stehen in
-[ERGEBNISSE.md](ERGEBNISSE.md): die Tonlage über alle 50 Tickets, die
-Grenzfälle mit niedriger Konfidenz, der Vergleich beider Konfidenzschwellen
-und der Nachweis, dass ein `score` der Erwartungswert über die Stufen ist.
+[ERGEBNISSE.md](ERGEBNISSE.md): die Tonlage über alle 100 Tickets, die 20
+Grenzfälle mit geteiltem Anliegen, der Vergleich beider Konfidenzschwellen,
+der Unterschied zwischen `confidence` und der Wahrscheinlichkeit der gewählten
+Option und der Nachweis, dass über drei Läufe genau die vier unsichersten
+Tickets die Warteschlange wechseln.
 
 ## Tests laufen ohne Netz
 
